@@ -7,6 +7,11 @@
   },
   "dependencies": {
     "express": "2.5.x",
-    "jshtml": "*"
+    "jshtml": "*",
+    "jade": ">= 0.0.1"
+  },
+ "engines": {
+      "node": "0.6.13",
+      "npm": "1.1.41"
   }
 }
