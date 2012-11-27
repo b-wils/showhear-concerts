@@ -5,8 +5,8 @@ var app = express.createServer(express.logger());
 app.register('.html', require('jade'));
 
 app.get('/', function(request, response) {
-  //response.send('Hello World!');
-  response.render('foo.html');
+  response.send('Hello World!');
+  //response.render('foo.html');
 });
 
 var port = process.env.PORT || 5000;
