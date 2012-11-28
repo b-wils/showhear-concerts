@@ -39,6 +39,7 @@ app.configure(function(){
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
   app.use("/Styles", express.static(__dirname + '/Styles'));
+  app.use("/jsdatepick-calendar", express.static(__dirname + '/jsdatepick-calendar'));
 
   // disable layout
   app.set("view options", {layout: false});
