@@ -4,16 +4,105 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
     </script>
     <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
-    <title></title>
+    <title>Gigcast - Finding Concerts You'll Love</title>
+
+        <style>
+/*    body{
+        font: 62.5% "Trebuchet MS", sans-serif;
+        margin: 50px;
+    }*/
+    .demoHeaders {
+        margin-top: 2em;
+    }
+    #dialog-link {
+        padding: .4em 1em .4em 20px;
+        text-decoration: none;
+        position: relative;
+    }
+    #dialog-link span.ui-icon {
+        margin: 0 5px 0 0;
+        position: absolute;
+        left: .2em;
+        top: 50%;
+        margin-top: -8px;
+    }
+    #icons {
+        margin: 0;
+        padding: 0;
+    }
+    #icons li {
+        margin: 2px;
+        position: relative;
+        padding: 4px 0;
+        cursor: pointer;
+        float: left;
+        list-style: none;
+    }
+    #icons span.ui-icon {
+        float: left;
+        margin: 0 4px;
+    }
+
+        #button_container{
+            float:left;
+        }
+        .media_item{
+            padding:15px;
+            border:1px solid #aaa;
+            background-color:#ccc;
+            cursor:pointer;
+            width:200px;
+            margin:4px 0px 0px 4px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="main">
 
 <link rel="stylesheet" type="text/css" media="all" href="jsdatepick-calendar\jsDatePick_ltr.min.css" />
+<link href="css/eggplant/jquery-ui-1.9.2.custom.css" rel="stylesheet">
+<script src="js/jquery-1.8.3.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.js"></script>
+
 
 <script type="text/javascript" src="jsdatepick-calendar\jsDatePick.jquery.full.1.3.js"></script>
 <script type="text/javascript" src="Scripts\GigCast.js"></script>
+
+<!--<h2 class="demoHeaders">Accordion</h2>
+ <div id="accordion">
+    <h3>First</h3>
+    <div>Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.</div>
+    <h3>Second</h3>
+    <div>Phasellus mattis tincidunt nibh.</div>
+    <h3>Third</h3>
+    <div>Nam dui erat, auctor a, dignissim quis.</div>
+</div> -->
+
+        <div id="button_container">
+            <div class="media_item" id="SfLe6aPCEws">
+                <h5> Sunny Day Real Estate</h5>
+                <h5> Another band </h5>
+                <h5> Band 3 </h5>
+                Friday at ND
+            </div>
+            <div class="media_item" id="yOFxb0F2F2A">
+                Video: Warpaint, "Elephants"
+            </div>
+        </div>
+        <script type="text/javascript">
+            function update_source(src){
+                player.loadVideoById(src, 0, "large")
+            }
+
+            var container = document.getElementById('button_container');
+            var buttons = container.getElementsByTagName('div');
+            for(var i = 0; i < buttons.length; i++){
+                buttons[i].setAttribute('onclick', 'update_source(this.id)');
+            }
+        </script>
 
     Player Statuss
     <div id="blah"> POOO </div>

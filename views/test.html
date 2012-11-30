@@ -1,0 +1,70 @@
+<html>
+    <head></head>
+    <style type="text/css">
+        #player{
+            background-color:#000;
+            color:#fff;
+            float:left;
+            width:640px;
+            height:400px;
+        }
+        #button_container{
+            float:left;
+        }
+        .media_item{
+            padding:15px;
+            border:1px solid #aaa;
+            background-color:#ccc;
+            cursor:pointer;
+            width:200px;
+            margin:4px 0px 0px 4px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+        }
+    </style>
+    <body>
+        <div id="player">
+            <p>Some Default Content Should Be Here</p>
+        </div>
+        <div id="button_container">
+            <div class="media_item" id="SfLe6aPCEws">
+                <h2>Sunny Day Real Estate- Roses In Water</h2>
+            </div>
+            <div class="media_item" id="yOFxb0F2F2A">
+                Video: Warpaint, "Elephants"
+            </div>
+        </div>
+        <script type="text/javascript">
+            function update_source(src){
+
+            }
+
+            var container = document.getElementById('button_container');
+            var buttons = container.getElementsByTagName('div');
+            for(var i = 0; i < buttons.length; i++){
+                buttons[i].setAttribute('onclick', 'update_source(this.id)');
+            }
+
+            // 2. This code loads the IFrame Player API code asynchronously.
+var tag = document.createElement('script');
+tag.src = "//www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// // 3. This function creates an <iframe> (and YouTube player)
+// //    after the API code downloads.
+// var player;
+// function onYouTubeIframeAPIReady() {
+//     player = new YT.Player('player', {
+//         height: '390',
+//         width: '640',
+//         events: {
+//             'onReady': onPlayerReady,
+//             'onStateChange': onPlayerStateChange
+//         }
+//     });
+
+// }
+        </script>
+    </body>
+</html>

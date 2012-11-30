@@ -26,7 +26,9 @@ $(document).ready(function () {
     var startDateObj = new Date();
     var endDateObj = new Date();
 
-    disableHeadlinersOnly()
+$( "#accordion" ).accordion();
+
+    disableHeadlinersOnly();
 
     endDateObj.setDate(endDateObj.getDate() + 7);
 
@@ -399,8 +401,6 @@ function populateLastFMInfo(artistName) {
             text += "<br/>Play Count: " + data.artist.stats.playcount;
             text += "<br/>Tags:"
 
-
-            $("#lastFMInfo").html("tags scrape!");
             if (data.artist.tags.tag) {
                 $("#lastFMInfo").html("i can has tags?");
                 for (var i = 0; i < data.artist.tags.tag.length; i++) {
@@ -408,17 +408,11 @@ function populateLastFMInfo(artistName) {
                 }
             } else {
                 text += "&nbspNo Tags";
-                $("#lastFMInfo").html("no tags!");
             }
-            $("#lastFMInfo").html("an artist2!");
-            $("#lastFMInfo").html(text);
         } else {
             text = "Artist not found good path!";
-            //$("#lastFMInfo").html(text);
         }
 
-        
+        $("#lastFMInfo").html(text);
     });
-	$("#lastFMInfo").html("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json");
-
 }

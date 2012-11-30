@@ -38,9 +38,13 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+
   app.use("/Styles", express.static(__dirname + '/Styles'));
+  app.use("/js", express.static(__dirname + '/js'));
+  app.use("/css", express.static(__dirname + '/css'));
   app.use("/jsdatepick-calendar", express.static(__dirname + '/jsdatepick-calendar'));
   app.use("/Scripts", express.static(__dirname + '/Scripts'));
+  app.use("/jquery-ui-1.9.2.custom", express.static(__dirname + '/jquery-ui-1.9.2.custom'));
 
   // disable layout
   app.set("view options", {layout: false});
