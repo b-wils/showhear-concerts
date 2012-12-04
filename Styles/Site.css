@@ -324,7 +324,60 @@ div.accountInfo
 #button_container {
     float:left;
     height:278px;
-    width:385px;
-    text-align: center;
+    width:250px;
+    /*text-align: center;*/
     overflow: auto;
 }
+
+/* FROM MEDIA PLAYLIST DEMO
+-------------------------------------------------------*/
+    .demoHeaders {
+        margin-top: 2em;
+    }
+    #dialog-link {
+        padding: .4em 1em .4em 20px;
+        text-decoration: none;
+        position: relative;
+    }
+    #dialog-link span.ui-icon {
+        margin: 0 5px 0 0;
+        position: absolute;
+        left: .2em;
+        top: 50%;
+        margin-top: -8px;
+    }
+    #icons {
+        margin: 0;
+        padding: 0;
+    }
+    #icons li {
+        margin: 2px;
+        position: relative;
+        padding: 4px 0;
+        cursor: pointer;
+        float: left;
+        list-style: none;
+    }
+    #icons span.ui-icon {
+        float: left;
+        margin: 0 4px;
+    }
+
+        #button_container{
+            float:left;
+        }
+        .media_item{
+            padding:4px;
+            border:1px solid #aaa;
+            background-color:#ccc;
+            cursor:pointer;
+            width:200px;
+            margin:4px 0px 0px 4px;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+
+        }
+
+        .playing{
+            color:red;
+        }

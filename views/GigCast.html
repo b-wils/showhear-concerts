@@ -6,57 +6,6 @@
     <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
     <title>Gigcast - Finding Concerts You'll Love</title>
 
-        <style>
-/*    body{
-        font: 62.5% "Trebuchet MS", sans-serif;
-        margin: 50px;
-    }*/
-    .demoHeaders {
-        margin-top: 2em;
-    }
-    #dialog-link {
-        padding: .4em 1em .4em 20px;
-        text-decoration: none;
-        position: relative;
-    }
-    #dialog-link span.ui-icon {
-        margin: 0 5px 0 0;
-        position: absolute;
-        left: .2em;
-        top: 50%;
-        margin-top: -8px;
-    }
-    #icons {
-        margin: 0;
-        padding: 0;
-    }
-    #icons li {
-        margin: 2px;
-        position: relative;
-        padding: 4px 0;
-        cursor: pointer;
-        float: left;
-        list-style: none;
-    }
-    #icons span.ui-icon {
-        float: left;
-        margin: 0 4px;
-    }
-
-        #button_container{
-            float:left;
-        }
-        .media_item{
-            padding:15px;
-            border:1px solid #aaa;
-            background-color:#ccc;
-            cursor:pointer;
-            width:200px;
-            margin:4px 0px 0px 4px;
-            -moz-border-radius:5px;
-            -webkit-border-radius:5px;
-        }
-    </style>
 </head>
 <body>
 
@@ -81,49 +30,17 @@
     <div>Nam dui erat, auctor a, dignissim quis.</div>
 </div> -->
 
-        <div class ="button_container" id="button_container">
-            <div class="media_item" id="SfLe6aPCEws">
-                <div class="artist_item">Sunny Day Real Estate</div>
-                <div class="artist_item">Another band </div>
-                <div class="artist_item"> Band 3 </div>
-                Friday at ND
-            </div>
-            <div class="media_item" id="SfLe6aPCEws">
-                <div class="artist_item">Second set</div>
-                <div class="artist_item">Second set2 </div>
-                <div class="artist_item"> Second set3 </div>
-                <div class="artist_item"> Second set4 </div>
-                <div class="artist_item"> Second set5 </div>
-                Friday at ND
-            </div>
-            <div class="media_item" id="SfLe6aPCEws">
-                <div class="artist_item">Second set</div>
-                <div class="artist_item">Second set2 </div>
-                <div class="artist_item"> Second set3 </div>
-                <div class="artist_item"> Second set4 </div>
-                <div class="artist_item"> Second set5 </div>
-                Friday at ND
-            </div>
-            <div class="media_item" id="SfLe6aPCEws">
-                <div class="artist_item">Second set</div>
-                <div class="artist_item">Second set2 </div>
-                <div class="artist_item"> Second set3 </div>
-                <div class="artist_item"> Second set4 </div>
-                <div class="artist_item"> Second set5 </div>
-                Friday at ND
-            </div>
-        </div>
-        <script type="text/javascript">
-            function update_source(src){
-                player.loadVideoById(src, 0, "large")
-            }
+         <script type="text/javascript">
+        //     function update_source(src){
+        //         player.loadVideoById(src, 0, "large")
+        //     }
 
-            var container = document.getElementById('button_container');
-            var buttons = container.getElementsByTagName('div');
-            for(var i = 0; i < buttons.length; i++){
-                buttons[i].setAttribute('onclick', 'update_source(this.id)');
-            }
-        </script>
+        //     var container = document.getElementById('button_container');
+        //     var buttons = container.getElementsByTagName('div');
+        //     for(var i = 0; i < buttons.length; i++){
+        //         buttons[i].setAttribute('onclick', 'update_source(this.id)');
+        //     }
+         </script>
 
     Player Statuss
     <div id="blah"> POOO </div>
@@ -169,10 +86,14 @@
             <br />
             <input type="button" onclick="updateClick()" value="Update" />
             <br />
-            Now Playing:
+            Upcoming Events:
             <br />
-            <select size="15" id="playlistNav" onchange="playlistChange()" STYLE="width: 200px">
-            </select>
+        <div class ="button_container" id="button_container">
+
+        </div>
+<!--             <select size="15" id="playlistNav" onchange="playlistChange()" STYLE="width: 200px" visible="false">
+            </select> -->
+            <br/>
             <div id="playlistInfo"> Loading... </div>
         </div>
     </div>

@@ -10,6 +10,9 @@ var totalArtists = 0;
 
 var headLinersOnlyEnabled;
 
+var eventIndex = 0;
+var artistIndex = 0;
+
 window.onload = function () {
 
 };
@@ -96,7 +99,7 @@ $( "#accordion" ).accordion();
 
     getSongkickEventPage(1);
 
-    $(".media_item").get(0).innerHTML += addArtistDivElement("dynamic add artist");
+    //$(".media_item").get(0).innerHTML += addArtistDivElement("dynamic add artist");
 
     //alert(addArtistDivElement("dynamic add artist"));
     //alert($(".media_item").get(0).innerHTML);
@@ -124,9 +127,12 @@ function onYouTubeIframeAPIReady() {
 }
 
 function updateClick() {
-    $("#playlistNav").empty();
+    //$("#playlistNav").empty();
+    $("#button_container").empty();
     totalArtists = 0;
     shownArtists = 0;
+    artistIndex = 0;
+    eventIndex = 0;
     document.getElementById("playlistInfo").innerHTML = "Loading...";
     getSongkickEventPage(1);
 }
@@ -149,19 +155,79 @@ function disableHeadlinersOnly() {
     document.getElementById("headlinersButton").value = "Off";
 }
 
-var eventIndex = 0;
-var artistIndex = 0;
+function selectPlaying(myDiv) {
+    eventIndex = $(".media_item").index(myDiv.parentNode);
 
-function artistDivClick(artistName) {
-    alert(artistName);
+    artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
+
+    var nowPlayingDiv = $(".artist_item.playing").get(0);
+
+    if (nowPlayingDiv) {
+        $(".artist_item.playing").removeClass("playing");
+    }
+
+    myDiv.className += " playing";
+
+    var artistName = myDiv.innerHTML;
+
+    $.getJSON("https://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
+    function (data) {
+
+        if (data.feed.entry) {
+
+            for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
+                if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
+                    var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
+                    document.getElementById("blah").innerHTML = videoUrl;
+                    player.loadVideoByUrl(videoUrl, 0, 'small');
+                    break;
+                }
+            }
+        } else {
+            document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
+        }
+    });
+
+    populateArtistInfo(artistName);
+    populateLastFMInfo(artistName);
+}
+
+function artistDivClick(artistName, myDiv) {
+    //alert(artistName);
+    selectPlaying(myDiv);
+
+    //alert("parent index = " + testindex1 + " this index = " + testindex2);
+
+    //alert(myDiv.parentNode.className);
 }
 
 // TODO pass in element and automagically add there instead of returning string
 function addArtistDivElement(artistName) {
-    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this.innerHTML)\">" + artistName +"</div>";
+    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this.innerHTML, this)\">" + artistName +"</div>";
     return divHtml;
 }
 
+function addEventDivElement(sk_eventNode) {
+    var divHtml = "<div class=\"media_item\">";
+
+    if (sk_eventNode.performance.length < 1) {
+        return;
+    }
+
+    if (sk_eventNode.status == "cancelled") {
+        return;
+    }
+
+    for (var j = 0; j < sk_eventNode.performance.length; j++) {
+        divHtml += addArtistDivElement(sk_eventNode.performance[j].displayName);
+    }
+
+    divHtml += "<div>" + sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName + "</div>";
+
+    divHtml += "</div>";
+
+    return divHtml;
+}
 function testClick() {
     alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
     //alert("artist is: " + $(".media_item:eq(1) .artist_item").length);
@@ -173,6 +239,8 @@ function testClick() {
         artistIndex = 0;
         eventIndex ++;
     }
+
+    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex));
 }
 
 function getSongkickEventPage(pageNumber) {
@@ -198,11 +266,13 @@ function getSongkickEventPage(pageNumber) {
             }
         }
 
-        var playlistNav = document.getElementById("playlistNav");
+        //var playlistNav = document.getElementById("playlistNav");
 
         for (var i = 0; i < data.resultsPage.results.event.length; i++) {
 
-            checkAndAddEvent(data.resultsPage.results.event[i]);
+            //checkAndAddEvent(data.resultsPage.results.event[i]);
+
+            $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
 
         }
 
@@ -341,29 +411,41 @@ function favorite() {
 }
 
 function nextVideo() {
-    var playlist = document.getElementById("playlistNav");
-    var index = playlist.selectedIndex;
+    // var playlist = document.getElementById("playlistNav");
+    // var index = playlist.selectedIndex;
 
-    document.getElementById("blah").innerHTML = "ended";
+    // document.getElementById("blah").innerHTML = "ended";
 
-    index++;
+    // index++;
 
-    if (index < playlist.length) {
-        playlist.selectedIndex = index;
-        playlistChange();
-    } else {
-        document.getElementById("blah").innerHTML = "playlist end index: " + index + "size: " + playlist.length;
+    // if (index < playlist.length) {
+    //     playlist.selectedIndex = index;
+    //     playlistChange();
+    // } else {
+    //     document.getElementById("blah").innerHTML = "playlist end index: " + index + "size: " + playlist.length;
+    // }
+
+    //alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
+    //alert("artist is: " + $(".media_item:eq(1) .artist_item").length);
+
+    artistIndex++;
+
+    if (artistIndex >= $(".media_item:eq(" + eventIndex + ") .artist_item").length) {
+        alert("name over")
+        artistIndex = 0;
+        eventIndex ++;
     }
 
+    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex));
 
 }
 
 function playlistChange() {
-    var playlist = document.getElementById("playlistNav");
+    //var playlist = document.getElementById("playlistNav");
     document.getElementById("blah").innerHTML = "change!sdfa";
-    document.getElementById("blah").innerHTML = playlist.options[playlist.selectedIndex].value;
+    //document.getElementById("blah").innerHTML = playlist.options[playlist.selectedIndex].value;
 
-    var artistName = playlist.options[playlist.selectedIndex].value;
+    //var artistName = playlist.options[playlist.selectedIndex].value;
 
     $.getJSON("https://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
     function (data) {
@@ -379,7 +461,8 @@ function playlistChange() {
                 }
             }
         } else {
-            document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
+            //document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
+            //alert
         }
     });
 
