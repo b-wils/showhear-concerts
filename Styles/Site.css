@@ -300,6 +300,7 @@ div.accountInfo
 {
 	float: left;
 	width: 100%;
+    margin:10px;
 }
 
 #playerScreen
@@ -308,7 +309,7 @@ div.accountInfo
 	float: left;
 	width: 640px;
 	padding: 20px 0;
-	margin: 0 0 0 4%;
+	margin: 15px;
 	display: inline;
 }
 
@@ -317,13 +318,13 @@ div.accountInfo
 	float: right;
 	width: 15%;
 	padding: 20px 0;
-	margin: 0 3% 0 0;
+	margin: 25px;
 	display: inline;
 }
 
 #button_container {
     float:left;
-    height:278px;
+    height:350px;
     width:250px;
     /*text-align: center;*/
     overflow: auto;
@@ -370,13 +371,22 @@ div.accountInfo
             padding:4px;
             border:1px solid #aaa;
             background-color:#ccc;
-            cursor:pointer;
             width:200px;
             margin:4px 0px 0px 4px;
             -moz-border-radius:5px;
             -webkit-border-radius:5px;
 
         }
+
+        .artist_item {
+            cursor:pointer;
+        }
+        .artist_item:link {
+text-decoration:none;
+}
+.artist_item:hover {
+text-decoration:underline;
+}
 
         .playing{
             color:red;

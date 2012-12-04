@@ -29,9 +29,9 @@ $(document).ready(function () {
     var startDateObj = new Date();
     var endDateObj = new Date();
 
-$( "#accordion" ).accordion();
+//$( "#accordion" ).accordion();
 
-    disableHeadlinersOnly();
+    //disableHeadlinersOnly();
 
     endDateObj.setDate(endDateObj.getDate() + 7);
 
@@ -133,7 +133,7 @@ function updateClick() {
     shownArtists = 0;
     artistIndex = 0;
     eventIndex = 0;
-    document.getElementById("playlistInfo").innerHTML = "Loading...";
+    //document.getElementById("playlistInfo").innerHTML = "Loading...";
     getSongkickEventPage(1);
 }
 
@@ -155,6 +155,11 @@ function disableHeadlinersOnly() {
     document.getElementById("headlinersButton").value = "Off";
 }
 
+function divScrollTo(element)
+{
+    element.parentNode.scrollTop = element.offsetTop - element.parentNode.offsetTop;
+}
+
 function selectPlaying(myDiv) {
     eventIndex = $(".media_item").index(myDiv.parentNode);
 
@@ -165,6 +170,8 @@ function selectPlaying(myDiv) {
     if (nowPlayingDiv) {
         $(".artist_item.playing").removeClass("playing");
     }
+
+    divScrollTo($(".media_item").get(eventIndex));
 
     myDiv.className += " playing";
 
@@ -178,15 +185,17 @@ function selectPlaying(myDiv) {
             for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
                 if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
                     var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
-                    document.getElementById("blah").innerHTML = videoUrl;
+                    // document.getElementById("blah").innerHTML = videoUrl;
                     player.loadVideoByUrl(videoUrl, 0, 'small');
                     break;
                 }
             }
         } else {
-            document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
+            // document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
         }
     });
+
+
 
     populateArtistInfo(artistName);
     populateLastFMInfo(artistName);
@@ -235,7 +244,7 @@ function testClick() {
     artistIndex++;
 
     if (artistIndex >= $(".media_item:eq(" + eventIndex + ") .artist_item").length) {
-        alert("name over")
+        //alert("name over")
         artistIndex = 0;
         eventIndex ++;
     }
@@ -276,7 +285,7 @@ function getSongkickEventPage(pageNumber) {
 
         }
 
-        document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
+        // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
         //alert('end json');
     });
 }
@@ -355,7 +364,7 @@ function getMaxDate() {
 //    the player should play for six seconds and then stop.
 var done = false;
 function onPlayerStateChange(event) {
-    document.getElementById("blah").innerHTML = event.data;
+    // document.getElementById("blah").innerHTML = event.data;
     if (event.data == YT.PlayerState.PLAYING && !done) {
         //setTimeout(stopVideo, 6000);
         done = true;
@@ -431,7 +440,7 @@ function nextVideo() {
     artistIndex++;
 
     if (artistIndex >= $(".media_item:eq(" + eventIndex + ") .artist_item").length) {
-        alert("name over")
+        //alert("name over")
         artistIndex = 0;
         eventIndex ++;
     }
@@ -442,7 +451,7 @@ function nextVideo() {
 
 function playlistChange() {
     //var playlist = document.getElementById("playlistNav");
-    document.getElementById("blah").innerHTML = "change!sdfa";
+    // document.getElementById("blah").innerHTML = "change!sdfa";
     //document.getElementById("blah").innerHTML = playlist.options[playlist.selectedIndex].value;
 
     //var artistName = playlist.options[playlist.selectedIndex].value;
@@ -455,7 +464,7 @@ function playlistChange() {
             for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
                 if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
                     var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
-                    document.getElementById("blah").innerHTML = videoUrl;
+                    // document.getElementById("blah").innerHTML = videoUrl;
                     player.loadVideoByUrl(videoUrl, 0, 'small');
                     break;
                 }
