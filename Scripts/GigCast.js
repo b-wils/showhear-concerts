@@ -95,6 +95,11 @@ $( "#accordion" ).accordion();
     g_endDate.populateFieldWithSelectedDate();
 
     getSongkickEventPage(1);
+
+    $(".media_item").get(0).innerHTML += addArtistDivElement("dynamic add artist");
+
+    //alert(addArtistDivElement("dynamic add artist"));
+    //alert($(".media_item").get(0).innerHTML);
 });
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
@@ -114,6 +119,7 @@ function onYouTubeIframeAPIReady() {
             'onStateChange': onPlayerStateChange
         }
     });
+
 
 }
 
@@ -143,11 +149,30 @@ function disableHeadlinersOnly() {
     document.getElementById("headlinersButton").value = "Off";
 }
 
+var eventIndex = 0;
+var artistIndex = 0;
+
+function artistDivClick(artistName) {
+    alert(artistName);
+}
+
+// TODO pass in element and automagically add there instead of returning string
+function addArtistDivElement(artistName) {
+    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this.innerHTML)\">" + artistName +"</div>";
+    return divHtml;
+}
+
 function testClick() {
-    alert('test date');
-    var myDate = g_startDate.getSelectedDay();
-    var formatdate = myDate.day + "-date";
-    alert(formatdate);
+    alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
+    //alert("artist is: " + $(".media_item:eq(1) .artist_item").length);
+
+    artistIndex++;
+
+    if (artistIndex >= $(".media_item:eq(" + eventIndex + ") .artist_item").length) {
+        alert("name over")
+        artistIndex = 0;
+        eventIndex ++;
+    }
 }
 
 function getSongkickEventPage(pageNumber) {

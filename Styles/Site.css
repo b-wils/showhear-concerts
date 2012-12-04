@@ -320,3 +320,11 @@ div.accountInfo
 	margin: 0 3% 0 0;
 	display: inline;
 }
+
+#button_container {
+    float:left;
+    height:278px;
+    width:385px;
+    text-align: center;
+    overflow: auto;
+}
