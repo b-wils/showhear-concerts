@@ -43,6 +43,7 @@ app.configure(function(){
   app.use("/js", express.static(__dirname + '/js'));
   app.use("/css", express.static(__dirname + '/css'));
   app.use("/jsdatepick-calendar", express.static(__dirname + '/jsdatepick-calendar'));
+  app.use("/jsdatepick-calendar/img", express.static(__dirname + '/jsdatepick-calendar/img'));
   app.use("/Scripts", express.static(__dirname + '/Scripts'));
   app.use("/jquery-ui-1.9.2.custom", express.static(__dirname + '/jquery-ui-1.9.2.custom'));
 
