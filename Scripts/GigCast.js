@@ -175,7 +175,11 @@ function selectPlaying(myDiv) {
 
     myDiv.className += " playing";
 
-    var artistName = myDiv.innerHTML;
+    // var artistName = myDiv.innerHTML;
+
+    var artistName = $(myDiv).children(".artist_name").get(0).innerHTML;
+
+    //alert(artistName);
 
     $.getJSON("https://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
     function (data) {
@@ -199,6 +203,8 @@ function selectPlaying(myDiv) {
 
     populateArtistInfo(artistName);
     populateLastFMInfo(artistName);
+
+
 }
 
 function artistDivClick(artistName, myDiv) {
@@ -210,15 +216,78 @@ function artistDivClick(artistName, myDiv) {
     //alert(myDiv.parentNode.className);
 }
 
+// var addGenreInfoCallback = function(genreSpan) {
+//     function (data) {
+//         var text = "";
+//         //$("#lastFMInfo").html("artist not found");
+//         if (data.artist) {
+//             genreSpan.innerHTML = "(Found artist)";
+
+//             if (data.artist.tags.tag) {
+//                 text = "(";
+//                 for (var i = 0; i < data.artist.tags.tag.length; i++) {
+//                     // if (i >=2) {
+//                     //     break;
+//                     // }
+//                     text += ",&nbsp" + data.artist.tags.tag[i].name;
+//                 }
+//                 text += ")";
+
+//                 genreSpan.innerHTML = text;
+//             } else {
+//                 genreSpan.innerHTML = "(No Artist Tags)";
+//             }
+//         } else {
+//             genreSpan.innerHTML = "(No Artist Info)";
+//         }
+//     };
+// }
+
+
 // TODO pass in element and automagically add there instead of returning string
 function addArtistDivElement(artistName) {
-    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this.innerHTML, this)\">" + artistName +"</div>";
+    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this.innerHTML, this)\"><span class=\"artist_name\">" + artistName +"</span> <span class=\"artist_genre\"> (Loading Genre...)</span></div>";
     return divHtml;
 }
 
-function addEventDivElement(sk_eventNode) {
-    var divHtml = "<div class=\"media_item\">";
+function addArtistDivElement2(targetNode, artistName) {
+    var artistNode = document.createElement('div');
+    artistNode.className = "artist_item";
+    // artistNode.onClick="artistDivClick(this.innerHTML, this)";
+    // artistNode.click("alert(\"click\")")
+    artistNode.setAttribute('onclick', 'artistDivClick(this.innerHTML, this)');;
 
+    var artistNameNode = document.createElement('span');
+    artistNameNode.className = "artist_name";
+    artistNameNode.innerHTML = artistName;
+
+    artistNode.appendChild(artistNameNode);
+
+    targetNode.appendChild(artistNode);
+}
+
+function addEventDivElement(sk_eventNode) {
+    // var divHtml = "<div class=\"media_item\">";
+
+    // if (sk_eventNode.performance.length < 1) {
+    //     return;
+    // }
+
+    // if (sk_eventNode.status == "cancelled") {
+    //     return;
+    // }
+
+    // for (var j = 0; j < sk_eventNode.performance.length; j++) {
+    //     divHtml += addArtistDivElement(sk_eventNode.performance[j].displayName);
+    // }
+
+    // divHtml += "<div>" + sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName + "</div>";
+
+    // divHtml += "</div>";
+
+    // return divHtml;
+
+    // adding elements instead of html
     if (sk_eventNode.performance.length < 1) {
         return;
     }
@@ -227,15 +296,20 @@ function addEventDivElement(sk_eventNode) {
         return;
     }
 
+    var eventNode = document.createElement('div');
+    eventNode.className = "media_item";
+
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
-        divHtml += addArtistDivElement(sk_eventNode.performance[j].displayName);
+        addArtistDivElement2(eventNode, sk_eventNode.performance[j].displayName);
     }
 
-    divHtml += "<div>" + sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName + "</div>";
+    var detailsNode = document.createElement('div');
+    detailsNode.innerHTML = "<div>" + sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName + "</div>";
 
-    divHtml += "</div>";
+    eventNode.appendChild(detailsNode);
 
-    return divHtml;
+    // root item
+    $(".button_container").get(0).appendChild(eventNode);
 }
 function testClick() {
     alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
@@ -282,7 +356,8 @@ function getSongkickEventPage(pageNumber) {
 
             //checkAndAddEvent(data.resultsPage.results.event[i]);
 
-            $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
+            // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
+            addEventDivElement(data.resultsPage.results.event[i]);
 
         }
 
@@ -536,3 +611,4 @@ function populateLastFMInfo(artistName) {
         $("#lastFMInfo").html(text);
     });
 }
+
