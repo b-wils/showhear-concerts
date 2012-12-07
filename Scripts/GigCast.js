@@ -98,11 +98,6 @@ $(document).ready(function () {
     g_endDate.populateFieldWithSelectedDate();
 
     getSongkickEventPage(1);
-
-    //$(".media_item").get(0).innerHTML += addArtistDivElement("dynamic add artist");
-
-    //alert(addArtistDivElement("dynamic add artist"));
-    //alert($(".media_item").get(0).innerHTML);
 });
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
@@ -207,7 +202,7 @@ function selectPlaying(myDiv) {
 
 }
 
-function artistDivClick(artistName, myDiv) {
+function artistDivClick(myDiv) {
     //alert(artistName);
     selectPlaying(myDiv);
 
@@ -216,52 +211,74 @@ function artistDivClick(artistName, myDiv) {
     //alert(myDiv.parentNode.className);
 }
 
-// var addGenreInfoCallback = function(genreSpan) {
-//     function (data) {
-//         var text = "";
-//         //$("#lastFMInfo").html("artist not found");
-//         if (data.artist) {
-//             genreSpan.innerHTML = "(Found artist)";
+var MAX_GENRE_TAGS = 2;
 
-//             if (data.artist.tags.tag) {
-//                 text = "(";
-//                 for (var i = 0; i < data.artist.tags.tag.length; i++) {
-//                     // if (i >=2) {
-//                     //     break;
-//                     // }
-//                     text += ",&nbsp" + data.artist.tags.tag[i].name;
-//                 }
-//                 text += ")";
+var addGenreInfoCallback = function(genreSpan) {
+    return function (data) {
+        var text = "";
+        //$("#lastFMInfo").html("artist not found");
+        if (data.artist) {
+            genreSpan.innerHTML = "(Found artist)";
 
-//                 genreSpan.innerHTML = text;
-//             } else {
-//                 genreSpan.innerHTML = "(No Artist Tags)";
-//             }
-//         } else {
-//             genreSpan.innerHTML = "(No Artist Info)";
-//         }
-//     };
-// }
+            if (data.artist.tags.tag) {
+                text = " (";
+
+                if (data.artist.tags.tag.length) {
+
+
+                    for (var i = 0; (i < data.artist.tags.tag.length) && (i < MAX_GENRE_TAGS); i++) {
+                        // if (i >=2) {
+                        //     break;
+                        // }
+                        if (i > 0) {
+                            text += ",&nbsp";
+                        }
+                        text += data.artist.tags.tag[i].name;
+                    }
+                } else {
+                    text += data.artist.tags.tag.name
+                }
+                text += ")";
+
+                genreSpan.innerHTML = text;
+            } else {
+                genreSpan.innerHTML = " (no artist tags)";
+            }
+        } else {
+            genreSpan.innerHTML = " (no artist info)";
+        }
+    };
+};
 
 
 // TODO pass in element and automagically add there instead of returning string
 function addArtistDivElement(artistName) {
-    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this.innerHTML, this)\"><span class=\"artist_name\">" + artistName +"</span> <span class=\"artist_genre\"> (Loading Genre...)</span></div>";
+    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this)\"><span class=\"artist_name\">" + artistName +"</span> <span class=\"artist_genre\"> (Loading Genre...)</span></div>";
     return divHtml;
 }
+
+var numGenreAdd = 0;
 
 function addArtistDivElement2(targetNode, artistName) {
     var artistNode = document.createElement('div');
     artistNode.className = "artist_item";
-    // artistNode.onClick="artistDivClick(this.innerHTML, this)";
-    // artistNode.click("alert(\"click\")")
-    artistNode.setAttribute('onclick', 'artistDivClick(this.innerHTML, this)');;
+    artistNode.setAttribute('onclick', 'artistDivClick(this)');;
 
     var artistNameNode = document.createElement('span');
     artistNameNode.className = "artist_name";
     artistNameNode.innerHTML = artistName;
 
     artistNode.appendChild(artistNameNode);
+
+    var artistGenreNode = document.createElement('span');
+    artistGenreNode.className = "artist_genre";
+    artistGenreNode.innerHTML = " (Loading Genre...)";
+
+    artistNode.appendChild(artistGenreNode);
+
+    $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+        addGenreInfoCallback(artistGenreNode)
+    );
 
     targetNode.appendChild(artistNode);
 }
@@ -597,10 +614,17 @@ function populateLastFMInfo(artistName) {
             text += "<br/>Tags:"
 
             if (data.artist.tags.tag) {
-                $("#lastFMInfo").html("i can has tags?");
-                for (var i = 0; i < data.artist.tags.tag.length; i++) {
-                    text += ",&nbsp" + data.artist.tags.tag[i].name;
+                if (data.artist.tags.tag.length) {
+                    // multiple tags
+                    //text += "some tags: " + data.artist.tags.tag.length;
+                    for (var i = 0; i < data.artist.tags.tag.length; i++) {
+                        text += ",&nbsp" + data.artist.tags.tag[i].name;
+                    }  
+                } else {
+                    // single tag
+                    text += data.artist.tags.tag.name;
                 }
+
             } else {
                 text += "&nbspNo Tags";
             }

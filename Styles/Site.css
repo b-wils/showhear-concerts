@@ -325,7 +325,7 @@ div.accountInfo
 #button_container {
     float:left;
     height:350px;
-    width:250px;
+    width:295px;
     /*text-align: center;*/
     overflow: auto;
 }
@@ -371,7 +371,7 @@ div.accountInfo
             padding:4px;
             border:1px solid #aaa;
             background-color:#ccc;
-            width:200px;
+            width:260px;
             margin:4px 0px 0px 4px;
             -moz-border-radius:5px;
             -webkit-border-radius:5px;
@@ -380,12 +380,17 @@ div.accountInfo
 
         .artist_item {
             cursor:pointer;
+            
         }
         .artist_item:link {
 text-decoration:none;
 }
 .artist_item:hover {
 text-decoration:underline;
+}
+
+.artist_name {
+    font-weight:bold;
 }
 
         .playing{
