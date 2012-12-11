@@ -378,15 +378,20 @@ div.accountInfo
 
         }
 
-        .artist_item {
+        .artist_name {
             cursor:pointer;
             
         }
         .artist_item:link {
-text-decoration:none;
-}
-.artist_item:hover {
+        text-decoration:none;
+        }
+.artist_name:hover {
 text-decoration:underline;
+}
+
+.songkick_icon {
+    width: 10;
+    height: 10;
 }
 
 .artist_name {

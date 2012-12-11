@@ -213,7 +213,7 @@ function artistDivClick(myDiv) {
 
 var MAX_GENRE_TAGS = 2;
 
-var addGenreInfoCallback = function(genreSpan) {
+var addLastFMInfoCallback = function(genreSpan, lastfmLink) {
     return function (data) {
         var text = "";
         //$("#lastFMInfo").html("artist not found");
@@ -242,10 +242,16 @@ var addGenreInfoCallback = function(genreSpan) {
 
                 genreSpan.innerHTML = text;
             } else {
-                genreSpan.innerHTML = " (no artist tags)";
+                // genreSpan.innerHTML = " (no artist tags)";
+                genreSpan.innerHTML = "";
             }
+
+            lastfmLink.href = data.artist.url;
+
         } else {
-            genreSpan.innerHTML = " (no artist info)";
+            // genreSpan.innerHTML = " (no artist info)";
+            // TODO remove lastfm link
+            genreSpan.innerHTML = "";
         }
     };
 };
@@ -259,16 +265,41 @@ function addArtistDivElement(artistName) {
 
 var numGenreAdd = 0;
 
-function addArtistDivElement2(targetNode, artistName) {
+function addArtistDivElement2(targetNode, sk_artistNode) {
+    var artistName = sk_artistNode.displayName;
+
     var artistNode = document.createElement('div');
     artistNode.className = "artist_item";
-    artistNode.setAttribute('onclick', 'artistDivClick(this)');;
 
     var artistNameNode = document.createElement('span');
     artistNameNode.className = "artist_name";
     artistNameNode.innerHTML = artistName;
-
+    artistNameNode.setAttribute('onclick', 'artistDivClick(this.parentNode)');
     artistNode.appendChild(artistNameNode);
+
+    // targetNode.appendChild($('<a href=' + artistName + '> <img src="/images/SK_white_pink_icon.png" height="17" width="17"/> </a>').get());
+    // targetNode.appendChild($('<div></div>').get());
+
+    var songkickLink = document.createElement('a');
+    songkickLink.href = sk_artistNode.artist.uri;
+    songkickLink.target = "_blank";
+
+    var songkickIcon = document.createElement('img');
+    songkickIcon.className = 'songkick_icon';
+    songkickIcon.height = '17';
+    songkickIcon.width = '17';
+    songkickIcon.src = "/images/SK_white_pink_icon.png";
+    songkickLink.appendChild(songkickIcon);
+    artistNode.appendChild(songkickLink);
+
+    var lastFMLink = document.createElement('a');
+    lastFMLink.href = "dummylink";
+    lastFMLink.target = "_blank";
+    var lastFMIcon = document.createElement('img');
+    lastFMIcon.className = 'songkick_icon';
+    lastFMIcon.src = "/images/lastfm_red_17px.png";
+    lastFMLink.appendChild(lastFMIcon);
+    artistNode.appendChild(lastFMLink);
 
     var artistGenreNode = document.createElement('span');
     artistGenreNode.className = "artist_genre";
@@ -277,32 +308,13 @@ function addArtistDivElement2(targetNode, artistName) {
     artistNode.appendChild(artistGenreNode);
 
     $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-        addGenreInfoCallback(artistGenreNode)
+        addLastFMInfoCallback(artistGenreNode, lastFMLink)
     );
 
     targetNode.appendChild(artistNode);
 }
 
 function addEventDivElement(sk_eventNode) {
-    // var divHtml = "<div class=\"media_item\">";
-
-    // if (sk_eventNode.performance.length < 1) {
-    //     return;
-    // }
-
-    // if (sk_eventNode.status == "cancelled") {
-    //     return;
-    // }
-
-    // for (var j = 0; j < sk_eventNode.performance.length; j++) {
-    //     divHtml += addArtistDivElement(sk_eventNode.performance[j].displayName);
-    // }
-
-    // divHtml += "<div>" + sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName + "</div>";
-
-    // divHtml += "</div>";
-
-    // return divHtml;
 
     // adding elements instead of html
     if (sk_eventNode.performance.length < 1) {
@@ -317,7 +329,7 @@ function addEventDivElement(sk_eventNode) {
     eventNode.className = "media_item";
 
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
-        addArtistDivElement2(eventNode, sk_eventNode.performance[j].displayName);
+        addArtistDivElement2(eventNode, sk_eventNode.performance[j]);
     }
 
     var detailsNode = document.createElement('div');
@@ -344,9 +356,12 @@ function testClick() {
 }
 
 function getSongkickEventPage(pageNumber) {
+    
+    // TODO create divs for each result page so that the order is deterministic/chronological
+
+    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     // location hardcoded to austin 9179
-    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
-        $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     function (data) {
         var text = "Event name: ";
         //alert('get event');
@@ -601,8 +616,10 @@ function populateArtistInfo(artistName) {
 
 function populateLastFMInfo(artistName) {
     $("#lastFMInfo").html("before query");
+    // TODO .getJSON looks bugged in IE9
     $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
     function (data) {
+        $("#lastFMInfo").html("after query");
         var text = "";
         //$("#lastFMInfo").html("artist not found");
         if (data.artist) {
@@ -635,4 +652,3 @@ function populateLastFMInfo(artistName) {
         $("#lastFMInfo").html(text);
     });
 }
-
