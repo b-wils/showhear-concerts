@@ -288,7 +288,7 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
     songkickIcon.className = 'songkick_icon';
     songkickIcon.height = '17';
     songkickIcon.width = '17';
-    songkickIcon.src = "/images/SK_white_pink_icon.png";
+    songkickIcon.src = "/images/sk_white_pink_icon.png";
     songkickLink.appendChild(songkickIcon);
     artistNode.appendChild(songkickLink);
 
