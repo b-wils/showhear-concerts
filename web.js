@@ -73,6 +73,9 @@ app.get('/', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
    response.render('GigCast.html');
+
+   var statsmixClient = new statsmix.Client();
+  statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
 });
 
 var port = process.env.PORT || 3000;
