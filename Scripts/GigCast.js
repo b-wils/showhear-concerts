@@ -314,7 +314,7 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
     targetNode.appendChild(artistNode);
 }
 
-function addEventDivElement(sk_eventNode) {
+function addEventDivElement(sk_eventNode, targetNode) {
 
     // adding elements instead of html
     if (sk_eventNode.performance.length < 1) {
@@ -338,7 +338,8 @@ function addEventDivElement(sk_eventNode) {
     eventNode.appendChild(detailsNode);
 
     // root item
-    $(".button_container").get(0).appendChild(eventNode);
+    // $(".button_container").get(0).appendChild(eventNode);
+    targetNode.appendChild(eventNode);
 }
 function testClick() {
     alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
@@ -368,17 +369,31 @@ function getSongkickEventPage(pageNumber) {
         // data is JSON response object
         //alert(text + );
 
-        if (pageNumber == 1 && data.resultsPage.totalEntries > 50) {
-            // We have more results to query
-            // TODO this does not preserve page ordering, do we need it?
+        if (pageNumber == 1) {
+
             var totalPages = data.resultsPage.totalEntries / data.resultsPage.perPage;
 
             if ((data.resultsPage.totalEntries % data.resultsPage.perPage) > 0) {
                 totalPages++;
             }
 
-            for (var i = 2; i <= totalPages; i++) {
-                getSongkickEventPage(i);
+            // create a container for each page
+            // result page indexes start at 1
+            for (var i = 1; i <= totalPages; i++) {
+                var containerNode = document.createElement('div');
+                containerNode.className = "sk_page_container_" + i;
+
+                $(".button_container").get(0).appendChild(containerNode);
+            }
+
+            if (totalPages > 1) {
+
+                // We have more results to query
+                // TODO this does not preserve page ordering, do we need it?
+
+                for (var i = 2; i <= totalPages; i++) {
+                    getSongkickEventPage(i);
+                }
             }
         }
 
@@ -389,7 +404,7 @@ function getSongkickEventPage(pageNumber) {
             //checkAndAddEvent(data.resultsPage.results.event[i]);
 
             // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
-            addEventDivElement(data.resultsPage.results.event[i]);
+            addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
 
         }
 
@@ -525,6 +540,11 @@ function favorite() {
     //                        }
 
     //__doPostBack("songended", "songended");
+}
+
+function nextVideoClick() {
+    _gaq.push(['_trackEvent', 'Click', 'Next Video']);
+    nextVideo();
 }
 
 function nextVideo() {

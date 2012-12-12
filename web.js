@@ -75,7 +75,7 @@ app.get('/', function(request, response) {
    response.render('GigCast.html');
 
    var statsmixClient = new statsmix.Client();
-  statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+   statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
 });
 
 var port = process.env.PORT || 3000;
