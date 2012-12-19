@@ -47,6 +47,7 @@ app.configure(function(){
   app.use("/jsdatepick-calendar/img", express.static(__dirname + '/jsdatepick-calendar/img'));
   app.use("/Scripts", express.static(__dirname + '/Scripts'));
   app.use("/jquery-ui-1.9.2.custom", express.static(__dirname + '/jquery-ui-1.9.2.custom'));
+  app.use("/jquerycookie", express.static(__dirname + '/jquerycookie'));
 
   // disable layout
   app.set("view options", {layout: false});
@@ -72,7 +73,9 @@ app.configure('development', function(){
 app.get('/', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
-   response.render('GigCast.html');
+   response.render('GigCast.html', {
+        myVar: 'My Data'
+    });
 
    var statsmixClient = new statsmix.Client();
    statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });

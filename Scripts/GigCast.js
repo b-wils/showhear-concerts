@@ -1,3 +1,13 @@
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36985604-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 
 var lastFM_APIKey = "7921cb7aae6b8b280672b0fd74207d4b";
 var songkick_APIKey = "bUMFhmMfaIpxiUgJ";
@@ -26,8 +36,37 @@ document.onclick = function () {
 
 $(document).ready(function () {
 
+//    alert(#{myVar});
+
     var startDateObj = new Date();
     var endDateObj = new Date();
+
+    $( "#dialog" ).dialog({
+        autoOpen: false,
+        // show: "blind",
+        // hide: "explode",
+        closeOnEscape: true,
+        draggable: false,
+        resizable: false,
+        position: { my: "right top", at: "right bottom", of:"#locationChange" },
+        buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
+    });
+
+    $( "#opener" ).click(function() {
+        $( "#dialog" ).dialog( "open" );
+        return false;
+    });
+
+    $( "#locationChange" ).click(function() {
+        $( "#dialog" ).dialog( "open" );
+        return false;
+    });
+
+    $("#updLocationTxt").keyup(function(event){
+        if(event.keyCode == 13){
+            updateLocation();
+        }
+    });
 
 //$( "#accordion" ).accordion();
 
@@ -96,8 +135,12 @@ $(document).ready(function () {
     });
 
     g_endDate.populateFieldWithSelectedDate();
-
+    populateLocation();
     getSongkickEventPage(1);
+
+    // alert("cookie: " + $.cookie('the_cookie') +"!");
+    // $.cookie('the_cookie', 'the_value');
+
 });
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
@@ -119,6 +162,56 @@ function onYouTubeIframeAPIReady() {
     });
 
 
+}
+
+var sk_locationId = "";
+
+function updateLocation() {
+
+    // alert($("#updLocationTxt").val());
+
+    if ($("#updLocationTxt").val()) {
+
+        $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?query="+$("#updLocationTxt").val() +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+        function (data) {
+
+            if (data.resultsPage.totalEntries > 0) {
+                // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
+                $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName);
+                sk_locationId = data.resultsPage.results.location[0].metroArea.id;
+                //document.cookie
+                $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
+                $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
+            } else {
+                alert("Could not find location")
+            }
+        });
+    }
+
+    $( "#dialog" ).dialog( "close" );
+
+    alert(getLocationQueryString());
+}
+
+function getLocationQueryString() {
+    if ($.cookie('sk_locationid')) {
+        return "location=sk:" + $.cookie('sk_locationid');
+    } else {
+        return "location=clientip";
+    }
+}
+
+function populateLocation() {
+    if ($.cookie('sk_locationName')) {
+        $("#locationText").html($.cookie('sk_locationName'));
+    } else {
+
+        $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+        function (data) {
+            $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName);
+            
+        });
+    }
 }
 
 function updateClick() {
@@ -360,14 +453,19 @@ function getSongkickEventPage(pageNumber) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
 
-    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     // location hardcoded to austin 9179
-    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     function (data) {
         var text = "Event name: ";
         //alert('get event');
         // data is JSON response object
         //alert(text + );
+
+        if (data.resultsPage.totalEntries == 0) {
+            alert("no data");
+            return;
+        }
 
         if (pageNumber == 1) {
 
@@ -609,8 +707,8 @@ function playlistChange() {
 
 function populateArtistInfo(artistName) {
     // location hardcoded to austin id:9179
-    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
-    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",        
+    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",        
     function (data) {
         //var text = "<b>Events:</b>";
         var text = "";
