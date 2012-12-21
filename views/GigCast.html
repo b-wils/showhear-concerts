@@ -19,10 +19,10 @@
         <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all" />
 </div>
 
-<!-- <div id="genreFilterDialog" title="Select Genre">
-        <label for="updLocationTxt">New Location</label>
-        <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all" />
-</div> -->
+<div id="genreFilterDialog" title="Select Genre">
+        <label for="updateGenreText">Genre Filter</label>
+        <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
+</div>
 
 <div class="main">
     <div id="playerContainer2">
@@ -62,13 +62,13 @@
             Headliners Only: <input id="headlinersButton" type="button" onclick="headlinersClick()" value="Off" />
             <br /> -->
             Your Location: <span id="locationText">(Loading...)</span><span id="locationChange"> Change</span>
+            <br />
+            Genre Filter: <span id="genreFilter">(None)</span>
             <br/>
             Date Range:
             <br/>
             <input type="text" size="12" id="StartDateText"/> -
             <input type="text" size="12" id="EndDateText"/>
-            <br />
-            Genre Filter: <span id="genreFilter">(None)</span>
             <br />
             <input type="button" onclick="updateClick()" value="Update" />
             <br />
