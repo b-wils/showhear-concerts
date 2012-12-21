@@ -91,7 +91,6 @@ $(document).ready(function () {
 
     endDateObj.setDate(endDateObj.getDate() + 7);
 
-
     g_startDate = new JsDatePick({
         useMode: 2,
         target: "StartDateText",
@@ -225,7 +224,7 @@ function updateLocation() {
 
     $( "#dialog" ).dialog( "close" );
 
-    alert(getLocationQueryString());
+    // alert(getLocationQueryString());
 }
 
 function getLocationQueryString() {
@@ -352,7 +351,7 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
     // TODO lets query our SK database here to see if mbid mathces/mis-matches. Could use mbid to improve results
 
     if (artistNode.artist) {
-        targetElement.innerHTML = "(Found artist)";
+        targetElement.innerHTML = "";
 
         // if (artistNode.artist.name == "STATUETTE") {
         //     alert("our artist");
@@ -373,6 +372,13 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
                 for (var i = 0; (i < artistNode.artist.tags.tag.length); i++) {
 
                     if (i < MAX_GENRE_TAGS) {
+
+                        var genreSpan = document.createElement('span');
+                        genreSpan.className = "genreTag";
+                        genreSpan.innerHTML = artistNode.artist.tags.tag[i].name;
+                        // genreSpan.setAttribute('onclick', 'artistDivClick(this.parentNode)');
+                        targetElement.appendChild(genreSpan);
+
                         if (i > 0) {
                             text += ",&nbsp";
                         }
@@ -391,7 +397,7 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
             }
             text += ")";
 
-            targetElement.innerHTML = text;
+            // targetElement.innerHTML = text;
         } else {
             // genreSpan.innerHTML = " (no artist tags)";
             targetElement.innerHTML = "";
@@ -406,11 +412,37 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
     }
 }
 
-var addLastFMInfoCallback = function(searchString, genreSpan, lastfmLink) {
+var addLastFMInfoCallbackByMBID = function(searchString, targetELement, lastfmLink) {
+    return function (data) {
+
+        if (!(data.artist)) {
+            alert("songkick mbid but no lastfm?");
+        }
+
+        // alert('mbid?');
+
+        lfm_artistCache[searchString] = data;
+        addArtistGenre(searchString, targetELement, lastfmLink);
+    };
+};
+
+
+var addLastFMInfoCallback = function(searchString, targetELement, lastfmLink) {
     return function (data) {
 
         lfm_artistCache[searchString] = data;
-        addArtistGenre(searchString, genreSpan, lastfmLink);
+        addArtistGenre(searchString, targetELement, lastfmLink);
+
+        if ((data.artist)) {
+            // console.log("found by manual lastfm - " + data.artist.name);
+            // if(data.artist.tags.tag) {
+            //    console.log("found by manual lastfm with tags! " + data.artist.name); 
+            // }
+
+            // if(data.artist.mbid != "") {
+            //    console.log("found by manual lastfm with tags! " + data.artist.name); 
+            // }
+        }
     };
 };
 
@@ -470,11 +502,17 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
         addArtistGenre(artistName, artistGenreNode, lastFMLink);
     } else {
 
-        // TODO we can query by musicbrainz id instead of searching by artist name. this could give slightly better results but we will still
-        // likely need the fallback
-        $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-            addLastFMInfoCallback(artistName, artistGenreNode, lastFMLink)
-        );
+        if (sk_artistNode.artist.identifier.length > 0) {
+            $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&mbid=" + sk_artistNode.artist.identifier[0].mbid + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+                addLastFMInfoCallbackByMBID(artistName, artistGenreNode, lastFMLink)
+            );
+        } else {
+            // TODO we can query by musicbrainz id instead of searching by artist name. this could give slightly better results but we will still
+            // likely need the fallback
+            $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+                addLastFMInfoCallback(artistName, artistGenreNode, lastFMLink)
+            );
+        }
     }
 
     targetNode.appendChild(artistNode);
