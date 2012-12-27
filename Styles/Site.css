@@ -306,13 +306,13 @@ div.accountInfo
         text-decoration: none;
         position: relative;
     }
-    #dialog-link span.ui-icon {
+/*    #dialog-link span.ui-icon {
         margin: 0 5px 0 0;
         position: absolute;
         left: .2em;
         top: 50%;
         margin-top: -8px;
-    }
+    }*/
     #icons {
         margin: 0;
         padding: 0;
@@ -325,10 +325,10 @@ div.accountInfo
         float: left;
         list-style: none;
     }
-    #icons span.ui-icon {
+/*    #icons span.ui-icon {
         float: left;
         margin: 0 4px;
-    }
+    }*/
 
         .media_item{
             padding:4px;

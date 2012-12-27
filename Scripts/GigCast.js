@@ -212,7 +212,7 @@ function updateLocation() {
 
             if (data.resultsPage.totalEntries > 0) {
                 // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
-                $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName);
+                $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName + " Area");
                 //document.cookie
                 $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
                 $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
@@ -237,7 +237,7 @@ function getLocationQueryString() {
 
 function populateLocation() {
     if ($.cookie('sk_locationName')) {
-        $("#locationText").html($.cookie('sk_locationName'));
+        $("#locationText").html($.cookie('sk_locationName') + " Area");
     } else {
 
         $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
@@ -287,10 +287,17 @@ function selectPlaying(myDiv) {
 
     artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
 
-    var nowPlayingDiv = $(".artist_item.playing").get(0);
+    var nowPlayingDiv = $(".artist_item.playing");
 
     if (nowPlayingDiv) {
-        $(".artist_item.playing").removeClass("playing");
+        nowPlayingDiv.removeClass("playing");
+    }
+
+    // TODO this assumes this icon is only used once on the page
+    var nowPlayingIcon = $(".ui-icon-volume-on");
+    if (nowPlayingIcon) {
+        nowPlayingIcon.removeClass("ui-icon-volume-on");
+        nowPlayingIcon.addClass("ui-icon-play");
     }
 
     divScrollTo($(".media_item").get(eventIndex));
@@ -298,6 +305,11 @@ function selectPlaying(myDiv) {
     myDiv.className += " playing";
 
     // var artistName = myDiv.innerHTML;
+
+    var newPlayingIcon = $(myDiv).children(".ui-state-default").children(".ui-icon-play");
+    // alert($(myDiv).children(".ui-state-default").children(".ui-icon-play").length + " test " + $(myDiv).children(".artist_name").length);
+    newPlayingIcon.addClass("ui-icon-volume-on");
+    newPlayingIcon.removeClass("ui-icon-play");
 
     var artistName = $(myDiv).children(".artist_name").get(0).innerHTML;
 
@@ -460,6 +472,22 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
 
     var artistNode = document.createElement('div');
     artistNode.className = "artist_item";
+
+// <div style="display: inline-block" class="ui-state-default">
+//     <span class="ui-icon ui-icon-lightbulb"></span>
+// </div> 
+    var statusDiv = document.createElement('div');
+    statusDiv.style.cssText = "display:inline-block";
+    statusDiv.className = "ui-state-default";
+
+    var statusIcon = document.createElement('span');
+    statusIcon.className = "ui-icon ui-icon-play";
+    // artistNameNode.innerHTML = artistName;
+    statusIcon.setAttribute('onclick', 'artistDivClick(this.parentNode)');
+
+    statusDiv.appendChild(statusIcon);
+    artistNode.appendChild(statusDiv);
+  
 
     var artistNameNode = document.createElement('span');
     artistNameNode.className = "artist_name";
