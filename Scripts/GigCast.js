@@ -101,8 +101,8 @@ $(document).ready(function () {
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "right top", at: "right bottom", of:"#genreFilter" },
-        buttons: [ { text: "Filter", click: function() { updateGenreFilter(); } } ]
+        position: { my: "right top", at: "right bottom", of:"#genreFilter" },//clearGenreFilter
+        buttons: [ { text: "Clear", click: function() { clearGenreFilter(); } }, { text: "Filter", click: function() { updateGenreFilter(); } }]
     });
 
     $( "#genreChange" ).click(function() {
@@ -150,8 +150,20 @@ function updateGenreFilter() {
     // alert("cached? " + lfm_artistCache["STATUETTE"].artist.name)
     // alert("cached? " + lfm_artistCache["STATUETTE"])
     $("#genreFilter").html($("#updateGenreText").val());
-    $.cookie('genreFilter', $("#updateGenreText").val());
-    $( "#genreFilterDialog" ).dialog( "close" );
+
+    if ($("#updateGenreText").val() != "") {
+        $.cookie('genreFilter', $("#updateGenreText").val());
+        $( "#genreFilterDialog" ).dialog( "close" );
+    } else {
+        clearGenreFilter();
+    }
+
+}
+
+function clearGenreFilter() {
+    $.removeCookie('genreFilter');
+    $("#genreFilter").html("(None)");
+    $("#genreFilterDialog" ).dialog( "close" );
 }
 
 function updateLocation() {
@@ -234,11 +246,13 @@ function disableHeadlinersOnly() {
 
 function divScrollTo(element)
 {
-    element.parentNode.scrollTop = element.offsetTop - element.parentNode.offsetTop;
+    element.parentNode.parentNode.scrollTop = element.offsetTop - element.parentNode.parentNode.offsetTop;
 }
 
 function selectPlaying(myDiv) {
     eventIndex = $(".media_item").index(myDiv.parentNode);
+
+    alert(eventIndex);
 
     artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
 
@@ -447,16 +461,9 @@ var addLastFMInfoCallback = function(searchString, targetELement) {
     };
 };
 
-
-// TODO pass in element and automagically add there instead of returning string
-function addArtistDivElement(artistName) {
-    var divHtml = "<div class=\"artist_item\" onclick=\"artistDivClick(this)\"><span class=\"artist_name\">" + artistName +"</span> <span class=\"artist_genre\"> (Loading Genre...)</span></div>";
-    return divHtml;
-}
-
 var numGenreAdd = 0;
 
-function addArtistDivElement2(targetNode, sk_artistNode) {
+function addArtistDivElement(targetNode, sk_artistNode) {
     var artistName = sk_artistNode.displayName;
 
     var artistNode = document.createElement('div');
@@ -541,7 +548,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     eventNode.className = "media_item";
 
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
-        addArtistDivElement2(eventNode, sk_eventNode.performance[j]);
+        addArtistDivElement(eventNode, sk_eventNode.performance[j]);
     }
 
     var detailsNode = document.createElement('div');
