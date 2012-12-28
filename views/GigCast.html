@@ -24,10 +24,6 @@
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
 </div>
 
-<div style="display: inline-block" class="ui-state-default">
-    <span class="ui-icon ui-icon-lightbulb"></span>
-</div> 
-
 <div class="main">
     <div id="playerContainer2">
         <div id="playerScreen"> 
@@ -67,12 +63,16 @@
             <br /> -->
             <span id="locationChange"> Your Location: <span id="locationText">(Loading...)</span><span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span> </span>
             <br />
-            Genre Filter: <span id="genreFilter">(None)</span>
+            Genre Filter: <span id="genreFilter">(None)<span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span> </span></span>
             <br/>
             Date Range:
             <br/>
-            <input type="text" size="12" id="StartDateText"/> -
-            <input type="text" size="12" id="EndDateText"/>
+<label for="from">From</label>
+<input type="text" id="from" name="from" style="width: 80px;"/>
+<label for="to">to</label>
+<input type="text" id="to" name="to" style="width: 80px;"/>
+<!--             <input type="text" size="12" id="StartDateText"/> -
+            <input type="text" size="12" id="EndDateText"/> -->
             <br />
             <input type="button" onclick="updateClick()" value="Update" />
             <br />

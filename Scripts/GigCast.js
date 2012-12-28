@@ -41,6 +41,37 @@ $(document).ready(function () {
     var startDateObj = new Date();
     var endDateObj = new Date();
 
+    // $( "#datepicker" ).datepicker({
+    //     showOtherMonths: true,
+    //     selectOtherMonths: true
+    // });
+
+    $( "#from" ).datepicker({
+        numberOfMonths: 1,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: "M-dd-yy",
+        onClose: function( selectedDate ) {
+            $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        }
+    });
+    $( "#from" ).datepicker( "setDate", "now" );
+
+    $( "#to" ).datepicker({
+        numberOfMonths: 1,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: "M-dd-yy",
+        onClose: function( selectedDate ) {
+            $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        }
+    });
+    $( "#to" ).datepicker( "setDate", "+1w" );
+
+    // alert("date: " +  $( "#from" ).datepicker( "getDate" ).getDate());
+
+    // alert("date: " +  $.datepicker.formatDate("yy-mm-dd", $( "#to" ).datepicker( "getDate" )));
+
     $( "#dialog" ).dialog({
         autoOpen: false,
         // show: "blind",
@@ -85,90 +116,12 @@ $(document).ready(function () {
         }
     });
 
-//$( "#accordion" ).accordion();
-
-    //disableHeadlinersOnly();
-
-    endDateObj.setDate(endDateObj.getDate() + 7);
-
-    g_startDate = new JsDatePick({
-        useMode: 2,
-        target: "StartDateText",
-        selectedDate: {
-            day: startDateObj.getDate(),
-            month: startDateObj.getMonth() + 1,
-            year: startDateObj.getFullYear()
-        },
-        weekStartDay: 0,
-        //imgPath: "jsdatepick-calendar/img/",
-        dateFormat: "%M-%d-%Y"
-        /*
-        yearsRange:[1978,2020],
-        limitToToday:false,
-        cellColorScheme:"beige",
-        dateFormat:"%m-%d-%Y",
-        
-        */
-    });
-
-    g_endDate = new JsDatePick({
-        useMode: 2,
-        target: "EndDateText",
-        selectedDate: {
-            day: endDateObj.getDate(),
-            month: endDateObj.getMonth() + 1,
-            year: endDateObj.getFullYear()
-        },
-        weekStartDay: 0,
-        cellColorScheme: "armygreen",
-        //imgPath: "jsdatepick-calendar/img/",
-        dateFormat: "%M-%d-%Y"
-        /*selectedDate:{				This is an example of what the full configuration offers.
-        day:5,						For full documentation about these settings please see the full version of the code.
-        month:9,
-        year:2006
-        },
-        yearsRange:[1978,2020],
-        limitToToday:false,
-        dateFormat:"%m-%d-%Y",
-        imgPath:"img/",
-        weekStartDay:1*/
-    });
-
-    // TODO we should get this moved into the date constructor
-    g_startDate.setSelectedDay({
-        day: startDateObj.getDate(),
-        month: startDateObj.getMonth() + 1,
-        year: startDateObj.getFullYear()
-    });
-
-    g_startDate.populateFieldWithSelectedDate();
-
-    g_endDate.setSelectedDay({
-        day: endDateObj.getDate(),
-        month: endDateObj.getMonth() + 1,
-        year: endDateObj.getFullYear()
-    });
-
-    g_endDate.populateFieldWithSelectedDate();
     populateLocation();
     getSongkickEventPage(1);
 
     if ($.cookie('genreFilter')) {
         $("#genreFilter").html($.cookie('genreFilter'));
     }
-
-    // $.cookie('genreFilter', 'cookie metal');
-    // alert("cookie: " + $.cookie('the_cookie') +"!");
-    // $.cookie('the_cookie', 'the_value');
-
-    // var artistTemp = "test";
-    // var genreTemp = [];
-    // var artistGenreMap = [];
-    // artistGenreMap[artistTemp] = genreTemp;
-    // artistGenreMap[artistTemp][0] = "ROX";
-    // artistGenreMap[artistTemp][1] = "BOX";
-    // alert("map: " + artistGenreMap[artistTemp][0] + artistGenreMap[artistTemp][1]);
 
 });
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -249,6 +202,8 @@ function populateLocation() {
 }
 
 function updateClick() {
+// alert("date: " + $.datepicker.formatDate('yy', $( "#to" ).datepicker( "getDate" )));
+
     //$("#playlistNav").empty();
     $("#button_container").empty();
     totalArtists = 0;
@@ -479,11 +434,11 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
     var statusDiv = document.createElement('div');
     statusDiv.style.cssText = "display:inline-block";
     statusDiv.className = "ui-state-default";
+    statusDiv.setAttribute('onclick', 'artistDivClick(this.parentNode)');
 
     var statusIcon = document.createElement('span');
     statusIcon.className = "ui-icon ui-icon-play";
     // artistNameNode.innerHTML = artistName;
-    statusIcon.setAttribute('onclick', 'artistDivClick(this.parentNode)');
 
     statusDiv.appendChild(statusIcon);
     artistNode.appendChild(statusDiv);
@@ -514,7 +469,7 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
     lastFMLink.href = "dummylink";
     lastFMLink.target = "_blank";
     var lastFMIcon = document.createElement('img');
-    lastFMIcon.className = 'songkick_icon';
+    lastFMIcon.className = 'lastfm_icon';
     lastFMIcon.src = "/images/lastfm_red_17px.png";
     lastFMLink.appendChild(lastFMIcon);
     artistNode.appendChild(lastFMLink);
@@ -565,7 +520,20 @@ function addEventDivElement(sk_eventNode, targetNode) {
     }
 
     var detailsNode = document.createElement('div');
-    detailsNode.innerHTML = "<div>" + sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName + "</div>";
+    detailsNode.innerHTML = sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName;
+
+
+    var songkickLink = document.createElement('a');
+    songkickLink.href = sk_eventNode.uri;
+    songkickLink.target = "_blank";
+
+    var songkickIcon = document.createElement('img');
+    songkickIcon.className = 'songkick_icon';
+    songkickIcon.height = '17';
+    songkickIcon.width = '17';
+    songkickIcon.src = "/images/sk_white_pink_icon.png";
+    songkickLink.appendChild(songkickIcon);
+    detailsNode.appendChild(songkickLink);
 
     eventNode.appendChild(detailsNode);
 
@@ -707,16 +675,20 @@ function zeroFill(number, width) {
 }
 
 function getMinDate() {
-    var myDate = g_startDate.getSelectedDay();
-    var formatdate = myDate.year + "-" + zeroFill(myDate.month, 2) + "-" + zeroFill(myDate.day, 2);
-    return formatdate;
+    // var myDate = g_startDate.getSelectedDay();
+    // var formatdate = myDate.year + "-" + zeroFill(myDate.month, 2) + "-" + zeroFill(myDate.day, 2);
+
+    // var myDate = $( "#from" ).datepicker( "getDate" );
+    // var formatDate = $.datePicker.formatDate("yy-mm-dd", myDate);
+
+    return $.datepicker.formatDate("yy-mm-dd", $( "#from" ).datepicker( "getDate" ));
 
 }
 
 function getMaxDate() {
-    var myDate = g_endDate.getSelectedDay();
-    var formatdate = myDate.year + "-" + zeroFill(myDate.month, 2) + "-" + zeroFill(myDate.day, 2);
-    return formatdate;
+    // var myDate = g_endDate.getSelectedDay();
+    // var formatdate = myDate.year + "-" + zeroFill(myDate.month, 2) + "-" + zeroFill(myDate.day, 2);
+    return $.datepicker.formatDate("yy-mm-dd", $( "#to" ).datepicker( "getDate" ));
 }
 
 // 5. The API calls this function when the player's state changes.
