@@ -105,7 +105,7 @@ $(document).ready(function () {
         buttons: [ { text: "Filter", click: function() { updateGenreFilter(); } } ]
     });
 
-    $( "#genreFilter" ).click(function() {
+    $( "#genreChange" ).click(function() {
         $( "#genreFilterDialog" ).dialog( "open" );
         return false;
     });
@@ -310,7 +310,7 @@ var lfm_artistGenreMap = [];
 var lfm_artistCache = [];
 
 // assumes this has already been cached
-function addArtistGenre(artistName, targetElement, lastfmLink) {
+function addArtistGenre(artistName, targetElement) {
     var text = "";
     var artistNode = lfm_artistCache[artistName];
     //$("#lastFMInfo").html("artist not found");
@@ -334,6 +334,13 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
             // TODO should we just cache the entire lastfm result instead of building our own mapping?
             lfm_artistGenreMap[artistNode.artist.name] = genres;
 
+            // Inconsistency in lastfm data format, a single tag will not be nested in an array. lets just add it here
+            // if (artistNode.artist.tags.tag.name) {
+            //     alert("artist has single tag: " + artistNode.artist.name);
+            //     artistNode.artist.tags.tag[0] = {};
+            //     artistNode.artist.tags.tag[0].name = artistNode.artist.tags.tag.name;
+            // }
+
             if (artistNode.artist.tags.tag.length) {                    
 
                 for (var i = 0; (i < artistNode.artist.tags.tag.length); i++) {
@@ -346,21 +353,37 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
                         // genreSpan.setAttribute('onclick', 'artistDivClick(this.parentNode)');
                         targetElement.appendChild(genreSpan);
 
-                        if (i > 0) {
-                            text += ",&nbsp";
-                        }
-                        text += artistNode.artist.tags.tag[i].name;
-
                     }
 
                     if ($.cookie('genreFilter')) {
                         if (artistNode.artist.tags.tag[i].name == $.cookie('genreFilter')) {
                             targetElement.className += " badgenre";
+
+                            // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
+                            // if (!targetElemnt.parent.parent.parent) {
+
+                            // }                     
                         }
                     }
                 }
             } else {
-                text += artistNode.artist.tags.tag.name
+                // single tag
+                var genreSpan = document.createElement('span');
+                genreSpan.className = "genreTag";
+                genreSpan.innerHTML = artistNode.artist.tags.tag.name;
+                // genreSpan.setAttribute('onclick', 'artistDivClick(this.parentNode)');
+                targetElement.appendChild(genreSpan);
+
+                if ($.cookie('genreFilter')) {
+                    if (artistNode.artist.tags.tag.name == $.cookie('genreFilter')) {
+                        targetElement.className += " badgenre";
+
+                        // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
+                        // if (!targetElemnt.parent.parent.parent) {
+
+                        // }                     
+                    }
+                }
             }
             text += ")";
 
@@ -370,7 +393,18 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
             targetElement.innerHTML = "";
         }
 
-        lastfmLink.href = artistNode.artist.url;
+        var mylastFMLink = document.createElement('a');
+        mylastFMLink.href = artistNode.artist.url;
+        mylastFMLink.target = "_blank";
+        var lastFMIcon = document.createElement('img');
+        lastFMIcon.className = 'lastfm_icon';
+        lastFMIcon.src = "/images/lastfm_red_17px.png";
+        mylastFMLink.appendChild(lastFMIcon);
+        targetElement.appendChild(mylastFMLink);
+
+        targetElement.parent;
+
+        // lastfmLink.href = artistNode.artist.url;
 
     } else {
         // genreSpan.innerHTML = " (no artist info)";
@@ -379,7 +413,7 @@ function addArtistGenre(artistName, targetElement, lastfmLink) {
     }
 }
 
-var addLastFMInfoCallbackByMBID = function(searchString, targetELement, lastfmLink) {
+var addLastFMInfoCallbackByMBID = function(searchString, targetELement) {
     return function (data) {
 
         if (!(data.artist)) {
@@ -389,16 +423,16 @@ var addLastFMInfoCallbackByMBID = function(searchString, targetELement, lastfmLi
         // alert('mbid?');
 
         lfm_artistCache[searchString] = data;
-        addArtistGenre(searchString, targetELement, lastfmLink);
+        addArtistGenre(searchString, targetELement);
     };
 };
 
 
-var addLastFMInfoCallback = function(searchString, targetELement, lastfmLink) {
+var addLastFMInfoCallback = function(searchString, targetELement) {
     return function (data) {
 
         lfm_artistCache[searchString] = data;
-        addArtistGenre(searchString, targetELement, lastfmLink);
+        addArtistGenre(searchString, targetELement);
 
         if ((data.artist)) {
             // console.log("found by manual lastfm - " + data.artist.name);
@@ -465,15 +499,6 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
     songkickLink.appendChild(songkickIcon);
     artistNode.appendChild(songkickLink);
 
-    var lastFMLink = document.createElement('a');
-    lastFMLink.href = "dummylink";
-    lastFMLink.target = "_blank";
-    var lastFMIcon = document.createElement('img');
-    lastFMIcon.className = 'lastfm_icon';
-    lastFMIcon.src = "/images/lastfm_red_17px.png";
-    lastFMLink.appendChild(lastFMIcon);
-    artistNode.appendChild(lastFMLink);
-
     var artistGenreNode = document.createElement('span');
     artistGenreNode.className = "artist_genre";
     artistGenreNode.innerHTML = " (Loading Genre...)";
@@ -482,18 +507,18 @@ function addArtistDivElement2(targetNode, sk_artistNode) {
 
     if (lfm_artistCache[artistName]) {
         // alert(artistName + ' cached!');
-        addArtistGenre(artistName, artistGenreNode, lastFMLink);
+        addArtistGenre(artistName, artistGenreNode);
     } else {
 
         if (sk_artistNode.artist.identifier.length > 0) {
             $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&mbid=" + sk_artistNode.artist.identifier[0].mbid + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-                addLastFMInfoCallbackByMBID(artistName, artistGenreNode, lastFMLink)
+                addLastFMInfoCallbackByMBID(artistName, artistGenreNode)
             );
         } else {
             // TODO we can query by musicbrainz id instead of searching by artist name. this could give slightly better results but we will still
             // likely need the fallback
             $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-                addLastFMInfoCallback(artistName, artistGenreNode, lastFMLink)
+                addLastFMInfoCallback(artistName, artistGenreNode)
             );
         }
     }
