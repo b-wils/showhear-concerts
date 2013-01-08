@@ -92,6 +92,10 @@ $(document).ready(function () {
         buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
     });
 
+    $( "#dialog" ).bind('clickoutside',function(){
+        $( "#dialog" ).dialog('close');
+    });
+
     $( "#locationChange" ).click(function() {
         $( "#dialog" ).dialog( "open" );
         return false;
@@ -112,6 +116,10 @@ $(document).ready(function () {
         resizable: false,
         position: { my: "right top", at: "right bottom", of:"#genreFilter" },//clearGenreFilter
         buttons: [ { text: "Clear", click: function() { clearGenreFilter(); } }, { text: "Filter", click: function() { updateGenreFilter(); } }]
+    });
+
+    $( "#genreFilterDialog" ).bind('clickoutside',function(){
+        $( "#genreFilterDialog" ).dialog('close');
     });
 
     $( "#genreChange" ).click(function() {
