@@ -49,14 +49,6 @@ function getQueryVariable(variable) {
 
 $(document).ready(function () {
 
-    preLoadEventSKID = getQueryVariable("skEventId");
-    
-    // if (preLoadEventSKID) {
-    //     alert("skid = " + preLoadEventSKID);
-    // } else {
-    //     alert('noid');
-    // }
-
     // $( "#datepicker" ).datepicker({
     //     showOtherMonths: true,
     //     selectOtherMonths: true
@@ -71,6 +63,7 @@ $(document).ready(function () {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
         }
     });
+
     $( "#from" ).datepicker( "setDate", "now" );
 
     $( "#to" ).datepicker({
@@ -133,7 +126,14 @@ $(document).ready(function () {
     });
 
     populateLocation();
-    getSongkickEventPage(1);
+
+    preLoadEventSKID = getQueryVariable("skEventId");
+    
+    if (preLoadEventSKID) {
+        setPreloadEvent();
+    } else {
+        getSongkickEventPage(1);
+    }
 
     if ($.cookie('genreFilter')) {
         $("#genreFilter").html($.cookie('genreFilter'));
@@ -146,6 +146,27 @@ $(document).ready(function () {
 
 
 });
+
+function setPreloadEvent() {
+    // TODO this is a javascript error if a bad event id is passed in
+    $.getJSON("http://api.songkick.com/api/3.0/events/" + preLoadEventSKID + ".json?apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+    function (data) {
+        // alert(data.resultsPage.status);
+        if (data.resultsPage.status != "ok") {
+            alert("bad event");
+        } else {
+            setLocation(data.resultsPage.results.event.venue.metroArea.id, data.resultsPage.results.event.venue.metroArea.displayName);
+            // TODO won't really work if event is in the past
+            // TODO should we have a bigger date range?
+            $( "#from" ).datepicker( "setDate",  $.datepicker.parseDate("yy-mm-dd",  data.resultsPage.results.event.start.date));
+            $( "#to" ).datepicker( "setDate",  $.datepicker.parseDate("yy-mm-dd",  data.resultsPage.results.event.start.date));
+        }
+
+        // need to get this no matter what
+        getSongkickEventPage(1);
+    });    
+}
+
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
 tag.src = "//www.youtube.com/iframe_api";
@@ -191,6 +212,13 @@ function clearGenreFilter() {
     $.removeCookie('genreFilter');
     $("#genreFilter").html("(None)");
     $("#genreFilterDialog" ).dialog( "close" );
+}
+
+// we may not want to always store this in cookie
+function setLocation(id, name) {
+    $("#locationText").html(name + " Area");
+    $.cookie('sk_locationid', id);
+    $.cookie('sk_locationName', name);
 }
 
 function updateLocation() {
@@ -768,7 +796,6 @@ function onPlayerReady(event) {
 
     if (initialVideoUrl) {
         player.cueVideoByUrl(initialVideoUrl, 0, 'small');
-        alert('data first');
     }
 }
 
