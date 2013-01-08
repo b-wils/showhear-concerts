@@ -81,6 +81,32 @@ app.get('/', function(request, response) {
    statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
 });
 
+app.get('/test', function(request, response) {
+   //response.send('Hello World!');
+   //response.send('Hello World again!');
+   // response.render('GigCast.html', {
+   //      myVar: 'My Data'
+   //  });
+
+response.json({ 'testvar':'testval' })
+
+   // var statsmixClient = new statsmix.Client();
+   // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+});
+
+app.get('/test/:id', function(request, response) {
+   //response.send('Hello World!');
+   //response.send('Hello World again!');
+   // response.render('GigCast.html', {
+   //      myVar: 'My Data'
+   //  });
+
+response.json({ 'testvar':req.params.id })
+
+   // var statsmixClient = new statsmix.Client();
+   // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+});
+
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);

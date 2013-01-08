@@ -23,6 +23,8 @@ var headLinersOnlyEnabled;
 var eventIndex = 0;
 var artistIndex = 0;
 
+var preLoadEventSKID;
+
 window.onload = function () {
 
 };
@@ -33,13 +35,27 @@ document.onclick = function () {
     //g_startDate.closeCalendar();
 };
 
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split('&');
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    console.log('Query variable %s not found', variable);
+}
 
 $(document).ready(function () {
 
-//    alert(#{myVar});
-
-    var startDateObj = new Date();
-    var endDateObj = new Date();
+    preLoadEventSKID = getQueryVariable("skEventId");
+    
+    // if (preLoadEventSKID) {
+    //     alert("skid = " + preLoadEventSKID);
+    // } else {
+    //     alert('noid');
+    // }
 
     // $( "#datepicker" ).datepicker({
     //     showOtherMonths: true,
@@ -123,6 +139,12 @@ $(document).ready(function () {
         $("#genreFilter").html($.cookie('genreFilter'));
     }
 
+// $.getJSON("/test",
+//         function (data) {
+//             alert('test response: ' + data.testvar);
+//         });
+
+
 });
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
@@ -133,8 +155,11 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
 var player;
+var playerLoaded = false;
+var initialVideoUrl;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
+        // wmode: 'transparent',
         height: '390',
         width: '640',
         events: {
@@ -143,7 +168,9 @@ function onYouTubeIframeAPIReady() {
         }
     });
 
-
+    // selectPlaying($(".artist_item").get(0));
+    var pos = $("#player").position();
+    // alert("iframe pos= " + pos);
 }
 
 function updateGenreFilter() {
@@ -291,7 +318,11 @@ function selectPlaying(myDiv) {
                 if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
                     var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
                     // document.getElementById("blah").innerHTML = videoUrl;
-                    player.loadVideoByUrl(videoUrl, 0, 'small');
+                    if (playerLoaded) {
+                        player.loadVideoByUrl(videoUrl, 0, 'small');
+                    } else {
+                        initialVideoUrl = videoUrl;
+                    }
                     break;
                 }
             }
@@ -322,7 +353,7 @@ var lfm_artistGenreMap = [];
 var lfm_artistCache = [];
 
 // assumes this has already been cached
-function addArtistGenre(artistName, targetElement) {
+function addLastFMInfo(artistName, targetElement) {
     var text = "";
     var artistNode = lfm_artistCache[artistName];
     //$("#lastFMInfo").html("artist not found");
@@ -435,7 +466,7 @@ var addLastFMInfoCallbackByMBID = function(searchString, targetELement) {
         // alert('mbid?');
 
         lfm_artistCache[searchString] = data;
-        addArtistGenre(searchString, targetELement);
+        addLastFMInfo(searchString, targetELement);
     };
 };
 
@@ -444,7 +475,7 @@ var addLastFMInfoCallback = function(searchString, targetELement) {
     return function (data) {
 
         lfm_artistCache[searchString] = data;
-        addArtistGenre(searchString, targetELement);
+        addLastFMInfo(searchString, targetELement);
 
         if ((data.artist)) {
             // console.log("found by manual lastfm - " + data.artist.name);
@@ -512,7 +543,7 @@ function addArtistDivElement(targetNode, sk_artistNode) {
 
     if (lfm_artistCache[artistName]) {
         // alert(artistName + ' cached!');
-        addArtistGenre(artistName, artistGenreNode);
+        addLastFMInfo(artistName, artistGenreNode);
     } else {
 
         if (sk_artistNode.artist.identifier.length > 0) {
@@ -553,6 +584,29 @@ function addEventDivElement(sk_eventNode, targetNode) {
     detailsNode.innerHTML = sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName;
 
 
+var pathArray = window.location.pathname.split( '/' );
+var host = pathArray[2];
+
+    // add event permalink
+    var eventLinkHref = document.createElement('a');
+    eventLinkHref.href = "?skEventId=" + sk_eventNode.id;
+    eventLinkHref.target = "_blank";
+
+    var eventLinkDiv = document.createElement('div');
+    eventLinkDiv.style.cssText = "display:inline-block";
+    eventLinkDiv.className = "ui-state-default";
+    eventLinkDiv.setAttribute('onclick', 'artistDivClick(this.parentNode)');
+
+    var eventLinkIcon = document.createElement('span');
+    eventLinkIcon.className = "ui-icon ui-icon-link";
+    // artistNameNode.innerHTML = artistName;
+
+    eventLinkDiv.appendChild(eventLinkIcon);
+    eventLinkHref.appendChild(eventLinkDiv);
+    detailsNode.appendChild(eventLinkHref);
+
+
+    // add songkick link
     var songkickLink = document.createElement('a');
     songkickLink.href = sk_eventNode.uri;
     songkickLink.target = "_blank";
@@ -570,6 +624,16 @@ function addEventDivElement(sk_eventNode, targetNode) {
     // root item
     // $(".button_container").get(0).appendChild(eventNode);
     targetNode.appendChild(eventNode);
+
+    // TODO this assumes that the event is within the users area and default date range
+    // we should check the event info first and then build our initial SK query based on that
+    if (preLoadEventSKID) {
+        if(sk_eventNode.id == preLoadEventSKID) {
+            // alert($(eventNode).children(".artist_item").get(0).innerHTML);
+            selectPlaying($(eventNode).children(".artist_item").get(0));
+            // selectPlaying()
+        }
+    }
 }
 function testClick() {
     alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
@@ -630,6 +694,8 @@ function getSongkickEventPage(pageNumber) {
                     getSongkickEventPage(i);
                 }
             }
+
+            // 
         }
 
         //var playlistNav = document.getElementById("playlistNav");
@@ -641,6 +707,11 @@ function getSongkickEventPage(pageNumber) {
             // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
             addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
 
+        }
+
+        if (pageNumber == 1) {
+            // TODO this should be cued and done in a better location and shouild only cue the video
+            // selectPlaying($(".media_item:eq(0) .artist_item").get(0));
         }
 
         // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
@@ -693,7 +764,12 @@ function checkAndAddArtist(artistNode) {
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
     //event.target.playVideo();
+    playerLoaded = true;
 
+    if (initialVideoUrl) {
+        player.cueVideoByUrl(initialVideoUrl, 0, 'small');
+        alert('data first');
+    }
 }
 
 function zeroFill(number, width) {
