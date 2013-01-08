@@ -304,7 +304,7 @@ function divScrollTo(element)
     element.parentNode.parentNode.scrollTop = element.offsetTop - element.parentNode.parentNode.offsetTop;
 }
 
-function selectPlaying(myDiv) {
+function selectPlaying(myDiv, autoStart) {
     eventIndex = $(".media_item").index(myDiv.parentNode);
 
     artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
@@ -347,7 +347,11 @@ function selectPlaying(myDiv) {
                     var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
                     // document.getElementById("blah").innerHTML = videoUrl;
                     if (playerLoaded) {
-                        player.loadVideoByUrl(videoUrl, 0, 'small');
+                        if (autoStart) {
+                            player.loadVideoByUrl(videoUrl, 0, 'small');
+                        } else {
+                            player.cueVideoByUrl(videoUrl, 0, 'small');
+                        }
                     } else {
                         initialVideoUrl = videoUrl;
                     }
@@ -365,7 +369,7 @@ function selectPlaying(myDiv) {
 
 function artistDivClick(myDiv) {
     //alert(artistName);
-    selectPlaying(myDiv);
+    selectPlaying(myDiv, true);
 
     //alert("parent index = " + testindex1 + " this index = " + testindex2);
 
@@ -658,7 +662,7 @@ var host = pathArray[2];
     if (preLoadEventSKID) {
         if(sk_eventNode.id == preLoadEventSKID) {
             // alert($(eventNode).children(".artist_item").get(0).innerHTML);
-            selectPlaying($(eventNode).children(".artist_item").get(0));
+            selectPlaying($(eventNode).children(".artist_item").get(0), false);
             // selectPlaying()
         }
     }
@@ -675,7 +679,7 @@ function testClick() {
         eventIndex ++;
     }
 
-    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex));
+    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex), false);
 }
 
 function getSongkickEventPage(pageNumber) {
@@ -739,7 +743,7 @@ function getSongkickEventPage(pageNumber) {
 
         if (pageNumber == 1) {
             // TODO this should be cued and done in a better location and shouild only cue the video
-            // selectPlaying($(".media_item:eq(0) .artist_item").get(0));
+            selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
         }
 
         // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
@@ -795,6 +799,7 @@ function onPlayerReady(event) {
     playerLoaded = true;
 
     if (initialVideoUrl) {
+        // TODO should autostart on load be toggleable?
         player.cueVideoByUrl(initialVideoUrl, 0, 'small');
     }
 }
@@ -915,7 +920,7 @@ function nextVideo() {
         eventIndex ++;
     }
 
-    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex));
+    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex), true);
 
 }
 
