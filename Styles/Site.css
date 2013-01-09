@@ -128,14 +128,7 @@ first child of the left and right table columns */
     margin-left: auto ;
     margin-right: auto ;
     align: center;
-}
-
-.leftCol
-{
-    padding: 6px 0px;
-    margin: 12px 8px 8px 8px;
-    width: 200px;
-    min-height: 200px;
+    background: white;
 }
 
 .footer
@@ -192,113 +185,6 @@ first child of the left and right table columns */
     width:295px;
     /*text-align: center;*/
     overflow: auto;
-}
-
-
-/* FORM ELEMENTS   
-----------------------------------------------------------*/
-
-fieldset
-{
-    margin: 1em 0px;
-    padding: 1em;
-    border: 1px solid #ccc;
-}
-
-fieldset p 
-{
-    margin: 2px 12px 10px 10px;
-}
-
-fieldset.login label, fieldset.register label, fieldset.changePassword label
-{
-    display: block;
-}
-
-fieldset label.inline 
-{
-    display: inline;
-}
-
-legend 
-{
-    font-size: 1.1em;
-    font-weight: 600;
-    padding: 2px 4px 8px 4px;
-}
-
-input.textEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-input.passwordEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-div.accountInfo
-{
-    width: 42%;
-}
-
-/* MISC  
-----------------------------------------------------------*/
-
-.clear
-{
-    clear: both;
-}
-
-.title
-{
-    display: block;
-    float: left;
-    text-align: left;
-    width: auto;
-}
-
-.loginDisplay
-{
-    font-size: 1.1em;
-    display: block;
-    text-align: right;
-    padding: 10px;
-    color: White;
-}
-
-.loginDisplay a:link
-{
-    color: white;
-}
-
-.loginDisplay a:visited
-{
-    color: white;
-}
-
-.loginDisplay a:hover
-{
-    color: white;
-}
-
-.failureNotification
-{
-    font-size: 1.2em;
-    color: Red;
-}
-
-.bold
-{
-    font-weight: bold;
-}
-
-.submitButton
-{
-    text-align: right;
-    padding-right: 10px;
 }
 
 /* FROM MEDIA PLAYLIST DEMO

@@ -47,7 +47,7 @@
 </li>
 <li>
 <div><strong>base</strong></div>
-<div>Type: <a href="http://api.jquery.com/Types/#Function">Function</a>()</div>
+<div>Type: <a href="http://api.jquery.com/Types#Function">Function</a>()</div>
 <div>The base widget to inherit from. This must be a constructor that can be instantiated with the `new` keyword. Defaults to <code>jQuery.Widget</code>.</div>
 </li>
 <li>
@@ -69,11 +69,43 @@
 
 			<p>In order to track the state of the widget, we must introduce a full life cycle for the widget. The life cycle starts when the widget is initalized. To initialize a widget, we simply call the plugin on one or more elements.</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">).progressbar();</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> ).progressbar();</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>This will initialize each element in the jQuery object, in this case the element with an id of <code>"elem"</code>. Because we called the <code>progressbar()</code> method with no parameters, the widget is initialized with its default options. We can pass a set of options during initialization in order to override the default options.</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">).progressbar({ value: 20 });</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> ).progressbar({ value: <span class="number">20</span> });</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>We can pass as many or as few options as we want during initialization. Any options that we don't pass will just use their default values.</p>
 
@@ -83,15 +115,67 @@
 
 			<p>Now that the widget is initialized, we can query its state or perform actions on the widget. All actions after initialization take the form of a method call. To call a method on a widget, we pass the name of the method to the jQuery plugin. For example, to call the <code>value()</code> method on our progressbar widget, we would use:</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">).progressbar( </code><code class="string">"value"</code> <code class="plain">);</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> ).progressbar( <span class="string">"value"</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>If the method accepts parameters, we can pass them after the method name. For example, to pass the parameter <code>40</code> to the <code>value()</code> method, we can use:</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">).progressbar( </code><code class="string">"value"</code><code class="plain">, 40 );</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> ).progressbar( <span class="string">"value"</span>, <span class="number">40</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>Just like other methods in jQuery, most widget methods return the jQuery object for chaining.</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">)</code></div><div class="line number2 index1 alt1"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">.progressbar( </code><code class="string">"value"</code><code class="plain">, 90 )</code></div><div class="line number3 index2 alt2"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">.addClass( </code><code class="string">"almost-done"</code> <code class="plain">);</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> )</code></div></div><div class="container"><div class="line"><code>  .progressbar( <span class="string">"value"</span>, <span class="number">90</span> )</code></div></div><div class="container"><div class="line"><code>  .addClass( <span class="string">"almost-done"</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>Each widget will have its own set of methods based on the functionality that the widget provides. However, there are a few methods that exist on all widgets, which are documented below.</p>
 
@@ -99,15 +183,62 @@
 
 			<p>All widgets have events associated with their various behaviors to notify you when the state is changing. For most widgets, when the events are triggered, the names are prefixed with the widget name. For example, we can bind to progressbar's <code>change</code> event which is triggered whenever the value changes.</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">).bind( </code><code class="string">"progressbarchange"</code><code class="plain">, </code><code class="keyword">function</code><code class="plain">() {</code></div><div class="line number2 index1 alt1"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">alert( </code><code class="string">"The value has changed!"</code> <code class="plain">);</code></div><div class="line number3 index2 alt2"><code class="plain">});</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> ).bind( <span class="string">"progressbarchange"</span>, <span class="keyword">function</span>() {</code></div></div><div class="container"><div class="line"><code>  alert( <span class="string">"The value has changed!"</span> );</code></div></div><div class="container"><div class="line"><code>});</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>Each event has a corresponding callback, which is exposed as an option. We can hook into progressbar's <code>change</code> callback instead of binding to the <code>progressbarchange</code> event, if we want to.</p>
 
-			<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">"#elem"</code> <code class="plain">).progressbar({</code></div><div class="line number2 index1 alt1"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">change: </code><code class="keyword">function</code><code class="plain">() {</code></div><div class="line number3 index2 alt2"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">alert( </code><code class="string">"The value has changed!"</code> <code class="plain">);</code></div><div class="line number4 index3 alt1"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">}</code></div><div class="line number5 index4 alt2"><code class="plain">});</code></div></div></td></tr></tbody></table></div>
+			<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+						<div class="line n4">4</div>
+					
+						<div class="line n5">5</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">"#elem"</span> ).progressbar({</code></div></div><div class="container"><div class="line"><code>  change: <span class="keyword">function</span>() {</code></div></div><div class="container"><div class="line"><code>    alert( <span class="string">"The value has changed!"</span> );</code></div></div><div class="container"><div class="line"><code>  }</code></div></div><div class="container"><div class="line"><code>});</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 
 			<p>All widgets have a <code>create</code> event which is triggered upon instantiation.</p>
 		</div>
-</div></article><section class="quick-nav"><header><h2>QuickNav</h2></header><div class="quick-nav-section">
+</div></article><article id="jQuery-Widget2" class="entry widget"><h2 class="section-title"><span>Base Widget</span></h2>
+<div class="entry-wrapper">
+<p class="desc"><strong>Description: </strong>The base widget used by the widget factory.</p>
+<section id="quick-nav"><header><h2>QuickNav</h2></header><div class="quick-nav-section">
 <h3>Options</h3>
 <div><a href="#option-disabled">disabled</a></div>
 <div><a href="#option-hide">hide</a></div>
@@ -141,10 +272,7 @@
 <div class="quick-nav-section">
 <h3>Events</h3>
 <div><a href="#event-create">create</a></div>
-</div></section><article id="jQuery-Widget2" class="entry widget"><h2 class="section-title"><span>Base Widget</span></h2>
-<div class="entry-wrapper">
-<p class="desc"><strong>Description: </strong>The base widget used by the widget factory.</p>
-<section id="options"><header><h2 class="underline">Options</h2></header><div id="option-disabled" class="api-item first-item">
+</div></section><section id="options"><header><h2 class="underline">Options</h2></header><div id="option-disabled" class="api-item first-item">
 <h3>disabled<span class="option-type"><strong>Type: </strong><a href="http://api.jquery.com/Types#Boolean">Boolean</a></span>
 </h3>
 <div class="default">
@@ -152,9 +280,49 @@
 </div>
 <div>Disables the jQuery.Widget if set to <code>true</code>.</div>
 <strong>Code examples:</strong><p>Initialize the jQuery.Widget with the disabled option specified:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget({ disabled: </code><code class="keyword">true</code> <code class="plain">});</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget({ disabled: <span class="literal">true</span> });</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <p>Get or set the disabled option, after initialization:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="comments">// getter</code></div><div class="line number2 index1 alt1"><code class="keyword">var</code> <code class="plain">disabled = $( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"disabled"</code> <code class="plain">);</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="comments">// setter</code></div><div class="line number5 index4 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"disabled"</code><code class="plain">, </code><code class="keyword">true</code> <code class="plain">);</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+						<div class="line n4">4</div>
+					
+						<div class="line n5">5</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code><span class="comment">// getter</span></code></div></div><div class="container"><div class="line"><code><span class="keyword">var</span> disabled = $( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"disabled"</span> );</code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code><span class="comment">// setter</span></code></div></div><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"disabled"</span>, <span class="literal">true</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 </div>
 <div id="option-hide" class="api-item">
 <h3>hide<span class="option-type"><strong>Type: </strong><a href="http://api.jquery.com/Types#Boolean">Boolean</a> or <a href="http://api.jquery.com/Types#Number">Number</a> or <a href="http://api.jquery.com/Types#String">String</a> or <a href="http://api.jquery.com/Types#Object">Object</a></span>
@@ -183,9 +351,49 @@
 <strong>Object</strong>: If the value is an object, then <code>effect</code>, <code>duration</code>, and <code>easing</code> properties may be provided. If the <code>effect</code> property contains the name of a jQuery method, then that method will be used; otherwise it is assumed to be the name of a jQuery UI effect. When using a jQuery UI effect that supports additional settings, you may include those settings in the object and they will be passed to the effect. If <code>duration</code> or <code>easing</code> is omitted, then the default values will be used. If <code>effect</code> is omitted, then <code>"fadeOut"</code> will be used.</li>
 </ul>
 <strong>Code examples:</strong><p>Initialize the jQuery.Widget with the hide option specified:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget({ hide: { effect: </code><code class="string">"explode"</code><code class="plain">, duration: 1000 } });</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget({ hide: { effect: <span class="string">"explode"</span>, duration: <span class="number">1000</span> } });</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <p>Get or set the hide option, after initialization:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="comments">// getter</code></div><div class="line number2 index1 alt1"><code class="keyword">var</code> <code class="plain">hide = $( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"hide"</code> <code class="plain">);</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="comments">// setter</code></div><div class="line number5 index4 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"hide"</code><code class="plain">, { effect: </code><code class="string">"explode"</code><code class="plain">, duration: 1000 } );</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+						<div class="line n4">4</div>
+					
+						<div class="line n5">5</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code><span class="comment">// getter</span></code></div></div><div class="container"><div class="line"><code><span class="keyword">var</span> hide = $( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"hide"</span> );</code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code><span class="comment">// setter</span></code></div></div><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"hide"</span>, { effect: <span class="string">"explode"</span>, duration: <span class="number">1000</span> } );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 </div>
 <div id="option-show" class="api-item">
 <h3>show<span class="option-type"><strong>Type: </strong><a href="http://api.jquery.com/Types#Boolean">Boolean</a> or <a href="http://api.jquery.com/Types#Number">Number</a> or <a href="http://api.jquery.com/Types#String">String</a> or <a href="http://api.jquery.com/Types#Object">Object</a></span>
@@ -214,9 +422,49 @@
 <strong>Object</strong>: If the value is an object, then <code>effect</code>, <code>duration</code>, and <code>easing</code> properties may be provided. If the <code>effect</code> property contains the name of a jQuery method, then that method will be used; otherwise it is assumed to be the name of a jQuery UI effect. When using a jQuery UI effect that supports additional settings, you may include those settings in the object and they will be passed to the effect. If <code>duration</code> or <code>easing</code> is omitted, then the default values will be used. If <code>effect</code> is omitted, then <code>"fadeIn"</code> will be used.</li>
 </ul>
 <strong>Code examples:</strong><p>Initialize the jQuery.Widget with the show option specified:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget({ show: { effect: </code><code class="string">"blind"</code><code class="plain">, duration: 800 } });</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget({ show: { effect: <span class="string">"blind"</span>, duration: <span class="number">800</span> } });</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <p>Get or set the show option, after initialization:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="comments">// getter</code></div><div class="line number2 index1 alt1"><code class="keyword">var</code> <code class="plain">show = $( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"show"</code> <code class="plain">);</code></div><div class="line number3 index2 alt2">&nbsp;</div><div class="line number4 index3 alt1"><code class="comments">// setter</code></div><div class="line number5 index4 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"show"</code><code class="plain">, { effect: </code><code class="string">"blind"</code><code class="plain">, duration: 800 } );</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+						<div class="line n4">4</div>
+					
+						<div class="line n5">5</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code><span class="comment">// getter</span></code></div></div><div class="container"><div class="line"><code><span class="keyword">var</span> show = $( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"show"</span> );</code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code><span class="comment">// setter</span></code></div></div><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"show"</span>, { effect: <span class="string">"blind"</span>, duration: <span class="number">800</span> } );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 </div></section><section id="methods"><header><h2 class="underline">Methods</h2></header><div id="method-_create"><div class="api-item first-item">
 <h3>_create()</h3>
 <div>
@@ -226,7 +474,7 @@
 <ul><li><div class="null-signature">This method does not accept any arguments.</div></li></ul>
 </div></div>
 <div id="method-_delay"><div class="api-item">
-<h3>_delay( fn [, delay ] ) <span class="returns">Returns: <a class="return" href="http://api.jquery.com/Types/#Number">Number</a></span>
+<h3>_delay( fn [, delay ] )<span class="returns">Returns: <a href="http://api.jquery.com/Types#Number">Number</a></span>
 </h3>
 <div>
 					Invokes the provided function after a specified delay. Keeps <code>this</code> context correct. Essentially <code>setTimeout()</code>.
@@ -235,7 +483,7 @@
 <ul>
 <li>
 <div><strong>fn</strong></div>
-<div>Type: <a href="http://api.jquery.com/Types/#Function">Function</a>() or <a href="http://api.jquery.com/Types#String">String</a>
+<div>Type: <a href="http://api.jquery.com/Types#Function">Function</a>() or <a href="http://api.jquery.com/Types#String">String</a>
 </div>
 <div>The function to invoke. Can also be the name of a method on the widget.</div>
 </li>
@@ -268,7 +516,7 @@
 </li></ul>
 </div></div>
 <div id="method-_getCreateEventData"><div class="api-item">
-<h3>_getCreateEventData() <span class="returns">Returns: <a class="return" href="http://api.jquery.com/Types/#Object">Object</a></span>
+<h3>_getCreateEventData()<span class="returns">Returns: <a href="http://api.jquery.com/Types#Object">Object</a></span>
 </h3>
 <div>
 					All widgets trigger the <a href="#event-create"><code>create</code></a> event. By default, no data is provided in the event, but this method can return an object which will be passed as the <code>create</code> event's data.
@@ -276,7 +524,7 @@
 <ul><li><div class="null-signature">This method does not accept any arguments.</div></li></ul>
 </div></div>
 <div id="method-_getCreateOptions"><div class="api-item">
-<h3>_getCreateOptions() <span class="returns">Returns: <a class="return" href="http://api.jquery.com/Types/#Object">Object</a></span>
+<h3>_getCreateOptions()<span class="returns">Returns: <a href="http://api.jquery.com/Types#Object">Object</a></span>
 </h3>
 <div>
 					This method allows the widget to define a custom method for defining options during instantiation. This user-provided options override the options returned by this method which override the default options.
@@ -304,7 +552,7 @@
 </li>
 <li>
 <div><strong>callback</strong></div>
-<div>Type: <a href="http://api.jquery.com/Types/#Function">Function</a>()</div>
+<div>Type: <a href="http://api.jquery.com/Types#Function">Function</a>()</div>
 <div>Callback to invoke after the element has been fully hidden.</div>
 </li>
 </ul>
@@ -434,7 +682,7 @@
 </li>
 <li>
 <div><strong>callback</strong></div>
-<div>Type: <a href="http://api.jquery.com/Types/#Function">Function</a>()</div>
+<div>Type: <a href="http://api.jquery.com/Types#Function">Function</a>()</div>
 <div>Callback to invoke after the element has been fully shown.</div>
 </li>
 </ul>
@@ -510,7 +758,7 @@
 </div></div>
 <div id="method-option">
 <div class="api-item">
-<h3>option( optionName ) <span class="returns">Returns: <a class="return" href="http://api.jquery.com/Types/#Object">Object</a></span>
+<h3>option( optionName )<span class="returns">Returns: <a href="http://api.jquery.com/Types#Object">Object</a></span>
 </h3>
 <div>Gets the value currently associated with the specified <code>optionName</code>.</div>
 <ul><li>
@@ -519,20 +767,52 @@
 </div>
 <div>The name of the option to get.</div>
 </li></ul>
-</div>
 <div>
 <strong>Code examples:</strong><p>Invoke the  method:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="keyword">var</code> <code class="plain">isDisabled = $( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"disabled"</code> <code class="plain">);</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code><span class="keyword">var</span> isDisabled = $( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"disabled"</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</div>
 </div>
 <div class="api-item">
-<h3>option() <span class="returns">Returns: <a class="return" href="http://api.jquery.com/Types/#PlainObject">PlainObject</a></span>
+<h3>option()<span class="returns">Returns: <a href="http://api.jquery.com/Types#PlainObject">PlainObject</a></span>
 </h3>
 <div>Gets an object containing key/value pairs representing the current jQuery.Widget options hash.</div>
 <ul><li><div class="null-signature">This method does not accept any arguments.</div></li></ul>
-</div>
 <div>
 <strong>Code examples:</strong><p>Invoke the  method:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="keyword">var</code> <code class="plain">options = $( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code> <code class="plain">);</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code><span class="keyword">var</span> options = $( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</div>
 </div>
 <div class="api-item">
 <h3>option( optionName, value )</h3>
@@ -551,10 +831,26 @@
 <div>A value to set for the option.</div>
 </li>
 </ul>
-</div>
 <div>
 <strong>Code examples:</strong><p>Invoke the  method:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, </code><code class="string">"disabled"</code><code class="plain">, </code><code class="keyword">true</code> <code class="plain">);</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, <span class="string">"disabled"</span>, <span class="literal">true</span> );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</div>
 </div>
 <div class="api-item">
 <h3>option( options )</h3>
@@ -565,14 +861,30 @@
 </div>
 <div>A map of option-value pairs to set.</div>
 </li></ul>
-</div>
 <div>
 <strong>Code examples:</strong><p>Invoke the  method:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget( </code><code class="string">"option"</code><code class="plain">, { disabled: </code><code class="keyword">true</code> <code class="plain">} );</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget( <span class="string">"option"</span>, { disabled: <span class="literal">true</span> } );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</div>
 </div>
 </div>
 <div id="method-widget"><div class="api-item">
-<h3>widget() <span class="returns">Returns: <a class="return" href="http://api.jquery.com/Types/#jQuery">jQuery</a></span>
+<h3>widget()<span class="returns">Returns: <a href="http://api.jquery.com/Types#jQuery">jQuery</a></span>
 </h3>
 <div>
 		Returns a <code>jQuery</code> object containing the original element or other relevant generated element.
@@ -600,9 +912,45 @@
 </ul>
 <div>
 <strong>Code examples:</strong><p>Initialize the jQuery.Widget with the create callback specified:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).jQuery.Widget({</code></div><div class="line number2 index1 alt1"><code class="undefined spaces">&nbsp;&nbsp;&nbsp;&nbsp;</code><code class="plain">create: </code><code class="keyword">function</code><code class="plain">( event, ui ) {}</code></div><div class="line number3 index2 alt2"><code class="plain">});</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+						<div class="line n2">2</div>
+					
+						<div class="line n3">3</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).jQuery.Widget({</code></div></div><div class="container"><div class="line"><code>  create: <span class="keyword">function</span>( event, ui ) {}</code></div></div><div class="container"><div class="line"><code>});</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <p>Bind an event listener to the jQuery.Widgetcreate event:</p>
-<div class="syntaxhighlighter nogutter  "><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="plain">$( </code><code class="string">".selector"</code> <code class="plain">).on( </code><code class="string">"jQuery.Widgetcreate"</code><code class="plain">, </code><code class="keyword">function</code><code class="plain">( event, ui ) {} );</code></div></div></td></tr></tbody></table></div>
+<div class="syntaxhighlighter javascript nogutter">
+	<table>
+		<tbody>
+			<tr>
+				<td class="gutter">
+					
+						<div class="line n1">1</div>
+					
+				</td>
+				<td class="code">
+					<pre><div class="container"><div class="line"><code>$( <span class="string">".selector"</span> ).on( <span class="string">"jQuery.Widgetcreate"</span>, <span class="keyword">function</span>( event, ui ) {} );</code></div></div></pre>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 </div>
 </div></section>
 </div></article>
