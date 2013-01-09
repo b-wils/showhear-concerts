@@ -29,6 +29,48 @@ window.onload = function () {
 
 };
 
+// IE workaround
+function JSONQuery(url, callback) {
+   if ($.browser.msie && window.XDomainRequest) {
+
+        // alert('ie');    
+        // var url =  "http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json";
+
+        // Use Microsoft XDR
+        var xdr = new XDomainRequest();
+        xdr.open("get", url);
+
+    xdr.onerror = function () {
+        console.log('we have an error!');
+    }
+    xdr.onprogress = function () {
+        // console.log('this sucks!');
+    };
+    xdr.ontimeout = function () {
+        console.log('it timed out!');
+    };
+    xdr.onopen = function () {
+        console.log('we open the xdomainrequest');
+    };
+        xdr.onload = function() {
+            // XDomainRequest doesn't provide responseXml, so if you need it:
+            var dom = new ActiveXObject("Microsoft.XMLDOM");
+            dom.async = true;
+            dom.loadXML(xdr.responseText);
+            // alert(xdr.responseText);
+
+            callback(jQuery.parseJSON( xdr.responseText ));
+            // alert(data.feed.entry[0].media$group.media$content[0].url);
+            // alert("ie");
+        };
+
+        xdr.send();
+        
+    } else {
+        $.getJSON(url, callback);
+    }
+};
+
 document.onclick = function () {
     // Only works once?
     //alert('anywhere click');
@@ -53,6 +95,11 @@ $(document).ready(function () {
     //     showOtherMonths: true,
     //     selectOtherMonths: true
     // });
+
+jQuery.support.cors = true; 
+
+// JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
+//         function(data) {alert("success! " + data.feed.entry[0].media$group.media$content[0].url)});
 
     $( "#from" ).datepicker({
         numberOfMonths: 1,
@@ -345,9 +392,9 @@ function selectPlaying(myDiv, autoStart) {
 
     //alert(artistName);
 
-    $.getJSON("https://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
+    JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
     function (data) {
-
+        // alert("ytquery");
         if (data.feed.entry) {
 
             for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
@@ -408,7 +455,7 @@ function addLastFMInfo(artistName, targetElement) {
         // }
 
         // lfm_artistCache[artistNode.artist.name] = data;
-
+        if (artistNode.artist.tags) {
         if (artistNode.artist.tags.tag) {
             text = " (";
 
@@ -486,6 +533,7 @@ function addLastFMInfo(artistName, targetElement) {
         targetElement.appendChild(mylastFMLink);
 
         targetElement.parent;
+        }
 
         // lastfmLink.href = artistNode.artist.url;
 
@@ -587,13 +635,13 @@ function addArtistDivElement(targetNode, sk_artistNode) {
     } else {
 
         if (sk_artistNode.artist.identifier.length > 0) {
-            $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&mbid=" + sk_artistNode.artist.identifier[0].mbid + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+            JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&mbid=" + sk_artistNode.artist.identifier[0].mbid + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
                 addLastFMInfoCallbackByMBID(artistName, artistGenreNode)
             );
         } else {
             // TODO we can query by musicbrainz id instead of searching by artist name. this could give slightly better results but we will still
             // likely need the fallback
-            $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+            JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
                 addLastFMInfoCallback(artistName, artistGenreNode)
             );
         }
@@ -939,7 +987,7 @@ function playlistChange() {
 
     //var artistName = playlist.options[playlist.selectedIndex].value;
 
-    $.getJSON("https://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
+    JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
     function (data) {
 
         if (data.feed.entry) {
@@ -992,7 +1040,7 @@ function populateArtistInfo(artistName) {
 function populateLastFMInfo(artistName) {
     $("#lastFMInfo").html("before query");
     // TODO .getJSON looks bugged in IE9
-    $.getJSON("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+    JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
     function (data) {
         $("#lastFMInfo").html("after query");
         var text = "";
