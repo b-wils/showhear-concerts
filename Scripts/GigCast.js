@@ -132,10 +132,26 @@ jQuery.support.cors = true;
         autoOpen: false,
         // show: "blind",
         // hide: "explode",
+        open: function(event, ui) { 
+            $('#locationChange').unbind('click');
+            $( "#locationChange" ).click(function() {
+                $( "#dialog" ).dialog( "close" );
+                return false;
+            });
+        },
+
+        close: function(event, ui) { 
+            $('#locationChange').unbind('click');
+            $( "#locationChange" ).click(function() {
+                $( "#dialog" ).dialog( "open" );
+                return false;
+            });
+        },
+
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "right top", at: "right bottom", of:"#locationChange" },
+        position: { my: "left top", at: "left bottom", of:"#locationChange" },
         buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
     });
 
@@ -158,10 +174,27 @@ jQuery.support.cors = true;
         autoOpen: false,
         // show: "blind",
         // hide: "explode",
+
+        open: function(event, ui) { 
+            $('#genreChange').unbind('click');
+            $( "#genreChange" ).click(function() {
+                $( "#genreFilterDialog" ).dialog( "close" );
+                return false;
+            });
+        },
+
+        close: function(event, ui) { 
+            $('#genreChange').unbind('click');
+            $( "#genreChange" ).click(function() {
+                $( "#genreFilterDialog" ).dialog( "open" );
+                return false;
+            });
+        },
+
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "right top", at: "right bottom", of:"#genreFilter" },//clearGenreFilter
+        position: { my: "left top", at: "left bottom", of:"#genreChange" },//clearGenreFilter
         buttons: [ { text: "Clear", click: function() { clearGenreFilter(); } }, { text: "Filter", click: function() { updateGenreFilter(); } }]
     });
 
@@ -224,7 +257,7 @@ function setPreloadEvent() {
 
 // 2. This code loads the IFrame Player API code asynchronously.
 var tag = document.createElement('script');
-tag.src = "//www.youtube.com/iframe_api";
+tag.src = "//www.youtube.com/iframe_api?wmode=opaque";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -235,7 +268,7 @@ var playerLoaded = false;
 var initialVideoUrl;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
-        // wmode: 'transparent',
+        wmode: 'opaque',
         height: '390',
         width: '640',
         events: {
