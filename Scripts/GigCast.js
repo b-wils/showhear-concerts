@@ -132,22 +132,6 @@ jQuery.support.cors = true;
         autoOpen: false,
         // show: "blind",
         // hide: "explode",
-        open: function(event, ui) { 
-            $('#locationChange').unbind('click');
-            $( "#locationChange" ).click(function() {
-                $( "#dialog" ).dialog( "close" );
-                return false;
-            });
-        },
-
-        close: function(event, ui) { 
-            $('#locationChange').unbind('click');
-            $( "#locationChange" ).click(function() {
-                $( "#dialog" ).dialog( "open" );
-                return false;
-            });
-        },
-
         closeOnEscape: true,
         draggable: false,
         resizable: false,
@@ -160,7 +144,7 @@ jQuery.support.cors = true;
     });
 
     $( "#locationChange" ).click(function() {
-        $( "#dialog" ).dialog( "open" );
+        ($("#dialog").dialog("isOpen") == false) ? $("#dialog").dialog("open") : $("#dialog").dialog("close") ;
         return false;
     });
 
@@ -174,23 +158,6 @@ jQuery.support.cors = true;
         autoOpen: false,
         // show: "blind",
         // hide: "explode",
-
-        open: function(event, ui) { 
-            $('#genreChange').unbind('click');
-            $( "#genreChange" ).click(function() {
-                $( "#genreFilterDialog" ).dialog( "close" );
-                return false;
-            });
-        },
-
-        close: function(event, ui) { 
-            $('#genreChange').unbind('click');
-            $( "#genreChange" ).click(function() {
-                $( "#genreFilterDialog" ).dialog( "open" );
-                return false;
-            });
-        },
-
         closeOnEscape: true,
         draggable: false,
         resizable: false,
@@ -203,7 +170,7 @@ jQuery.support.cors = true;
     });
 
     $( "#genreChange" ).click(function() {
-        $( "#genreFilterDialog" ).dialog( "open" );
+        ($("#genreFilterDialog").dialog("isOpen") == false) ? $("#genreFilterDialog").dialog("open") : $("#genreFilterDialog").dialog("close") ;
         return false;
     });
 
@@ -232,6 +199,12 @@ jQuery.support.cors = true;
 //             alert('test response: ' + data.testvar);
 //         });
 
+// $( "#testbutton" ).button({
+//       icons: {
+//         primary: "ui-icon-circle-triangle-s"
+//       },
+//       text: false
+//     })
 
 });
 

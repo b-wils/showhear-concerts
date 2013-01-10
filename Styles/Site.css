@@ -7,14 +7,18 @@
 
 body   
 {
-    background: #b6b7bc;
+    background-color: #a7cde9;
     font-size: .80em;
     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
-    color: #696969;
+    /*color: #696969;*/
 }
 
+/*body,html{
+  height:100%;
+}
+*/
 a:link, a:visited
 {
     color: #034af3;
@@ -118,17 +122,26 @@ first child of the left and right table columns */
     font-size: 2em;
 }
 
-.main
+.divborder {
+    border:1px solid #aaa;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+#main
 {
-    padding: 0px 12px;
+    padding: 12px;
+    margin:20px;
     /*margin: 12px 8px 8px 8px;*/
-    min-height: 620px;
-    min-width: 800px;
+    /*min-height: 620px;*/
+    /*min-width: 800px;*/
     width: 1000px;
+    height:470px;
+    /*height:600px;*/
     margin-left: auto ;
     margin-right: auto ;
     align: center;
-    background: white;
+    background-color: #4a4a4a ;
 }
 
 .footer
@@ -150,8 +163,28 @@ first child of the left and right table columns */
     height: 100px;
 }
 
+.iconbutton
+{
+    font-size: .6em !important;
+}
+
 /* PLAYER SCREEN  
 ----------------------------------------------------------*/
+
+/*div.item*/ hr {display: block; clear: left; margin: -0.66em 0;
+  /*visibility: hidden;*/}
+
+.floateditem {
+
+}
+
+.filterContainer
+{
+    float: left;
+    width: auto;
+    border:1px solid #aaa;
+    background-color:white;
+}
 
 #playerContainer
 {
@@ -160,31 +193,86 @@ first child of the left and right table columns */
     margin:10px;
 }
 
+#playerContainer2
+{
+    /*float: left;*/
+/*    width: 650px;
+    height:400px;*/
+}
+
 #playerScreen
 {
     clear: left;
     float: left;
     width: 640px;
-    padding: 0px 0;
+    padding: 10px;
     margin: 10px;
     display: inline;
+    background-color:white;
 }
 
-#sidebar
+.testme
 {
     float: left;
-    width: 15%;
-    padding: 20px 0;
-    margin: 25px;
-    /*display: inline;*/
+    clear: both;
+    width:100%;
+border:1px solid #aaa;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+background-color: green;
+overflow:auto;
 }
 
-#button_container {
-    /*float:left;*/
+.test2
+{
+    /*overflow:auto;*/
+    background-color: white;
+    width:400px;
+    margin:30px;
+border:2px solid #aaa;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+/*display: block;*/
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.footerImage
+{
+    margin:6px;
+}
+
+.sidebar
+{
+ /*   float: left;
+    clear: left;*/
+/*    width: 250px;
+    padding: 20px 0;
+    margin: 15px;*/
+    /*min-height: 500px;*/
+    height:100%;
+    overflow:auto;
+    /*background-color: red;*/
+    /*margin:1%;*/
+/*            border:1px solid #aaa;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;*/
+            /*display: inline;*/
+}
+
+.button_container {
+      float:left;
     height:350px;
-    width:295px;
+    /*height:auto;*/
+    /*width:295px;*/
+    width:95%;
     /*text-align: center;*/
     overflow: auto;
+            border:2px solid #aaa;
+            -moz-border-radius:1px;
+            -webkit-border-radius:1px;
+    background-color:white;
 }
 
 /* FROM MEDIA PLAYLIST DEMO
@@ -223,10 +311,10 @@ first child of the left and right table columns */
 
         .media_item{
             padding:4px;
-            border:1px solid #aaa;
-            background-color:#ccc;
-            width:260px;
+            /*background-color:#ccc;*/
+            width:95%;
             margin:4px 0px 0px 4px;
+            border:1px solid #aaa;
             -moz-border-radius:5px;
             -webkit-border-radius:5px;
 

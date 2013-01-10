@@ -25,10 +25,11 @@
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
 </div>
 
-<div class="main">
-    <div id="playerContainer2">
-        <div id="playerScreen"> 
-            
+<div id="main">
+    <!-- <div id="playerContainer2" class="ui-widget-content"> -->
+        <!-- pc2starton my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st -->
+
+        <div id="playerScreen" class="divborder"> 
             <div id="player"></div>
             
             <br />
@@ -44,6 +45,7 @@
             &nbsp;
             <!--     <input type="button" onclick="testClick()" value="TestButton"/>
             &nbsp; -->
+            <!-- <hr> -->
             </div> <!-- bottomButtons -->
 <!--             <b>Last.FM info:</b>
             <div id="lastFMInfo"> Test Info</div>
@@ -53,42 +55,54 @@
             <br /> -->
 <!--         <div class="footer22">
             Inside player container
-        </div> -->
+            </div> -->
         &nbsp;&nbsp;&nbsp;
-
+        <!-- <hr> -->
         </div> <!-- playerScreen -->
-    </div> <!-- playerContainer -->
-    <div id="sideBar">
+        <!-- <hr> -->
+    <!-- </div> playerContainer -->
+    <div class="sidebar">
 <!--             Quickplay: <input type="button" onclick="quickplayClick()" value="On" />
             <br />
             Headliners Only: <input id="headlinersButton" type="button" onclick="headlinersClick()" value="Off" />
             <br /> -->
-            <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
-            <div style="display: inline-block" class="ui-state-default">
-                <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span> 
-            </div>
-            </span>
-            <br />
+            <div class="filterContainer">
 
-            <label for="from">From</label>
-            <input type="text" id="from" name="from" style="width: 80px;"/>
-            <label for="to">to</label>
-            <input type="text" id="to" name="to" style="width: 80px;"/>
-            <br/>
+                <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
+                <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
+                <div style="display: inline-block" class="ui-state-default">
+                    <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span> 
+                </div>
+                </span>
+                <br />
 
-            <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
-            <div style="display: inline-block" class="ui-state-default">
-                <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+                <label for="from">From</label>
+                <input type="text" id="from" name="from" style="width: 80px;"/>
+                <label for="to">to</label>
+                <input type="text" id="to" name="to" style="width: 80px;"/>
+                <br/>
+
+                <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
+                <div style="display: inline-block" class="ui-state-default">
+                    <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+                </div>
+                </span>
+    <!--             <input type="text" size="12" id="StartDateText"/> -
+                <input type="text" size="12" id="EndDateText"/> -->
+                <input type="button" onclick="updateClick()" value="Update" />
             </div>
-            </span>
-<!--             <input type="text" size="12" id="StartDateText"/> -
-            <input type="text" size="12" id="EndDateText"/> -->
-            <input type="button" onclick="updateClick()" value="Update" />
             <br />
-        <div class ="button_container" id="button_container"/>
+        <div class ="button_container"/>
     </div> <!-- sidebar -->
-    
+    <!-- <hr> -->
 </div> <!-- main -->
+<div class="test2"> 
+<b> Powered By: </b>
+<br/>
+<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif"/ class="footerImage"> </a>
+<a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png"/ class="footerImage"> </a>
+</div>  
+
 <!-- <div class="footer2">
     OUtside player container
 </div> -->
