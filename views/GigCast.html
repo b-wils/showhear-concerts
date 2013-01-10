@@ -27,20 +27,34 @@
             <span class="artist_genre">
             </span>
             <a target="_blank" href=${artistURI}>
-                <img src="/images/sk_white_pink_icon.png" class="songkick_icon" height="17" width="17" align="right"/>
+                <img src="/images/sk_white_pink_icon.png" class="songkick_icon" height="17" width="17">
             </a>
         </div>
     </script>
 
-    <script id="artist_genre_info" type="text/x-jquery-tmpl">
-        <span class="artistGenreTags"/>
-        <a target="_blank" href=${lastfmURI}>
+    <script id="artist_lastfm_link" type="text/x-jquery-tmpl">
+        <a target="_blank" href=${lastfmURI}>   
             <img src="/images/lastfm_red_17px.png" class="lastfm_icon"/>
         </a>
     </script>
 
     <script id="artist_genre_tag" type="text/x-jquery-tmpl">
-        <span class="genreTag">{genreName}</span>
+        <span class="genreTag">${genreName}</span>
+    </script>
+
+    <script id="event_item" type="text/x-jquery-tmpl">
+        <div class="media_item">
+            <div class="event_artist_list"/>
+            <div>
+                ${date} @ ${venue}<a target="_blank" href=${eventPermalink}>
+                <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
+                    <span class="ui-icon ui-icon-link"></span>
+                </div>
+                <a target="_blank" href=${skEventURI}>
+                    <img src="/images/sk_white_pink_icon.png" class="songkick_icon" height="17" width="17">
+                </a>
+            </div>
+        </div>
     </script>
 
 </head>
@@ -130,7 +144,7 @@
 <div class="test2"> 
 <b> Powered By: </b>
 <br/>
-<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" class="footerImage"/> </a>
+<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" class="footerImage" border="0"/> </a>
 <a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" class="footerImage"/> </a>
 </div>  
 

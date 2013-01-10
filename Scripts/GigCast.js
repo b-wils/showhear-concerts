@@ -442,7 +442,6 @@ var MAX_GENRE_TAGS = 2;
 // cache all the lastFM genre info client side so we aren't constantly querying when updating the filters
 // TODO also check this when initially populating the list
 
-var lfm_artistGenreMap = [];
 var lfm_artistCache = [];
 
 // assumes this has already been cached
@@ -463,12 +462,10 @@ function addLastFMInfo(artistName, targetElement) {
         // lfm_artistCache[artistNode.artist.name] = data;
         if (artistNode.artist.tags) {
             if (artistNode.artist.tags.tag) {
-                text = " (";
-
-                var genres = [];
+                // var genres = [];
                 // TODO we should index with original search into the query instead of result returned from last.fm
                 // TODO should we just cache the entire lastfm result instead of building our own mapping?
-                lfm_artistGenreMap[artistNode.artist.name] = genres;
+                // lfm_artistGenreMap[artistNode.artist.name] = genres;
 
                 // Inconsistency in lastfm data format, a single tag will not be nested in an array. lets just add it here
                 // if (artistNode.artist.tags.tag.name) {
@@ -482,13 +479,13 @@ function addLastFMInfo(artistName, targetElement) {
                     for (var i = 0; (i < artistNode.artist.tags.tag.length); i++) {
 
                         if (i < MAX_GENRE_TAGS) {
+                            var genresList = [
+                            {genreName: artistNode.artist.tags.tag[i].name}
+                            ];
 
-                            var genreSpan = document.createElement('span');
-                            genreSpan.className = "genreTag";
-                            genreSpan.innerHTML = artistNode.artist.tags.tag[i].name;
-                            // genreSpan.setAttribute('onclick', 'artistDivClick(this.parentNode)');
-                            targetElement.appendChild(genreSpan);
-
+                            // TODO we could do this for all tags at once if we build the array first
+                            var myGenreTmpl = $('#artist_genre_tag').tmpl(genresList);
+                            myGenreTmpl.appendTo(targetElement);
                         }
 
                         if ($.cookie('genreFilter')) {
@@ -503,12 +500,13 @@ function addLastFMInfo(artistName, targetElement) {
                         }
                     }
                 } else {
-                    // single tag
-                    var genreSpan = document.createElement('span');
-                    genreSpan.className = "genreTag";
-                    genreSpan.innerHTML = artistNode.artist.tags.tag.name;
-                    // genreSpan.setAttribute('onclick', 'artistDivClick(this.parentNode)');
-                    targetElement.appendChild(genreSpan);
+                    var genresList = [
+                        {genreName: artistNode.artist.tags.tag.name}
+                    ];
+
+                    // TODO we could do this for all tags at once if we build the array first
+                    var myGenreTmpl = $('#artist_genre_tag').tmpl(genresList);
+                    myGenreTmpl.appendTo(targetElement);
 
                     if ($.cookie('genreFilter')) {
                         if (artistNode.artist.tags.tag.name == $.cookie('genreFilter')) {
@@ -521,7 +519,6 @@ function addLastFMInfo(artistName, targetElement) {
                         }
                     }
                 }
-                text += ")";
 
                 // targetElement.innerHTML = text;
             } else {
@@ -529,16 +526,22 @@ function addLastFMInfo(artistName, targetElement) {
                 targetElement.innerHTML = "";
             }
 
-            var mylastFMLink = document.createElement('a');
-            mylastFMLink.href = artistNode.artist.url;
-            mylastFMLink.target = "_blank";
-            var lastFMIcon = document.createElement('img');
-            lastFMIcon.className = 'lastfm_icon';
-            lastFMIcon.src = "/images/lastfm_red_17px.png";
-            mylastFMLink.appendChild(lastFMIcon);
-            targetElement.appendChild(mylastFMLink);
+                    var linkInfo = [
+                        {lastfmURI: artistNode.artist.url}
+                    ];
 
-            targetElement.parent;
+                    // TODO we could do this for all tags at once if we build the array first
+                    var myLinkTmpl = $('#artist_lastfm_link').tmpl(linkInfo);
+                    myLinkTmpl.appendTo(targetElement);
+
+            // var mylastFMLink = document.createElement('a');
+            // mylastFMLink.href = artistNode.artist.url;
+            // mylastFMLink.target = "_blank";
+            // var lastFMIcon = document.createElement('img');
+            // lastFMIcon.className = 'lastfm_icon';
+            // lastFMIcon.src = "/images/lastfm_red_17px.png";
+            // mylastFMLink.appendChild(lastFMIcon);
+            // targetElement.appendChild(mylastFMLink);
         } else {
         // genreSpan.innerHTML = " (no artist info)";
         // TODO remove lastfm link
@@ -635,64 +638,33 @@ function addEventDivElement(sk_eventNode, targetNode) {
         return;
     }
 
-    var eventNode = document.createElement('div');
-    eventNode.className = "media_item";
+    var eventInfo = [
+    {   date: sk_eventNode.start.date,
+        venue: sk_eventNode.venue.displayName,
+        eventPermalink:"?skEventId=" + sk_eventNode.id,
+        skEventURI: sk_eventNode.uri }
+    ];
+
+    var myEventTmpl = $('#event_item').tmpl(eventInfo);
+
+    myEventTmpl.appendTo(targetNode)
 
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
-        addArtistDivElement(eventNode, sk_eventNode.performance[j]);
+        addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j]);
     }
 
-    var detailsNode = document.createElement('div');
-    detailsNode.innerHTML = sk_eventNode.start.date + " @ " + sk_eventNode.venue.displayName;
-
-
-var pathArray = window.location.pathname.split( '/' );
-var host = pathArray[2];
-
-    // add event permalink
-    var eventLinkHref = document.createElement('a');
-    eventLinkHref.href = "?skEventId=" + sk_eventNode.id;
-    eventLinkHref.target = "_blank";
-
-    var eventLinkDiv = document.createElement('div');
-    eventLinkDiv.style.cssText = "display:inline-block";
-    eventLinkDiv.className = "ui-state-default";
-    eventLinkDiv.setAttribute('onclick', 'artistDivClick(this.parentNode)');
-
-    var eventLinkIcon = document.createElement('span');
-    eventLinkIcon.className = "ui-icon ui-icon-link";
-    // artistNameNode.innerHTML = artistName;
-
-    eventLinkDiv.appendChild(eventLinkIcon);
-    eventLinkHref.appendChild(eventLinkDiv);
-    detailsNode.appendChild(eventLinkHref);
-
-
-    // add songkick link
-    var songkickLink = document.createElement('a');
-    songkickLink.href = sk_eventNode.uri;
-    songkickLink.target = "_blank";
-
-    var songkickIcon = document.createElement('img');
-    songkickIcon.className = 'songkick_icon';
-    songkickIcon.height = '17';
-    songkickIcon.width = '17';
-    songkickIcon.src = "/images/sk_white_pink_icon.png";
-    songkickLink.appendChild(songkickIcon);
-    detailsNode.appendChild(songkickLink);
-
-    eventNode.appendChild(detailsNode);
 
     // root item
     // $(".button_container").get(0).appendChild(eventNode);
-    targetNode.appendChild(eventNode);
+    // targetNode.appendChild(eventNode);
 
     // TODO this assumes that the event is within the users area and default date range
     // we should check the event info first and then build our initial SK query based on that
     if (preLoadEventSKID) {
         if(sk_eventNode.id == preLoadEventSKID) {
+            alert("found our event" + myEventTmpl.find(".artist_item").get(0) );
             // alert($(eventNode).children(".artist_item").get(0).innerHTML);
-            selectPlaying($(eventNode).children(".artist_item").get(0), false);
+            selectPlaying(myEventTmpl.find(".artist_item").get(0), false);
             // selectPlaying()
         }
     }
