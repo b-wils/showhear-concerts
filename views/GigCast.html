@@ -12,6 +12,37 @@
     <script type="text/javascript" src="Scripts/GigCast.js"></script>
     <script type="text/javascript" src="jquerycookie/jquery.cookie.js"></script>
     <link href="jquery-ui-1.9.2.custom/css/overcast/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
+ 
+    <script id="book_template" type="text/x-jquery-tmpl">
+        <li>${name} (${year})</li>
+    </script>
+
+    <script id="artist_item_template" type="text/x-jquery-tmpl">
+        <div class="artist_item">
+            <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
+                <span class="ui-icon ui-icon-play"></span>
+            </div>
+            <span onclick="artistDivClick(this.parentNode)" class="artist_name">${artistName}</span>
+            <span class="artist_genre">
+            </span>
+            <a target="_blank" href=${artistURI}>
+                <img src="/images/sk_white_pink_icon.png" class="songkick_icon" height="17" width="17" align="right"/>
+            </a>
+        </div>
+    </script>
+
+    <script id="artist_genre_info" type="text/x-jquery-tmpl">
+        <span class="artistGenreTags"/>
+        <a target="_blank" href=${lastfmURI}>
+            <img src="/images/lastfm_red_17px.png" class="lastfm_icon"/>
+        </a>
+    </script>
+
+    <script id="artist_genre_tag" type="text/x-jquery-tmpl">
+        <span class="genreTag">{genreName}</span>
+    </script>
+
 </head>
 <body>
 
@@ -99,8 +130,8 @@
 <div class="test2"> 
 <b> Powered By: </b>
 <br/>
-<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif"/ class="footerImage"> </a>
-<a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png"/ class="footerImage"> </a>
+<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" class="footerImage"/> </a>
+<a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" class="footerImage"/> </a>
 </div>  
 
 <!-- <div class="footer2">
