@@ -333,7 +333,8 @@ function updateClick() {
 // alert("date: " + $.datepicker.formatDate('yy', $( "#to" ).datepicker( "getDate" )));
 
     //$("#playlistNav").empty();
-    $("#button_container").empty();
+    $(".button_container").empty();
+    preLoadEventSKID = null;
     totalArtists = 0;
     shownArtists = 0;
     artistIndex = 0;
@@ -366,7 +367,7 @@ function divScrollTo(element)
 }
 
 function selectPlaying(myDiv, autoStart) {
-    eventIndex = $(".media_item").index(myDiv.parentNode);
+    eventIndex = $(".media_item").index(myDiv.parentNode.parentNode);
 
     artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
 
@@ -424,8 +425,8 @@ function selectPlaying(myDiv, autoStart) {
         }
     });
 
-    populateArtistInfo(artistName);
-    populateLastFMInfo(artistName);
+    // populateArtistInfo(artistName);
+    // populateLastFMInfo(artistName);
 }
 
 function artistDivClick(myDiv) {
@@ -662,7 +663,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     // we should check the event info first and then build our initial SK query based on that
     if (preLoadEventSKID) {
         if(sk_eventNode.id == preLoadEventSKID) {
-            alert("found our event" + myEventTmpl.find(".artist_item").get(0) );
+            // alert("found our event" + myEventTmpl.find(".artist_item").get(0).innerHTML );
             // alert($(eventNode).children(".artist_item").get(0).innerHTML);
             selectPlaying(myEventTmpl.find(".artist_item").get(0), false);
             // selectPlaying()
@@ -745,7 +746,9 @@ function getSongkickEventPage(pageNumber) {
 
         if (pageNumber == 1) {
             // TODO this should be cued and done in a better location and shouild only cue the video
-            selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
+            if (!preLoadEventSKID) {
+                selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
+            }
         }
 
         // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
@@ -916,13 +919,13 @@ function nextVideo() {
 
     artistIndex++;
 
-    if (artistIndex >= $(".media_item:eq(" + eventIndex + ") .artist_item").length) {
+    if (artistIndex >= $(".media_item:eq(" + eventIndex + ") .event_artist_list .artist_item").length) {
         //alert("name over")
         artistIndex = 0;
         eventIndex ++;
     }
 
-    selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex), true);
+    selectPlaying($(".media_item:eq(" + eventIndex + ") .event_artist_list .artist_item").get(artistIndex), true);
 
 }
 
@@ -952,8 +955,8 @@ function playlistChange() {
         }
     });
 
-    populateArtistInfo(artistName);
-    populateLastFMInfo(artistName);
+    // populateArtistInfo(artistName);
+    // populateLastFMInfo(artistName);
 }
 
 function populateArtistInfo(artistName) {
