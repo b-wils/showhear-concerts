@@ -285,29 +285,50 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
+function updateLocationCallback(data) {
+    if (data.resultsPage.totalEntries > 0) {
+        // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
+        $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName + " Area");
+        //document.cookie
+        $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
+        $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
+        updateClick();
+    } else {
+        alert("Could not find location: " + $("#updLocationTxt").val());
+    }
+}
+
 function updateLocation() {
 
     // alert($("#updLocationTxt").val());
     var updateString = $("#updLocationTxt").val();
 
     if (updateString) {
-
-
-
-        $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?query="+$("#updLocationTxt").val() +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
-        function (data) {
-
-            if (data.resultsPage.totalEntries > 0) {
-                // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
-                $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName + " Area");
-                //document.cookie
-                $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
-                $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
-                updateClick();
-            } else {
-                alert("Could not find location: " + $("#updLocationTxt").val());
-            }
-        });
+        var searchQuery;
+        if (isNumeric(updateString)) {
+            // TODO should we filter all search requests through google first?
+            JSONQuery("http://maps.googleapis.com/maps/api/geocode/json?address="+updateString+"&sensor=false",
+                function (data) {
+                    if (data.status == "OK")
+                    {
+                        var myLocation = data.results[0].geometry.location;
+                        searchQuery = "location=geo:"+myLocation.lat+","+myLocation.lng;
+                        $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?"+searchQuery+"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+                        function (data) {
+                            updateLocationCallback(data);
+                        });
+                    } else {
+                        alert("Could not locate " + updateString);
+                    }
+                });
+            // return;
+        } else {
+            searchQuery = "query="+$("#updLocationTxt").val();
+            $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?"+ searchQuery+"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+            function (data) {
+                updateLocationCallback(data);
+            });
+        }
     }
 
     $( "#dialog" ).dialog( "close" );
