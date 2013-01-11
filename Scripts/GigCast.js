@@ -87,6 +87,8 @@ $(document).ready(function () {
     //     selectOtherMonths: true
     // });
 
+  // nonexistfunction();
+
 jQuery.support.cors = true; 
 
 // JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
@@ -99,7 +101,10 @@ jQuery.support.cors = true;
         dateFormat: "M-dd-yy",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
-        }
+        },
+        // onSelect: function(dateText) {
+        //     updateClick();
+        // }
     });
 
     $( "#from" ).datepicker( "setDate", "now" );
@@ -111,6 +116,9 @@ jQuery.support.cors = true;
         dateFormat: "M-dd-yy",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        },
+        onSelect: function(dateText) {
+            updateClick();
         }
     });
     $( "#to" ).datepicker( "setDate", "+1w" );
@@ -288,8 +296,9 @@ function updateLocation() {
                 //document.cookie
                 $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
                 $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
+                updateClick();
             } else {
-                console.log("Could not find location")
+                alert("Could not find location: " + $("#updLocationTxt").val());
             }
         });
     }
@@ -325,6 +334,7 @@ function updateClick() {
 
     //$("#playlistNav").empty();
     $(".button_container").empty();
+    $(".button_container").html("Loading...")
     preLoadEventSKID = null;
     totalArtists = 0;
     shownArtists = 0;
@@ -694,6 +704,7 @@ function getSongkickEventPage(pageNumber) {
         }
 
         if (pageNumber == 1) {
+            $(".button_container").empty();
 
             var totalPages = data.resultsPage.totalEntries / data.resultsPage.perPage;
 
