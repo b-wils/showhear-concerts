@@ -367,6 +367,7 @@ function divScrollTo(element)
 }
 
 function selectPlaying(myDiv, autoStart) {
+    console.log(myDiv.innerHTML);
     eventIndex = $(".media_item").index(myDiv.parentNode.parentNode);
 
     artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
@@ -593,7 +594,7 @@ var addLastFMInfoCallback = function(searchString, targetELement) {
 };
 
 var numGenreAdd = 0;
-
+// dummy comment is this working?
 function addArtistDivElement(targetNode, sk_artistNode) {
     var artistName = sk_artistNode.displayName;
 
@@ -648,12 +649,9 @@ function addEventDivElement(sk_eventNode, targetNode) {
 
     var myEventTmpl = $('#event_item').tmpl(eventInfo);
 
-    myEventTmpl.appendTo(targetNode)
-
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
         addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j]);
     }
-
 
     // root item
     // $(".button_container").get(0).appendChild(eventNode);
@@ -661,9 +659,10 @@ function addEventDivElement(sk_eventNode, targetNode) {
 
     // TODO this assumes that the event is within the users area and default date range
     // we should check the event info first and then build our initial SK query based on that
-    if (preLoadEventSKID) {
-        
-        myEventTmpl.prependTo(targetNode)
+    if (preLoadEventSKID && (sk_eventNode.id == preLoadEventSKID)) {
+        // alert('our event: ' + myEventTmpl.html());
+        // TODO if there are multiple pages, this wll just prepend to the current one
+        myEventTmpl.prependTo($(".sk_page_container_1"));
         // alert("found our event" + myEventTmpl.find(".artist_item").get(0).innerHTML );
         // alert($(eventNode).children(".artist_item").get(0).innerHTML);
         selectPlaying(myEventTmpl.find(".artist_item").get(0), false);
