@@ -77,8 +77,8 @@ app.get('/', function(request, response) {
         myVar: 'My Data'
     });
 
-   var statsmixClient = new statsmix.Client();
-   statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+   // var statsmixClient = new statsmix.Client();
+   // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
 });
 
 app.get('/test', function(request, response) {
