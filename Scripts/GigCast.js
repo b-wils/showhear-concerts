@@ -205,7 +205,7 @@ function setPreloadEvent() {
     function (data) {
         // alert(data.resultsPage.status);
         if (data.resultsPage.status != "ok") {
-            alert("bad event");
+            console.log("bad event");
         } else {
             setLocation(data.resultsPage.results.event.venue.metroArea.id, data.resultsPage.results.event.venue.metroArea.displayName);
             // TODO won't really work if event is in the past
@@ -289,7 +289,7 @@ function updateLocation() {
                 $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
                 $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
             } else {
-                alert("Could not find location")
+                console.log("Could not find location")
             }
         });
     }
@@ -553,7 +553,7 @@ var addLastFMInfoCallbackByMBID = function(searchString, targetELement) {
     return function (data) {
 
         if (!(data.artist)) {
-            alert("songkick mbid but no lastfm?");
+            console.log("songkick mbid but no lastfm?");
         }
 
         // alert('mbid?');
@@ -661,7 +661,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     }
 }
 function testClick() {
-    alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
+    // alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
     //alert("artist is: " + $(".media_item:eq(1) .artist_item").length);
 
     artistIndex++;
@@ -689,7 +689,7 @@ function getSongkickEventPage(pageNumber) {
         //alert(text + );
 
         if (data.resultsPage.totalEntries == 0) {
-            alert("no data");
+            console.log("no data");
             return;
         }
 
