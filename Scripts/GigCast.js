@@ -101,7 +101,7 @@ jQuery.support.cors = true;
         dateFormat: "M-dd-yy",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
-        },
+        }
         // onSelect: function(dateText) {
         //     updateClick();
         // }
