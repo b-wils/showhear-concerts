@@ -661,7 +661,6 @@ function addEventDivElement(sk_eventNode, targetNode) {
     // we should check the event info first and then build our initial SK query based on that
     if (preLoadEventSKID && (sk_eventNode.id == preLoadEventSKID)) {
         // alert('our event: ' + myEventTmpl.html());
-        // TODO if there are multiple pages, this wll just prepend to the current one
         myEventTmpl.prependTo($(".sk_page_container_1"));
         // alert("found our event" + myEventTmpl.find(".artist_item").get(0).innerHTML );
         // alert($(eventNode).children(".artist_item").get(0).innerHTML);

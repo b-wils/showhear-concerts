@@ -27,14 +27,14 @@
             <span class="artist_genre">
             </span>
             <a target="_blank" href=${artistURI}>
-                <img src="/images/sk_white_pink_icon.png" class="songkick_icon" height="17" width="17">
+                <img src="/images/sk_white_pink_icon.png" class="songkick_icon rightFloat" height="17" width="17">
             </a>
         </div>
     </script>
 
     <script id="artist_lastfm_link" type="text/x-jquery-tmpl">
         <a target="_blank" href=${lastfmURI}>   
-            <img src="/images/lastfm_red_17px.png" class="lastfm_icon"/>
+            <img src="/images/lastfm_red_17px.png" class="lastfm_icon rightFloat"/>
         </a>
     </script>
 
@@ -46,13 +46,17 @@
         <div class="media_item">
             <div class="event_artist_list"/>
             <div>
-                ${date} @ ${venue}<a target="_blank" href=${eventPermalink}>
-                <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
-                    <span class="ui-icon ui-icon-link"></span>
-                </div>
-                <a target="_blank" href=${skEventURI}>
-                    <img src="/images/sk_white_pink_icon.png" class="songkick_icon" height="17" width="17">
-                </a>
+                ${date} @ ${venue}
+                <a target="_blank" href=${eventPermalink}>
+                <span class="rightFloat">
+                    <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
+                        <span class="ui-icon ui-icon-link"></span>
+                    </div>
+                    </a>
+                    <a target="_blank" href=${skEventURI}>
+                        <img src="/images/sk_white_pink_icon.png" class="songkick_icon rightFloat" height="17" width="17">
+                    </a>
+                </span>
             </div>
         </div>
     </script>
@@ -77,8 +81,7 @@
         <div id="playerScreen" class="divborder"> 
             <div id="player"></div>
             
-            <br />
-            <div align="right">
+            <div class="playerButtonContainer" align="right">
             <!--     <input type="button" onclick="pauseVideo()" value="Pause" />
             &nbsp;
                 <input type="button" onclick="playVideo()" value="Play"/>
@@ -87,7 +90,6 @@
             &nbsp; -->
                 <!-- <input type="button" onclick="badLinkClick()" value="Bad Link"/> -->
                 <input type="button" onclick="nextVideoClick()" value="Next"/>
-            &nbsp;
             <!--     <input type="button" onclick="testClick()" value="TestButton"/>
             &nbsp; -->
             <!-- <hr> -->
@@ -101,7 +103,6 @@
 <!--         <div class="footer22">
             Inside player container
             </div> -->
-        &nbsp;&nbsp;&nbsp;
         <!-- <hr> -->
         </div> <!-- playerScreen -->
         <!-- <hr> -->
@@ -125,23 +126,23 @@
                 <input type="text" id="from" name="from" style="width: 80px;"/>
                 <label for="to">to</label>
                 <input type="text" id="to" name="to" style="width: 80px;"/>
-                <br/>
+<!--                 <br/>
 
                 <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
                 <div style="display: inline-block" class="ui-state-default">
                     <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
                 </div>
-                </span>
+                </span> -->
     <!--             <input type="text" size="12" id="StartDateText"/> -
                 <input type="text" size="12" id="EndDateText"/> -->
-                <input type="button" onclick="updateClick()" value="Update" />
+                <input type="button" onclick="updateClick()" value="Update" style="float:right;"/>
             </div>
             <br />
         <div class ="button_container"/>
     </div> <!-- sidebar -->
     <!-- <hr> -->
 </div> <!-- main -->
-<div class="test2"> 
+<div class="footerDiv"> 
 <b> Powered By: </b>
 <br/>
 <a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" class="footerImage" border="0"/> </a>
