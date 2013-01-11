@@ -281,11 +281,18 @@ function setLocation(id, name) {
     $.cookie('sk_locationName', name);
 }
 
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 function updateLocation() {
 
     // alert($("#updLocationTxt").val());
+    var updateString = $("#updLocationTxt").val();
 
-    if ($("#updLocationTxt").val()) {
+    if (updateString) {
+
+
 
         $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?query="+$("#updLocationTxt").val() +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
         function (data) {
@@ -685,6 +692,8 @@ function testClick() {
     selectPlaying($(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex), false);
 }
 
+var loadVideoOnUpdate = true;
+
 function getSongkickEventPage(pageNumber) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
@@ -748,7 +757,10 @@ function getSongkickEventPage(pageNumber) {
         if (pageNumber == 1) {
             // TODO this should be cued and done in a better location and shouild only cue the video
             if (!preLoadEventSKID) {
-                selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
+                if(loadVideoOnUpdate) {
+                    loadVideoOnUpdate = false;
+                    selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
+                }
             }
         }
 
@@ -807,6 +819,7 @@ function checkAndAddArtist(artistNode) {
 function onPlayerReady(event) {
     //event.target.playVideo();
     playerLoaded = true;
+    // loadVideoOnUpdate = true;
 
     if (initialVideoUrl) {
         // TODO should autostart on load be toggleable?
