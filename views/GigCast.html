@@ -5,8 +5,8 @@
     <title>ShowHear - Finding Concerts You'll Love</title>
     
     
-    <script src="js/jquery-1.8.3.js"></script>
-    <script src="js/jquery-ui-1.9.2.custom.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
     
     <script type="text/javascript" src="Scripts/jquery.ba-outside-events.js"></script>
     <script type="text/javascript" src="Scripts/GigCast.js"></script>
@@ -27,14 +27,14 @@
             <span class="artist_genre">
             </span>
             <a target="_blank" href=${artistURI}>
-                <img src="/images/sk_white_pink_icon.png" class="songkick_icon rightFloat" height="17" width="17">
+                <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon rightFloat" height="17" width="17"/>
             </a>
         </div>
     </script>
 
     <script id="artist_lastfm_link" type="text/x-jquery-tmpl">
         <a target="_blank" href=${lastfmURI}>   
-            <img src="/images/lastfm_red_17px.png" class="lastfm_icon rightFloat"/>
+            <img src="/images/lastfm_red_17px.png" alt="Last.Fm" class="lastfm_icon rightFloat"/>
         </a>
     </script>
 
@@ -56,7 +56,7 @@
                     </div>
                     </a>
                     <a target="_blank" href=${skEventURI}>
-                        <img src="/images/sk_white_pink_icon.png" class="songkick_icon rightFloat" height="17" width="17">
+                        <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon rightFloat" height="17" width="17"/>
                     </a>
                 </span>
             </div>
@@ -136,8 +136,8 @@
 
                 <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
                 <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
-                <div style="display: inline-block" class="ui-state-default">
-                    <span class="ui-icon ui-icon-circle-triangle-s hover" style="display:inline-block"></span> 
+                <div class="ui-state-default" style="display:inline-block;">
+                    <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
                 </div>
                 </span>
                 <br />
@@ -166,10 +166,10 @@
 <div class="footerDiv"> 
 <b> Powered By: </b>
 <br/>
-<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" class="footerImage" border="0"/> </a>
-<a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" class="footerImage"/> </a>
+<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" alt="Last.Fm" class="footerImage"/> </a>
+<a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" alt="Songkick" class="footerImage"/> </a>
 </div>  
-<hr>
+<hr/>
 <!-- <div class="footer2">
     OUtside player container
 </div> -->

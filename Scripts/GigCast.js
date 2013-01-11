@@ -12,9 +12,6 @@
 var lastFM_APIKey = "7921cb7aae6b8b280672b0fd74207d4b";
 var songkick_APIKey = "bUMFhmMfaIpxiUgJ";
 
-var g_startDate;
-var g_endDate;
-
 var shownArtists = 0;
 var totalArtists = 0;
 
@@ -69,12 +66,6 @@ function JSONQuery(url, callback) {
     } else {
         $.getJSON(url, callback);
     }
-};
-
-document.onclick = function () {
-    // Only works once?
-    //alert('anywhere click');
-    //g_startDate.closeCalendar();
 };
 
 function getQueryVariable(variable) {
@@ -812,28 +803,11 @@ function onPlayerReady(event) {
     }
 }
 
-function zeroFill(number, width) {
-    width -= number.toString().length;
-    if (width > 0) {
-        return new Array(width + (/\./.test(number) ? 2 : 1)).join('0') + number;
-    }
-    return number + ""; // always return a string
-}
-
 function getMinDate() {
-    // var myDate = g_startDate.getSelectedDay();
-    // var formatdate = myDate.year + "-" + zeroFill(myDate.month, 2) + "-" + zeroFill(myDate.day, 2);
-
-    // var myDate = $( "#from" ).datepicker( "getDate" );
-    // var formatDate = $.datePicker.formatDate("yy-mm-dd", myDate);
-
     return $.datepicker.formatDate("yy-mm-dd", $( "#from" ).datepicker( "getDate" ));
-
 }
 
 function getMaxDate() {
-    // var myDate = g_endDate.getSelectedDay();
-    // var formatdate = myDate.year + "-" + zeroFill(myDate.month, 2) + "-" + zeroFill(myDate.day, 2);
     return $.datepicker.formatDate("yy-mm-dd", $( "#to" ).datepicker( "getDate" ));
 }
 
@@ -867,18 +841,6 @@ function pauseVideo() {
 
 function myLoadVideo(videoUrl) {
     player.loadVideoByUrl(videoUrl, 0, 'small');
-}
-
-function OnSucceeded() {
-    // Dispaly "thank you."
-
-    alert('success');
-
-}
-
-function OnFailed(error) {
-    // Alert user to the error.
-    alert('error');
 }
 
 function favorite() {
