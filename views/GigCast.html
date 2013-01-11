@@ -21,7 +21,7 @@
     <script id="artist_item_template" type="text/x-jquery-tmpl">
         <div class="artist_item">
             <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
-                <span class="ui-icon ui-icon-play"></span>
+                <span class="ui-icon ui-icon-play hover"></span>
             </div>
             <span onclick="artistDivClick(this.parentNode)" class="artist_name">${artistName}</span>
             <span class="artist_genre">
@@ -47,8 +47,10 @@
             <div class="event_artist_list"/>
             <div>
                 ${date} @ ${venue}
+                
                 <a target="_blank" href=${eventPermalink}>
-                <span class="rightFloat">
+                <span class="rightFloat eventLinks">
+                    
                     <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
                         <span class="ui-icon ui-icon-link"></span>
                     </div>
@@ -72,6 +74,24 @@
 <div id="genreFilterDialog" title="Select Genre">
         <label for="updateGenreText">Genre Filter</label>
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
+</div>
+
+
+<div class="headerBuffer">
+    <div class="myHeader">
+        <a href="">
+            <span class="headerTitle">ShowHear</span>
+            Finding Concerts You'll Love
+        </a>
+        <span class="headerLinks rightFloat">
+            <a href="http://showhear.tumblr.com/">
+                Blog
+            </a>
+            <a href="mailto:showhear@gmail.com">
+                Contact
+            </a>
+        </span>
+    </div>
 </div>
 
 <div id="main">
@@ -117,7 +137,7 @@
                 <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
                 <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
                 <div style="display: inline-block" class="ui-state-default">
-                    <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span> 
+                    <span class="ui-icon ui-icon-circle-triangle-s hover" style="display:inline-block"></span> 
                 </div>
                 </span>
                 <br />
@@ -142,13 +162,14 @@
     </div> <!-- sidebar -->
     <!-- <hr> -->
 </div> <!-- main -->
+
 <div class="footerDiv"> 
 <b> Powered By: </b>
 <br/>
 <a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" class="footerImage" border="0"/> </a>
 <a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" class="footerImage"/> </a>
 </div>  
-
+<hr>
 <!-- <div class="footer2">
     OUtside player container
 </div> -->

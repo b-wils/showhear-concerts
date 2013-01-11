@@ -367,7 +367,6 @@ function divScrollTo(element)
 }
 
 function selectPlaying(myDiv, autoStart) {
-    console.log(myDiv.innerHTML);
     eventIndex = $(".media_item").index(myDiv.parentNode.parentNode);
 
     artistIndex = $(".media_item:eq(" + eventIndex +") .artist_item").index(myDiv);
