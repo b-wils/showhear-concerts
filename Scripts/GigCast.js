@@ -80,6 +80,13 @@ function getQueryVariable(variable) {
     console.log('Query variable %s not found', variable);
 }
 
+window.onerror = function (msg, url, line)
+{
+    // console.log("in the error thing");
+    var message = "Error in "+url+" on line "+line+": "+msg;
+    $.post("logerror", { "msg" : message }); 
+}
+
 $(document).ready(function () {
 
     // $( "#datepicker" ).datepicker({
@@ -93,6 +100,8 @@ jQuery.support.cors = true;
 
 // JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
 //         function(data) {alert("success! " + data.feed.entry[0].media$group.media$content[0].url)});
+
+    // $.post("logerror", { "msg" : "a test error" });
 
     $( "#from" ).datepicker({
         numberOfMonths: 1,
@@ -346,7 +355,7 @@ function getLocationQueryString() {
 
 function populateLocation() {
     if ($.cookie('sk_locationName')) {
-        $("#locationText").html($.cookie('sk_locationName') + " Area");
+           $("#locationText").html($.cookie('sk_locationName') + " Area");
     } else {
 
         $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",

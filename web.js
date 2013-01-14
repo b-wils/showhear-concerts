@@ -20,11 +20,15 @@
  * Module dependencies.
  */
 
+
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , url = require('url')
+  , qs = require('querystring')
+  , util = require("util");
 
 var app = express.createServer(express.logger());
 
@@ -81,31 +85,37 @@ app.get('/', function(request, response) {
    // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
 });
 
+app.post('/logerror', function(request, response) {
+    util.log(request.body.msg);
+    response.json({ 'status':"OK"})
+});
+
 app.get('/test', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
    // response.render('GigCast.html', {
-   //      myVar: 'My Data'
-   //  });
 
-response.json({ 'testvar':'testval' })
-
-   // var statsmixClient = new statsmix.Client();
-   // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+   response.json({ 'testvar':"default"})
 });
 
-app.get('/test/:id', function(request, response) {
-   //response.send('Hello World!');
-   //response.send('Hello World again!');
-   // response.render('GigCast.html', {
-   //      myVar: 'My Data'
-   //  });
-
-response.json({ 'testvar':req.params.id })
-
+  // response.json({ 'testvar':'testval' })
+// {
    // var statsmixClient = new statsmix.Client();
    // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
-});
+// };
+
+// app.get('/test/:id', function(request, response) {
+//    //response.send('Hello World!');
+//    //response.send('Hello World again!');
+//    // response.render('GigCast.html', {
+//    //      myVar: 'My Data'
+//    //  });
+
+//   response.json({ 'testvar':req.params.id })
+
+//    // var statsmixClient = new statsmix.Client();
+//    // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+// });
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
