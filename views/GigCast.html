@@ -134,28 +134,43 @@
             <br /> -->
             <div class="filterContainer">
 
-                <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
-                <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
-                <div class="ui-state-default" style="display:inline-block;">
-                    <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
-                </div>
-                </span>
-                <br />
+                <div id="tabs">
+                  <ul>
+                    <li><a href="#tabs-1">Area/Date</a></li>
+                    <li><a href="#tabs-2">Songkick</a></li>
+                  </ul>
+                  <div id="tabs-1">
+                   <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
+                    <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
+                    <div class="ui-state-default" style="display:inline-block;">
+                        <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
+                    </div>
+                    </span>
+                    <br />
 
-                <label for="from">From</label>
-                <input type="text" id="from" name="from" style="width: 80px;"/>
-                <label for="to">to</label>
-                <input type="text" id="to" name="to" style="width: 80px;"/>
-<!--                 <br/>
+                    <label for="from">From</label>
+                    <input type="text" id="from" name="from" style="width: 80px;"/>
+                    <label for="to">to</label>
+                    <input type="text" id="to" name="to" style="width: 80px;"/>
+    <!--                 <br/>
 
-                <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
-                <div style="display: inline-block" class="ui-state-default">
-                    <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+                    <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
+                    <div style="display: inline-block" class="ui-state-default">
+                        <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+                    </div>
+                    </span> -->
+        <!--             <input type="text" size="12" id="StartDateText"/> -
+                    <input type="text" size="12" id="EndDateText"/> -->
+                    <input type="button" onclick="updateClick()" value="Update" style="float:right;"/>
+                  </div>
+                  <div id="tabs-2">
+                    <label for="updLocationTxt">Songkick User</label>
+                    <input type="text" name="songkickUserTxt" id="songkickUserTxt" />
+                    <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
+                  </div>
                 </div>
-                </span> -->
-    <!--             <input type="text" size="12" id="StartDateText"/> -
-                <input type="text" size="12" id="EndDateText"/> -->
-                <input type="button" onclick="updateClick()" value="Update" style="float:right;"/>
+
+ 
             </div>
             <br />
         <div class ="button_container"/>

@@ -15,6 +15,10 @@ body
     /*color: #696969;*/
 }
 
+.ui-button-text {
+        font-size: .2em;
+    }
+
 /*body,html{    
   height:100%;
 }

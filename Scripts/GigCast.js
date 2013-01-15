@@ -98,6 +98,10 @@ $(document).ready(function () {
 
 jQuery.support.cors = true; 
 
+  $(function() {
+    $( "#tabs" ).tabs();
+  });
+
 // JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
 //         function(data) {alert("success! " + data.feed.entry[0].media$group.media$content[0].url)});
 
@@ -162,6 +166,12 @@ jQuery.support.cors = true;
         }
     });
 
+    $("#songkickUserTxt").keyup(function(event){
+        if(event.keyCode == 13){
+            songkickUpdateClick();
+        }
+    });
+
     $( "#genreFilterDialog" ).dialog({
         autoOpen: false,
         // show: "blind",
@@ -202,6 +212,8 @@ jQuery.support.cors = true;
         $("#genreFilter").html($.cookie('genreFilter'));
     }
 
+buildSongkickAreaDateQuery( );
+
 // $.getJSON("/test",
 //         function (data) {
 //             alert('test response: ' + data.testvar);
@@ -233,7 +245,8 @@ function setPreloadEvent() {
 
         // need to get this no matter what
         getSongkickEventPage(1);
-    });    
+    });
+
 }
 
 // 2. This code loads the IFrame Player API code asynchronously.
@@ -353,6 +366,14 @@ function getLocationQueryString() {
     }
 }
 
+function getLocationQueryVal() {
+    if ($.cookie('sk_locationid')) {
+        return "sk:" + $.cookie('sk_locationid');
+    } else {
+        return "clientip";
+    }
+}
+
 function populateLocation() {
     if ($.cookie('sk_locationName')) {
            $("#locationText").html($.cookie('sk_locationName') + " Area");
@@ -379,6 +400,21 @@ function updateClick() {
     eventIndex = 0;
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
     getSongkickEventPage(1);
+}
+
+function songkickUpdateClick() {
+    alert('sk update user: ' +  $("#songkickUserTxt").val());
+
+    //$("#playlistNav").empty();
+    $(".button_container").empty();
+    $(".button_container").html("Loading...")
+    preLoadEventSKID = null;
+    totalArtists = 0;
+    shownArtists = 0;
+    artistIndex = 0;
+    eventIndex = 0;
+    //document.getElementById("playlistInfo").innerHTML = "Loading...";
+    getSongkickEventPageByUser($("#songkickUserTxt").val(), 1);
 }
 
 function headlinersClick() {
@@ -724,6 +760,34 @@ function testClick() {
 
 var loadVideoOnUpdate = true;
 
+function buildSongkickAreaDateQuery(pageNumber) {
+    var url = "http://api.songkick.com/api/3.0/events.json"
+
+    var parameters = {
+        apikey : "bUMFhmMfaIpxiUgJ",
+        location: getLocationQueryVal(),
+        min_date:  getMinDate(),
+        max_date: getMaxDate(),
+        page: pageNumber,
+        jsoncallback: "?"
+    };
+
+    return url + "?" + $.param(parameters);
+}
+
+function buildSongkickUserQuery(user, pageNumber) {
+    var url = "http://api.songkick.com/api/3.0/users/"+user+"/calendar.json"
+
+    var parameters = {
+        apikey : "bUMFhmMfaIpxiUgJ",
+        reason: "tracked_artist",
+        page: pageNumber,
+        jsoncallback: "?"
+    };
+
+    return url + "?" + $.param(parameters) + "&jsoncallback=?";
+}
+
 function getSongkickEventPage(pageNumber) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
@@ -781,6 +845,76 @@ function getSongkickEventPage(pageNumber) {
 
             // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
             addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
+
+        }
+
+        if (pageNumber == 1) {
+            // TODO this should be cued and done in a better location and shouild only cue the video
+            if (!preLoadEventSKID) {
+                if(loadVideoOnUpdate) {
+                    loadVideoOnUpdate = false;
+                    selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
+                }
+            }
+        }
+
+        // TODO bug- for some reason the preload event isn't scrolling properly, this will mostly fix, though 
+        // incoming lastfm info will push the data slightly past. not a huge issue for smaller resultsets
+
+        divScrollTo($(".media_item").get(eventIndex));
+        // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
+        //alert('end json');
+    });
+}
+
+// We should try and refactor with the above code
+function getSongkickEventPageByUser(user, pageNumber) {
+    $.getJSON(buildSongkickUserQuery(user, pageNumber),
+    function (data) {
+
+        if (data.resultsPage.totalEntries == 0) {
+            console.log("no data");
+            return;
+        }
+
+        if (pageNumber == 1) {
+            $(".button_container").empty();
+
+            var totalPages = data.resultsPage.totalEntries / data.resultsPage.perPage;
+
+            if ((data.resultsPage.totalEntries % data.resultsPage.perPage) > 0) {
+                totalPages++;
+            }
+
+            // create a container for each page
+            // result page indexes start at 1
+            for (var i = 1; i <= totalPages; i++) {
+                var containerNode = document.createElement('div');
+                containerNode.className = "sk_page_container_" + i;
+
+                $(".button_container").get(0).appendChild(containerNode);
+            }
+
+            if (totalPages > 1) {
+
+                // We have more results to query
+
+                for (var i = 2; i <= totalPages; i++) {
+                    getSongkickEventPage(i);
+                }
+            }
+
+            // 
+        }
+
+        //var playlistNav = document.getElementById("playlistNav");
+
+        for (var i = 0; i < data.resultsPage.results.calendarEntry.length; i++) {
+
+            //checkAndAddEvent(data.resultsPage.results.event[i]);
+
+            // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
+            addEventDivElement(data.resultsPage.results.calendarEntry[i].event, $(".sk_page_container_" + pageNumber).get(0));
 
         }
 
