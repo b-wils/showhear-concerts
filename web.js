@@ -99,6 +99,7 @@ app.get('/test', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
    // response.render('GigCast.html', {
+    console.log("here= ", request.query["here"]);
 
   query = client.query('SELECT * FROM skid_youtubelink');
     query.on('row', function(row) {
