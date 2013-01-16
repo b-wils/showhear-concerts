@@ -60,6 +60,7 @@
                     </a>
                 </span>
             </div>
+            <div style="clear: both;"></div>
         </div>
     </script>
 
@@ -139,7 +140,7 @@
                     <li><a href="#tabs-1">Area/Date</a></li>
                     <li><a href="#tabs-2">Songkick</a></li>
                   </ul>
-                  <div id="tabs-1">
+                  <div id="tabs-1" style:"overflow:auto; position: relative;">
                    <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
                     <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
                     <div class="ui-state-default" style="display:inline-block;">
@@ -161,11 +162,13 @@
                     </span> -->
         <!--             <input type="text" size="12" id="StartDateText"/> -
                     <input type="text" size="12" id="EndDateText"/> -->
-                    <input type="button" onclick="updateClick()" value="Update" style="float:right;"/>
+                    <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
+                    <!-- <hr class="hrClear"> -->
+                    <div style="clear: both; border: 1px solid #496077;"></div>
                   </div>
                   <div id="tabs-2">
                     <label for="updLocationTxt">Songkick User</label>
-                    <input type="text" name="songkickUserTxt" id="songkickUserTxt" />
+                    <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
                     <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
                   </div>
                 </div>

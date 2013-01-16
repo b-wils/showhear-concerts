@@ -99,7 +99,7 @@ $(document).ready(function () {
 jQuery.support.cors = true; 
 
   $(function() {
-    $( "#tabs" ).tabs();
+    $( "#tabs" ).tabs( { heightStyle: "auto" });
   });
 
 // JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
@@ -111,7 +111,7 @@ jQuery.support.cors = true;
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
-        dateFormat: "M-dd-yy",
+        dateFormat: "M dd, yy",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
         }
@@ -126,7 +126,7 @@ jQuery.support.cors = true;
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
-        dateFormat: "M-dd-yy",
+        dateFormat: "M dd, yy",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
         },
@@ -403,7 +403,6 @@ function updateClick() {
 }
 
 function songkickUpdateClick() {
-    alert('sk update user: ' +  $("#songkickUserTxt").val());
 
     //$("#playlistNav").empty();
     $(".button_container").empty();
@@ -712,9 +711,11 @@ function addEventDivElement(sk_eventNode, targetNode) {
     if (sk_eventNode.status == "cancelled") {
         return;
     }
+// return $.datepicker.formatDate("yy-mm-dd", $( "#from" ).datepicker( "getDate" ));
+    var dateString = $.datepicker.formatDate("DD MM dd", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
 
     var eventInfo = [
-    {   date: sk_eventNode.start.date,
+    {   date: dateString,
         venue: sk_eventNode.venue.displayName,
         eventPermalink:"?skEventId=" + sk_eventNode.id,
         skEventURI: sk_eventNode.uri }

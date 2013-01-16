@@ -6,6 +6,7 @@
     "start": "node app"
   },
   "dependencies": {
+    "pg": "0.6.15",
     "express": "2.5.x",
     "jshtml": "*",
     "jade": ">= 0.0.1"

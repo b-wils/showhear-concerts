@@ -189,8 +189,8 @@ first child of the left and right table columns */
 /* PLAYER SCREEN  
 ----------------------------------------------------------*/
 
-/*div.item*/ hr {display: block; clear: left; margin: -0.66em 0;
-  /*visibility: hidden;*/}
+/*div.item*/ .hrClear {display: block; clear: left; margin: -0.66em 0;
+  visibility: hidden;}
 
 .floateditem {
 
