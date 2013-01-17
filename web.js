@@ -203,25 +203,44 @@ app.get('/events.json', function(request, response) {
 
   if(!request.query["min_date"]) {
     console.log("min_date required");
+    response.json({status:"error", message:"min_date required"});
+    return;
   }
 
   if(!request.query["max_date"]) {
     console.log("max_date required");
+    response.json({status:"error", message:"max_date required"});
+    return;
   }
 
   if(!request.query["page"]) {
     console.log("page required");
+    response.json({status:"error", message:"page required"});
+    return;
   }
 
   // TODO what location info does client pass in and how do we parse?
   if(!request.query["location"]) {
     console.log("location required");
+    response.json({status:"error", message:"location required"});
+    return;
   }
 
+  var queryStringParameterse = {
+    apikey: "bUMFhmMfaIpxiUgJ",
+    min_date: request.query["min_date"],
+    max_date: request.query["max_date"],
+    page: request.query["page"],
+    location: request.query["location"]
+  }
+
+  var myQueryString = qs.stringify(queryStringParameterse);
+
+  console.log(myQueryString);
 
   var options = {
     host: 'api.songkick.com',
-    path: '/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=1&min_date=2013-01-15&max_date=2013-01-22'
+    path: '/api/3.0/events.json?' + myQueryString
   };
 
   http.get(options, function(skres) {
