@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-
+var youtubeDeveloperKey = "AI39si4Vw4awrAAg8ezG3zeJVrW7nELo6T4S8CRe6Vd47CsA9uY_rrUmifm98_CDJM4fCCGnNafqg_Mx0IukXIvZIvMJMkzPmQ";
 
 var express = require('express')
   , routes = require('./routes')
@@ -141,65 +141,39 @@ app.get('/test', function(request, response) {
 
 function foreachArtistCB(item, artistCallback) {
 
-  query = client.query('SELECT * FROM skid_youtubelink WHERE songkick_id = ' + item.artist.id);
-    query.on('row', function(row) {
-      // console.log(JSON.stringify(row));
-      // TODO this doesn't handle multiple return values
-      item.artist.youtubeURL = row.youtube_url;
-    });
-  query.on('end', function(){
-    if (item.artist.youtubeURL) {
-      artistCallback();
-    } else {
-      // we need to get the youtube link from the API
-      // TODO should we also add it to our DB here?
-      var options = {
-        host: 'gdata.youtube.com',
-        path: '/feeds/api/videos?q=' + item.artist.displayName + '&category=Music&alt=jsonc&key=AI39si4Vw4awrAAg8ezG3zeJVrW7nELo6T4S8CRe6Vd47CsA9uY_rrUmifm98_CDJM4fCCGnNafqg_Mx0IukXIvZIvMJMkzPmQ',
-        port:   443,
-        headers: {
-          'User-Agent': 'youtube-feeds.js (https://github.com/fvdm/nodejs-youtube)',
-          'Accept': 'application/json'
-        },
-        method:   'GET'
-      };
+  // query = client.query('SELECT * FROM skid_youtubelink WHERE songkick_id = ' + item.artist.id);
+  //   query.on('row', function(row) {
+  //     // console.log(JSON.stringify(row));
+  //     // TODO this doesn't handle multiple return values
+  //     item.artist.youtubeURL = row.youtube_url;
+  //   });
+  // query.on('end', function(){
+  //   if (item.artist.youtubeURL) {
+  //     artistCallback();
+  //   } else
+    {
 
-      console.log("ytquery: ");
-      console.log(options.host + options.path);
-
-      https.get(options, function(ytresponse) {
-        var data = '';
-
-        ytresponse.on('data', function (chunk) {
-          console.log('BODY: ' + chunk);
-          data += chunk;
-        });
-
-        ytresponse.on('end', function (chunk) {
-          console.log('END: ' + chunk);
-          if (chunk) {
-            data += chunk;
-          }
-          var youtubeData = JSON.parse(data);
-
-          for (var i = 0; i < youtubeData.feed.entry[0].media$group.media$content.length; i++) {
-            if (youtubeData.feed.entry[0].media$group.media$content[i].yt$format == 5) {
-              item.artist.youtubeURL = youtubeData.feed.entry[0].media$group.media$content[i].url;
-            }
-          }
-
-           
-          artistCallback();
-        });
-
-        // response.json({ 'testvar':"success"})
-      }).on('error', function(e) {
-        console.log('ERROR: ' + e.message);
-        artistCallback();
+      youtube.feeds.videos( {
+                              q: item.artist.displayName,
+                              category: "Music",
+                              key: youtubeDeveloperKey
+                            }
+                          , function( err, data ) {
+        if( err instanceof Error ) {
+            console.log( err );
+            artistCallback();
+        } else {
+            // console.log( data );
+            // res.json(data);
+            item.artist.youtubeID = data.items[0].id;
+            item.artist.youtubeURL = data.items[0].player.default;
+            artistCallback();
+        }
       });
+
     }
     
-  });
+  // });
   //artistCallback();
 }
 
