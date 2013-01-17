@@ -470,6 +470,10 @@ function selectPlaying(myDiv, autoStart) {
 
     var artistName = $(myDiv).children(".artist_name").get(0).innerHTML;
 
+    var youtubeLink = $(myDiv).children(".artistYoutubeURL").get(0).value;
+
+    console.log("ytlink= " + youtubeLink);
+
     //alert(artistName);
 
     JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",

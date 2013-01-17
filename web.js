@@ -7,6 +7,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
+  , https = require('https')
   , path = require('path')
   , url = require('url')
   , qs = require('querystring')
@@ -79,6 +80,40 @@ app.configure('development', function(){
 // app.get('/', routes.index);
 // app.get('/users', user.list);
 
+// TODO TESTING GOOGLE API
+
+// TODO testing nodejs-youtube
+
+// load the module
+var youtube = require('youtube-feeds');
+
+// search parkour videos
+// youtube.feeds.videos( {q: 'parkour'}, console.log );
+
+app.get('/ytfeeds', function(req, res) {
+    // gdataClient.getFeed('https://www.google.com/m8/feeds/contacts/default/full', {'max-results':3},
+    // function(err, feed) {
+    //     res.writeHead(200);
+    //     for(var i in feed.feed.entry) {
+    //         res.write(JSON.stringify(feed.feed.entry[i].title));
+    //         res.write(JSON.stringify(feed.feed.entry[i].gd$email));
+    //         res.write('\n\n');
+    //     }
+    //     res.end();
+    // });
+
+  youtube.feeds.videos( {q: 'parkour'}, function( err, data ) {
+    if( err instanceof Error ) {
+        console.log( err );
+    } else {
+        // console.log( data );
+        res.json(data);
+    }
+  });
+});
+
+// TODO ENDING GOOGLE TESTING
+
 app.get('/', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
@@ -99,14 +134,7 @@ app.get('/test', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
    // response.render('GigCast.html', {
-    console.log("here= ", request.query["here"]);
-
-  query = client.query('SELECT * FROM skid_youtubelink');
-    query.on('row', function(row) {
-      // console.log(JSON.stringify(row));
-      console.log("my url:" + row.youtube_url);
-    });
-  query.on('end', function() { });
+    console.log("here= ", request.query["heref"]);
 
    response.json({ 'testvar':"defaultme", "sqlquery":"none"})
 });
@@ -116,20 +144,66 @@ function foreachArtistCB(item, artistCallback) {
   query = client.query('SELECT * FROM skid_youtubelink WHERE songkick_id = ' + item.artist.id);
     query.on('row', function(row) {
       // console.log(JSON.stringify(row));
+      // TODO this doesn't handle multiple return values
       item.artist.youtubeURL = row.youtube_url;
     });
-  query.on('end', function(){artistCallback()});
+  query.on('end', function(){
+    if (item.artist.youtubeURL) {
+      artistCallback();
+    } else {
+      // we need to get the youtube link from the API
+      // TODO should we also add it to our DB here?
+      var options = {
+        host: 'gdata.youtube.com',
+        path: '/feeds/api/videos?q=' + item.artist.displayName + '&category=Music&alt=jsonc&key=AI39si4Vw4awrAAg8ezG3zeJVrW7nELo6T4S8CRe6Vd47CsA9uY_rrUmifm98_CDJM4fCCGnNafqg_Mx0IukXIvZIvMJMkzPmQ',
+        port:   443,
+        headers: {
+          'User-Agent': 'youtube-feeds.js (https://github.com/fvdm/nodejs-youtube)',
+          'Accept': 'application/json'
+        },
+        method:   'GET'
+      };
+
+      console.log("ytquery: ");
+      console.log(options.host + options.path);
+
+      https.get(options, function(ytresponse) {
+        var data = '';
+
+        ytresponse.on('data', function (chunk) {
+          console.log('BODY: ' + chunk);
+          data += chunk;
+        });
+
+        ytresponse.on('end', function (chunk) {
+          console.log('END: ' + chunk);
+          if (chunk) {
+            data += chunk;
+          }
+          var youtubeData = JSON.parse(data);
+
+          for (var i = 0; i < youtubeData.feed.entry[0].media$group.media$content.length; i++) {
+            if (youtubeData.feed.entry[0].media$group.media$content[i].yt$format == 5) {
+              item.artist.youtubeURL = youtubeData.feed.entry[0].media$group.media$content[i].url;
+            }
+          }
+
+           
+          artistCallback();
+        });
+
+        // response.json({ 'testvar':"success"})
+      }).on('error', function(e) {
+        console.log('ERROR: ' + e.message);
+        artistCallback();
+      });
+    }
+    
+  });
   //artistCallback();
 }
 
 function foreachEventCB(item, eventCallback) {
-  // query = client.query('SELECT * FROM skid_youtubelink WHERE ');
-  //   query.on('row', function(row) {
-  //     // console.log(JSON.stringify(row));
-  //     // console.log
-  //   });
-  // query.on('end', function() {  });
-
   async.forEach(item.performance, foreachArtistCB, 
     function(err){
       if (err) {
@@ -151,7 +225,26 @@ app.get('/events.json', function(request, response) {
   //response.send('Hello World again!');
   // response.render('GigCast.html', {
 
-  var http = require('http');
+  // var http = require('http');
+
+  if(!request.query["min_date"]) {
+    console.log("min_date required");
+  }
+
+  if(!request.query["max_date"]) {
+    console.log("max_date required");
+  }
+
+  if(!request.query["page"]) {
+    console.log("page required");
+  }
+
+  // TODO what location info does client pass in and how do we parse?
+  if(!request.query["location"]) {
+    console.log("location required");
+  }
+
+
   var options = {
     host: 'api.songkick.com',
     path: '/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=1&min_date=2013-01-15&max_date=2013-01-22'
@@ -171,7 +264,12 @@ app.get('/events.json', function(request, response) {
     skres.on('end', function (chunk) {
       // console.log('BODY: ' + chunk);
       // data += chunk;
+      if (chunk) {
+        data += chunk;
+      }
+
       var songKickdata = JSON.parse(data);
+
 
 
       async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
@@ -184,34 +282,6 @@ app.get('/events.json', function(request, response) {
           }
     // if any of the saves produced an error, err would equal that error
       });
-
-    //   async.series([
-    //       function(callback){
-    //           // do some stuff ...
-
-    //           async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, function(err){
-    //             console.log("foreach error");
-    //         // if any of the saves produced an error, err would equal that error
-    //           });
-
-    //           songKickdata.tempitem = "tempval";
-    //           callback(null, 'one');
-    //       },
-    //       function(callback){
-    //           // do some more stuff ...
-    //           // all of our data has returned
-    //           response.json(songKickdata);
-    //           callback(null, 'two');
-    //       },
-    //   ],
-    //   // optional callback
-    //   function(err, results){
-    //     if (err) {
-    //       console.log("error iterating for youtube links: " + err);
-    //     } else {
-    //       console.log("we have our data!");
-    //     }
-    //   });
     });
 
     // response.json({ 'testvar':"success"})
