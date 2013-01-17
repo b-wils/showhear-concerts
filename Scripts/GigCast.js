@@ -362,6 +362,7 @@ function getLocationQueryString() {
     if ($.cookie('sk_locationid')) {
         return "location=sk:" + $.cookie('sk_locationid');
     } else {
+        alert("using client ip!");
         return "location=clientip";
     }
 }
@@ -797,9 +798,9 @@ function getSongkickEventPage(pageNumber) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
 
-    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=clientip&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     // location hardcoded to austin 9179
-    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+    $.getJSON("/events.json?"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
     function (data) {
         var text = "Event name: ";
         //alert('get event');

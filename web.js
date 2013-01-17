@@ -59,6 +59,8 @@ app.configure(function(){
   app.use("/jquery-ui-1.9.2.custom", express.static(__dirname + '/jquery-ui-1.9.2.custom'));
   app.use("/jquerycookie", express.static(__dirname + '/jquerycookie'));
 
+  // app.enable("jsonp callback");
+
   // disable layout
   app.set("view options", {layout: false});
 
@@ -104,7 +106,7 @@ app.get('/ytfeeds', function(req, res) {
 
   youtube.feeds.videos( {q: 'parkour'}, function( err, data ) {
     if( err instanceof Error ) {
-        console.log( err );
+        console.log( "youtube feed error: " + err );
     } else {
         // console.log( data );
         res.json(data);
@@ -160,7 +162,7 @@ function foreachArtistCB(item, artistCallback) {
                             }
                           , function( err, data ) {
         if( err instanceof Error ) {
-            console.log( err );
+            console.log( "youtube feed error for "+item.artist.displayName+":" + err );
             artistCallback();
         } else {
             // console.log( data );
@@ -270,6 +272,14 @@ app.get('/events.json', function(request, response) {
           if (err) {
             console.log("error iterating for youtube links: " + err);
           } else {
+            console.log("we have our data1!");
+            // response.writeHead(200, {
+            //   "Content-Type": "application/json",
+            //   "Access-Control-Allow-Origin": "*"
+            // });
+
+            // response.write(JSON.stringify(songKickdata));
+            // response.end;
             response.json(songKickdata);
             console.log("we have our data!");
           }
