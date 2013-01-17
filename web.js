@@ -12,7 +12,7 @@ var express = require('express')
   , url = require('url')
   , qs = require('querystring')
   , util = require("util")
-  , pg = require('pg')
+  // , pg = require('pg')
   , async = require('async');
 
 var app = express.createServer(express.logger());
@@ -31,12 +31,12 @@ function foreachCB(item, callback) {
 
 var dbURL = process.env.DATABASE_URL || 'postgres://localhost:5432/showhear';
 
-var connectionString = process.env.DATABASE_URL || 'postgres://postgres:magnum45@localhost:5432/showhear'
-  , client
-  , query;
+// var connectionString = process.env.DATABASE_URL || 'postgres://postgres:magnum45@localhost:5432/showhear'
+//   , client
+//   , query;
 
-client = new pg.Client(connectionString);
-client.connect();
+// client = new pg.Client(connectionString);
+// client.connect();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
