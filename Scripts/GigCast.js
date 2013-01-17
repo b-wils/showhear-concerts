@@ -205,6 +205,7 @@ jQuery.support.cors = true;
     if (preLoadEventSKID) {
         setPreloadEvent();
     } else {
+        // TODO this will execute before we get our location info
         getSongkickEventPage(1);
     }
 
@@ -259,7 +260,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 var player;
 var playerLoaded = false;
-var initialVideoUrl;
+var initialVideoId;
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         wmode: 'opaque',
@@ -382,8 +383,8 @@ function populateLocation() {
 
         $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
         function (data) {
-            $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName);
-            
+            $("#locationText").html();
+            setLocation(data.resultsPage.results.location[0].metroArea.id, data.resultsPage.results.location[0].metroArea.displayName);
         });
     }
 }
@@ -471,37 +472,47 @@ function selectPlaying(myDiv, autoStart) {
 
     var artistName = $(myDiv).children(".artist_name").get(0).innerHTML;
 
-    var youtubeLink = $(myDiv).children(".artistYoutubeURL").get(0).value;
+    var myYoutubeID = $(myDiv).children(".artistYoutubeID").get(0).value;
 
-    console.log("ytlink= " + youtubeLink);
+    console.log("ytlink= " + myYoutubeID +"!");
 
     //alert(artistName);
 
-    JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
-    function (data) {
-        // alert("ytquery");
-        if (data.feed.entry) {
-
-            for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
-                if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
-                    var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
-                    // document.getElementById("blah").innerHTML = videoUrl;
-                    if (playerLoaded) {
-                        if (autoStart) {
-                            player.loadVideoByUrl(videoUrl, 0, 'small');
-                        } else {
-                            player.cueVideoByUrl(videoUrl, 0, 'small');
-                        }
-                    } else {
-                        initialVideoUrl = videoUrl;
-                    }
-                    break;
-                }
-            }
+    if (playerLoaded) {
+        if (autoStart) {
+            player.loadVideoById(myYoutubeID, 0, 'small');
         } else {
-            // document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
+            player.cueVideoById(myYoutubeID, 0, 'small');
         }
-    });
+    } else {
+        initialVideoId = myYoutubeID;
+    }
+
+    // JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
+    // function (data) {
+    //     // alert("ytquery");
+    //     if (data.feed.entry) {
+
+    //         for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
+    //             if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
+    //                 var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
+    //                 // document.getElementById("blah").innerHTML = videoUrl;
+    //                 if (playerLoaded) {
+    //                     if (autoStart) {
+    //                         player.loadVideoById(myYoutubeID, 0, 'small');
+    //                     } else {
+    //                         player.cueVideoById(myYoutubeID, 0, 'small');
+    //                     }
+    //                 } else {
+    //                     initialVideoId = myYoutubeID;
+    //                 }
+    //                 break;
+    //             }
+    //         }
+    //     } else {
+    //         // document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
+    //     }
+    // });
 
     // populateArtistInfo(artistName);
     // populateLastFMInfo(artistName);
@@ -676,7 +687,7 @@ function addArtistDivElement(targetNode, sk_artistNode) {
     var artistName = sk_artistNode.displayName;
 
     var artists = [
-    {artistName: sk_artistNode.displayName, artistURI: sk_artistNode.artist.uri}
+    {artistName: sk_artistNode.displayName, artistURI: sk_artistNode.artist.uri, youtubeID: sk_artistNode.artist.youtubeID}
     ];
 
     var myArtistTmpl = $('#artist_item_template').tmpl(artists);
@@ -991,9 +1002,9 @@ function onPlayerReady(event) {
     playerLoaded = true;
     // loadVideoOnUpdate = true;
 
-    if (initialVideoUrl) {
+    if (initialVideoId) {
         // TODO should autostart on load be toggleable?
-        player.cueVideoByUrl(initialVideoUrl, 0, 'small');
+        player.cueVideoById(initialVideoId, 0, 'small');
     }
 }
 

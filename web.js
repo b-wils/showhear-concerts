@@ -155,6 +155,9 @@ function foreachArtistCB(item, artistCallback) {
   //   } else
     {
 
+    // TODO we will want to store at least some of these locally before sending off
+    // Also need to figure out the perf impact here, it may be fairly dramatic
+
       youtube.feeds.videos( {
                               q: item.artist.displayName,
                               category: "Music",
