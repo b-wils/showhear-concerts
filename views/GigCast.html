@@ -116,7 +116,10 @@
             <!--     <input type="button" onclick="testClick()" value="TestButton"/>
             &nbsp; -->
             <!-- <hr> -->
-            </div> <!-- bottomButtons -->
+            </div> 
+
+
+            <!-- bottomButtons -->
 <!--             <b>Last.FM info:</b>
             <div id="lastFMInfo"> Test Info</div>
             <br />
@@ -127,6 +130,10 @@
             Inside player container
             </div> -->
         <!-- <hr> -->
+        <!-- TODO would be good to get this in a separate border -->
+        <div id="playingInfo">
+            Hello there!
+        </div>
         </div> <!-- playerScreen -->
         <!-- <hr> -->
     <!-- </div> playerContainer -->
@@ -166,9 +173,11 @@
                     <input type="text" size="12" id="EndDateText"/> -->
                     <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
                     <!-- <hr class="hrClear"> -->
-                    <div style="clear: both; border: 1px solid #496077;"></div>
+                    <div style="clear: both;"></div>
                   </div>
                   <div id="tabs-2">
+                    <p> Use songkick to track events and artists you love
+                    </p>
                     <label for="updLocationTxt">Songkick User</label>
                     <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
                     <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
@@ -178,7 +187,7 @@
  
             </div>
             <br />
-        <div class ="button_container"/>
+        <div class ="button_container">Loading... </div>
     </div> <!-- sidebar -->
     <!-- <hr> -->
 </div> <!-- main -->
