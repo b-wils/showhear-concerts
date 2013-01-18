@@ -66,6 +66,10 @@
         </div>
     </script>
 
+    <script id="info_event" type="text/x-jQuery-tmpl">
+        <li>${eventName}</li>
+    </script>
+
 </head>
 <body>
 
@@ -132,15 +136,20 @@
         <!-- <hr> -->
         <!-- TODO would be good to get this in a separate border -->
         <div id="playingInfo">
-            <img src="http://userserve-ak.last.fm/serve/126/44619755.jpg" alt="an artist" class="moreinfoImage"/>
+            <img src="http://userserve-ak.last.fm/serve/126/14973829.jpg" alt="an artist" class="moreinfoImage" id="info_image"/>
             <b> Now Playing: </b>
-            RX Bandits <br/>
-            Lastfm info: ska rock prog <br/>
-            Upcoming shows:
-            <ul>
-            <li>Tuesday at morning glor with RED HOT CHILI PEPPERS</li>
-            <li>YOUR MOM</li>
-          </ul>
+            <span id="info_artist"> RX Bandits </span>
+            <br/>
+            <b> Last.fm Tags: </b> 
+            <span id="info_lastfm"> 
+                ska rock prog 
+            </span>
+            <br/>
+            <b>Upcoming Shows:</b>
+                <ul id="info_shows">
+                    <li>Tuesday at morning glor with RED HOT CHILI PEPPERS</li>
+                    <li>YOUR MOM</li>
+                </ul>
         </div>
         </div> <!-- playerScreen -->
         <!-- <hr> -->
@@ -199,6 +208,7 @@
         <div class ="button_container">Loading... </div>
     </div> <!-- sidebar -->
     <!-- <hr> -->
+    <div style="clear: both;"></div>
 </div> <!-- main -->
 
 <div class="footerDiv"> 

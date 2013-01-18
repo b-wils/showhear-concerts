@@ -474,7 +474,7 @@ function selectPlaying(myDiv, autoStart) {
 
     var myYoutubeID = $(myDiv).children(".artistYoutubeID").get(0).value;
 
-    console.log("ytlink= " + myYoutubeID +"!");
+    // console.log("ytlink= " + myYoutubeID +"!");
 
     //alert(artistName);
 
@@ -514,8 +514,92 @@ function selectPlaying(myDiv, autoStart) {
     //     }
     // });
 
+    updatePlayingInfo(artistName);
+
     // populateArtistInfo(artistName);
     // populateLastFMInfo(artistName);
+}
+
+function updatePlayingInfo(artistName) {
+    // alert(artistName);
+    $("#info_artist").html(artistName);
+
+    var artistNode = lfm_artistCache[artistName];
+
+    if (artistNode) {
+        if (artistNode.artist.tags) {
+            if (artistNode.artist.tags.tag) {
+                var targetElement = $("#info_lastfm").get(0);
+                $("#info_lastfm").empty();
+                // var genres = [];
+                // TODO we should index with original search into the query instead of result returned from last.fm
+                // TODO should we just cache the entire lastfm result instead of building our own mapping?
+                // lfm_artistGenreMap[artistNode.artist.name] = genres;
+
+                // Inconsistency in lastfm data format, a single tag will not be nested in an array. lets just add it here
+                // if (artistNode.artist.tags.tag.name) {
+                //     alert("artist has single tag: " + artistNode.artist.name);
+                //     artistNode.artist.tags.tag[0] = {};
+                //     artistNode.artist.tags.tag[0].name = artistNode.artist.tags.tag.name;
+                // }
+
+                if (artistNode.artist.tags.tag.length) {                    
+
+                    for (var i = 0; (i < artistNode.artist.tags.tag.length); i++) {
+
+                        if (i < MAX_GENRE_TAGS) {
+                            var genresList = [
+                                {genreName: artistNode.artist.tags.tag[i].name}
+                            ];
+
+                            // TODO we could do this for all tags at once if we build the array first
+                            var myGenreTmpl = $('#artist_genre_tag').tmpl(genresList);
+                            myGenreTmpl.appendTo(targetElement);
+                        }
+                    }
+                } else {
+                    var genresList = [
+                        {genreName: artistNode.artist.tags.tag.name}
+                    ];
+
+                    // TODO we could do this for all tags at once if we build the array first
+                    var myGenreTmpl = $('#artist_genre_tag').tmpl(genresList);
+                    myGenreTmpl.appendTo(targetElement);
+                }
+
+                // targetElement.innerHTML = text;
+            } else {
+                // genreSpan.innerHTML = " (no artist tags)";
+                console.log("no last.fm tags for artist");
+            }
+
+            // var linkInfo = [
+            //     {lastfmURI: artistNode.artist.url}
+            // ];
+
+            // // TODO we could do this for all tags at once if we build the array first
+            // var myLinkTmpl = $('#artist_lastfm_link').tmpl(linkInfo);
+            // myLinkTmpl.appendTo(targetElement);
+        } else {
+            console.log("no last.fm tags for artist");
+        }
+
+        if (artistNode.artist.image) {
+            // assume our size is the 2nd index
+            if (artistNode.artist.image[2].size != "large") {
+                console.log("warning last.fm image index assertion false!");
+            }
+
+            console.log("imglink = " + artistNode.artist.image[2]["#text"]);
+            $("#info_image").attr("src", artistNode.artist.image[2]["#text"]);
+        } else {
+            console.log("no lastfm image!");
+        }
+    } else {
+        console.log("lastfm info not cached for currently playing artist");
+    }
+
+    populateArtistInfo(artistName);
 }
 
 function artistDivClick(myDiv) {
@@ -1131,27 +1215,37 @@ function playlistChange() {
 
 function populateArtistInfo(artistName) {
     // location hardcoded to austin id:9179
+    $('#info_shows').empty();
     $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",        
     function (data) {
         //var text = "<b>Events:</b>";
-        var text = "";
+        var eventItems = [];
         // data is JSON response object
         //alert(text + );
 
         for (var i = 0; i < data.resultsPage.results.event.length; i++) {
-            text += "<br/>" + data.resultsPage.results.event[i].displayName + "<br/>";
-            for (var j = 0; j < data.resultsPage.results.event[i].performance.length; j++) {
-                var iartistName = data.resultsPage.results.event[i].performance[j].displayName
+            // text += "<br/>" + data.resultsPage.results.event[i].displayName + "<br/>";
+            // for (var j = 0; j < data.resultsPage.results.event[i].performance.length; j++) {
+            //     var iartistName = data.resultsPage.results.event[i].performance[j].displayName;
 
-                //text += iartistName + "&nbsp;";
-            }
+            //     eventItems
 
+            //     //text += iartistName + "&nbsp;";
+            // }
+
+            eventItems[i] = {eventName: data.resultsPage.results.event[i].displayName };
             //text = text + data.resultsPage.results.event[i].displayName + " NEXT: ";
 
         }
 
-        $("#playingInfo").html(text);
+// eventItems = [
+//             {eventName: "test1"},
+//             {eventName: "test1"},
+//             ];
+
+        var myGenreTmpl = $('#info_event').tmpl(eventItems);
+        myGenreTmpl.appendTo($('#info_shows'));
 
     });
 }
