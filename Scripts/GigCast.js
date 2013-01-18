@@ -363,7 +363,7 @@ function getLocationQueryString() {
     if ($.cookie('sk_locationid')) {
         return "location=sk:" + $.cookie('sk_locationid');
     } else {
-        alert("using client ip!");
+        console.log("using client ip!");
         return "location=clientip";
     }
 }
