@@ -1137,7 +1137,7 @@ function populateArtistInfo(artistName) {
     // location hardcoded to austin id:9179
     // TODO can we encode this better?
     artistName = artistName.replace("&amp;","%26");
-    console.log("our artist after replace: " + artistName);
+    // console.log("our artist after replace: " + artistName);
 
     $('#info_shows').empty();
     $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
@@ -1222,7 +1222,10 @@ function updatePlayingInfo(artistName, artistURI, artistID) {
     $("#info_artist").html(artistName);
     var targetElement = $("#info_lastfm").get(0);
     $("#info_lastfm").empty();
+
+    // TODO we should find a better placeholder image
     $("#info_image").attr("src", "");
+    $("#info_image").css("visibility", "hidden");
 
     $("#info_artist").empty();
     var myArtistInfo = { artistName: artistName, songkickURI: artistURI}
@@ -1302,7 +1305,13 @@ function updatePlayingInfo(artistName, artistURI, artistID) {
                 console.log("warning last.fm image index assertion false!");
             }
 
+            
             $("#info_image").attr("src", artistNode.artist.image[2]["#text"]);
+
+            if (artistNode.artist.image[2]["#text"] != "") {
+                $("#info_image").css("visibility", "visible");
+            } 
+            
         } else {
             console.log("no lastfm image!");
         }
