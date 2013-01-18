@@ -73,6 +73,12 @@
 </head>
 <body>
 
+<div 
+    style="background-image:
+           url('http://userserve-ak.last.fm/serve/126/14973829.jp'); 
+    width:200px; 
+    height:100px;">&nbsp;hello</div>
+
 <div id="dialog" title="Update Location">
         <label for="updLocationTxt">New Location</label>
         <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all" />
@@ -136,7 +142,9 @@
         <!-- <hr> -->
         <!-- TODO would be good to get this in a separate border -->
         <div id="playingInfo">
-            <img src="http://userserve-ak.last.fm/serve/126/14973829.jpg" alt="an artist" class="moreinfoImage" id="info_image"/>
+            <div class="moreinfoImageDiv">
+                <img src="http://userserve-ak.last.fm/serve/126/14973829.jpg" alt="an artist" id="info_image" class="moreinfoImage"/>
+            </div>
             <b> Now Playing: </b>
             <span id="info_artist"> RX Bandits </span>
             <br/>
@@ -204,8 +212,12 @@
  
             </div>
             <br />
-        Upcoming Shows:
-        <div class ="button_container">Loading... </div>
+        <div style="clear: both;"></div>
+        <div class ="playlist_container">
+            Upcoming Shows:
+            <div class ="button_container">Loading... </div>
+        </div>
+        <div style="clear: both;"></div>
     </div> <!-- sidebar -->
     <!-- <hr> -->
     <div style="clear: both;"></div>
