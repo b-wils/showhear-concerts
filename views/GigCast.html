@@ -26,17 +26,21 @@
             <span onclick="artistDivClick(this.parentNode)" class="artist_name">${artistName}</span>
             <span class="artist_genre">
             </span>
-            <a target="_blank" href=${artistURI}>
-                <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon rightFloat" height="17" width="17"/>
-            </a>
-            <input type="hidden" class="artistYoutubeURL" value="http://www.youtube.com/watch?feature=player_embedded&v=hUQkwQWITGo"/>
-            <input type="hidden" class="artistYoutubeID" value=${youtubeID}>
+            <input type="hidden" class="artistYoutubeID" value=${youtubeID}> </input>
+            <input type="hidden" class="artistURI" value=${artistURI}></input>
+            <input type="hidden" class="songkickID" value=${songkickID}></input>
         </div>
     </script>
 
     <script id="artist_lastfm_link" type="text/x-jquery-tmpl">
         <a target="_blank" href=${lastfmURI}>   
-            <img src="/images/lastfm_red_17px.png" alt="Last.Fm" class="lastfm_icon rightFloat"/>
+            <img src="/images/lastfm_red_17px.png" alt="Last.Fm" class="lastfm_icon"/>
+        </a>
+    </script>
+
+    <script id="artist_songkick_link" type="text/x-jquery-tmpl">
+        <a target="_blank" href=${songkickURI}>   
+            <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon" height="17" width="17"/>
         </a>
     </script>
 
@@ -49,35 +53,34 @@
             <div class="event_artist_list"/>
             <div>
                 ${date} @ ${venue}
-                
-                
-                <span class="rightFloat eventLinks">
-                    <a target="_blank" href=${eventPermalink}>
-                    <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
-                        <span class="ui-icon ui-icon-link"></span>
-                    </div>
-                    </a>
-                    <a target="_blank" href=${skEventURI}>
-                        <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon" height="17" width="17"/>
-                    </a>
-                </span>
             </div>
             <div style="clear: both;"></div>
         </div>
     </script>
 
     <script id="info_event" type="text/x-jQuery-tmpl">
-        <li>${eventName}</li>
+        <li>
+            ${eventName}
+            <a target="_blank" href=${eventPermalink}>
+            <div class="ui-state-default" style="display: inline-block;">
+                <span class="ui-icon ui-icon-link"></span>
+            </div>
+            </a>
+            <a target="_blank" href=${songkickURI}>   
+                <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon" height="17" width="17"/>
+            </a>
+        </li>
+    </script>
+
+    <script id="info_artist_tmpl" type="text/x-jQuery-tmpl">
+        ${artistName}
+        <a target="_blank" href=${songkickURI}>   
+            <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon" height="17" width="17"/>
+        </a>
     </script>
 
 </head>
 <body>
-
-<div 
-    style="background-image:
-           url('http://userserve-ak.last.fm/serve/126/14973829.jp'); 
-    width:200px; 
-    height:100px;">&nbsp;hello</div>
 
 <div id="dialog" title="Update Location">
         <label for="updLocationTxt">New Location</label>
@@ -146,17 +149,14 @@
                 <img src="http://userserve-ak.last.fm/serve/126/14973829.jpg" alt="an artist" id="info_image" class="moreinfoImage"/>
             </div>
             <b> Now Playing: </b>
-            <span id="info_artist"> RX Bandits </span>
+            <span id="info_artist"> Loading...</span>
             <br/>
             <b> Last.fm Tags: </b> 
             <span id="info_lastfm"> 
-                ska rock prog 
             </span>
             <br/>
             <b>Upcoming Shows:</b>
                 <ul id="info_shows">
-                    <li>Tuesday at morning glor with RED HOT CHILI PEPPERS</li>
-                    <li>YOUR MOM</li>
                 </ul>
         </div>
         </div> <!-- playerScreen -->
