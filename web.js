@@ -207,6 +207,7 @@ app.get('/events.json', function(request, response) {
   // var http = require('http');
 
   console.log("CLIENT IP IS: " + request.connection.remoteAddress);
+  console.log("forward IP: " + request.headers['X-Forwarded-For']);
 
   if(!request.query["min_date"]) {
     console.log("min_date required");
