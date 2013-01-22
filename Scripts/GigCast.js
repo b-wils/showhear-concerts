@@ -1177,70 +1177,8 @@ function populateArtistInfo(artistName) {
     });
 }
 
-function populateLastFMInfo(artistName) {
-    $("#lastFMInfo").html("before query");
-    // TODO .getJSON looks bugged in IE9
-    JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-    function (data) {
-        $("#lastFMInfo").html("after query");
-        var text = "";
-        //$("#lastFMInfo").html("artist not found");
-        if (data.artist) {
-            $("#lastFMInfo").html("an artist!");
-            // Todo how do we get down this code path??
-            text += "Artist Name: " + artistName;
-            text += "<br/>Listeners: " + data.artist.stats.listeners;
-            text += "<br/>Play Count: " + data.artist.stats.playcount;
-            text += "<br/>Tags:"
-
-            if (data.artist.tags.tag) {
-                if (data.artist.tags.tag.length) {
-                    // multiple tags
-                    //text += "some tags: " + data.artist.tags.tag.length;
-                    for (var i = 0; i < data.artist.tags.tag.length; i++) {
-                        text += ",&nbsp" + data.artist.tags.tag[i].name;
-                    }  
-                } else {
-                    // single tag
-                    text += data.artist.tags.tag.name;
-                }
-
-            } else {
-                text += "&nbspNo Tags";
-            }
-        } else {
-            text = "Artist not found good path!";
-        }
-
-        $("#lastFMInfo").html(text);
-    });
-}
-
-
-function updatePlayingInfo(artistName, artistURI, artistID) {
-    // alert(artistName);
-    $("#info_artist").html(artistName);
+function populateLastFMInfo(artistNode) {
     var targetElement = $("#info_lastfm").get(0);
-    $("#info_lastfm").empty();
-
-    // TODO we should find a better placeholder image
-    $("#info_image").attr("src", "");
-    $("#info_image").css("visibility", "hidden");
-
-    $("#info_artist").empty();
-    var myArtistInfo = { artistName: artistName, songkickURI: artistURI}
-
-    var myGenreTmpl = $('#info_artist_tmpl').tmpl(myArtistInfo);
-    myGenreTmpl.appendTo($('#info_artist'));
-
-    populateArtistInfo(artistName);
-
-    // TODO bug, artist doesn't seem to be cached if there is an amperstand ("&") in their name
-    var artistNode = lfm_artistCache[artistName];
-    if (!artistNode) {
-        console.log("artist not cached");
-        return;
-    }
 
     if (artistNode.artist) {
         if (artistNode.artist.tags) {
@@ -1320,4 +1258,46 @@ function updatePlayingInfo(artistName, artistURI, artistID) {
     } else {
         // console.log("lastfm info not cached for currently playing artist");
     }
+}
+
+
+function updatePlayingInfo(artistName, artistURI, artistID) {
+    // alert(artistName);
+    $("#info_artist").html(artistName);
+    var targetElement = $("#info_lastfm").get(0);
+    $("#info_lastfm").empty();
+
+    // TODO we should find a better placeholder image
+    $("#info_image").attr("src", "");
+    $("#info_image").css("visibility", "hidden");
+
+    $("#info_artist").empty();
+    var myArtistInfo = { artistName: artistName, songkickURI: artistURI}
+
+    var myGenreTmpl = $('#info_artist_tmpl').tmpl(myArtistInfo);
+    myGenreTmpl.appendTo($('#info_artist'));
+
+    populateArtistInfo(artistName);
+
+    // TODO bug, artist doesn't seem to be cached if there is an amperstand ("&") in their name
+    var artistNode = lfm_artistCache[artistName];
+
+
+    // Edge case- our initial artist loaded will not have the last.fm info by the time we get here
+    // we could somehow wait for that to complete or just update it here
+    if (!artistNode) {
+        console.log("artist not cached");
+
+        // TODO ideally we should query this by MBID first
+        JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+            function (data) {
+                populateLastFMInfo(data);
+            }
+        );
+        return;
+    } else {
+        populateLastFMInfo(artistNode);
+    }
+
+
 }
