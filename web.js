@@ -192,13 +192,11 @@ function getClientIp(req) {
     // the first one
     var forwardedIps = forwardedIpsStr.split(',');
     ipAddress = forwardedIps[0];
-    console.log("getClientIP1: " + ipAddress);
   }
   if (!ipAddress) {
     // Ensure getting client IP address still works in
     // development environment
     ipAddress = req.connection.remoteAddress;
-    console.log("getClientIP2: " + ipAddress);
   }
   return ipAddress;
 };
@@ -226,9 +224,6 @@ app.get('/events.json', function(request, response) {
   // response.render('GigCast.html', {
 
   // var http = require('http');
-
-  console.log("CLIENT IP IS: " + request.connection.remoteAddress);
-  console.log("forward IP: " + request.headers['X-Forwarded-For']);
 
   var myClientIp = getClientIp(request);
 
@@ -267,11 +262,11 @@ app.get('/events.json', function(request, response) {
 
   if (queryStringParameterse.location == "clientip") {
     // better way to test for our own host?
-    if (request.connection.remoteAddress == "127.0.0.1") {
+    if (myClientIp == "127.0.0.1") {
       console.log("loc=clientip our self???")
     } else {
         console.log("change client IP to actual IP");
-        queryStringParameterse.location = "ip:" + request.connection.remoteAddress;
+        queryStringParameterse.location = "ip:" + myClientIp;
     }
   }
 
