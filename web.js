@@ -182,6 +182,27 @@ function foreachArtistCB(item, artistCallback) {
   //artistCallback();
 }
 
+function getClientIp(req) {
+  var ipAddress;
+  // Amazon EC2 / Heroku workaround to get real client IP
+  var forwardedIpsStr = req.header('x-forwarded-for'); 
+  if (forwardedIpsStr) {
+    // 'x-forwarded-for' header may return multiple IP addresses in
+    // the format: "client IP, proxy 1 IP, proxy 2 IP" so take the
+    // the first one
+    var forwardedIps = forwardedIpsStr.split(',');
+    ipAddress = forwardedIps[0];
+    console.log("getClientIP1: " + ipAddress);
+  }
+  if (!ipAddress) {
+    // Ensure getting client IP address still works in
+    // development environment
+    ipAddress = req.connection.remoteAddress;
+    console.log("getClientIP2: " + ipAddress);
+  }
+  return ipAddress;
+};
+
 function foreachEventCB(item, eventCallback) {
   async.forEach(item.performance, foreachArtistCB, 
     function(err){
@@ -208,6 +229,8 @@ app.get('/events.json', function(request, response) {
 
   console.log("CLIENT IP IS: " + request.connection.remoteAddress);
   console.log("forward IP: " + request.headers['X-Forwarded-For']);
+
+  var myClientIp = getClientIp(request);
 
   if(!request.query["min_date"]) {
     console.log("min_date required");
