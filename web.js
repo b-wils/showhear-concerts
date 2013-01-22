@@ -206,6 +206,8 @@ app.get('/events.json', function(request, response) {
 
   // var http = require('http');
 
+  console.log("CLIENT IP IS: " + request.connection.remoteAddress);
+
   if(!request.query["min_date"]) {
     console.log("min_date required");
     response.json({status:"error", message:"min_date required"});
@@ -237,6 +239,16 @@ app.get('/events.json', function(request, response) {
     max_date: request.query["max_date"],
     page: request.query["page"],
     location: request.query["location"]
+  }
+
+  if (queryStringParameterse.location == "clientip") {
+    // better way to test for our own host?
+    if (request.connection.remoteAddress == "127.0.0.1") {
+      console.log("loc=clientip our self???")
+    } else {
+        console.log("change client IP to actual IP");
+        queryStringParameterse.location = "ip:" + request.connection.remoteAddress;
+    }
   }
 
   var myQueryString = qs.stringify(queryStringParameterse);
