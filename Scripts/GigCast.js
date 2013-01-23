@@ -712,7 +712,7 @@ function addArtistDivElement(targetNode, sk_artistNode) {
         } else {
             // TODO we can query by musicbrainz id instead of searching by artist name. this could give slightly better results but we will still
             // likely need the fallback
-            JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+            JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + encodeLastFMParam(artistName) + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
                 addLastFMInfoCallback(artistName, artistGenreTmpl)
             );
         }
@@ -1177,6 +1177,13 @@ function populateArtistInfo(artistName) {
     });
 }
 
+function encodeLastFMParam(param) {
+    var returnParam = param;
+    returnParam = returnParam.replace("&amp;","and");
+    returnParam = returnParam.replace("&","and");
+    return returnParam;
+}
+
 function populateLastFMInfo(artistNode) {
     var targetElement = $("#info_lastfm").get(0);
 
@@ -1289,7 +1296,7 @@ function updatePlayingInfo(artistName, artistURI, artistID) {
         console.log("artist not cached");
 
         // TODO ideally we should query this by MBID first
-        JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artistName + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+        JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + encodeLastFMParam(artistName) + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
             function (data) {
                 populateLastFMInfo(data);
             }
