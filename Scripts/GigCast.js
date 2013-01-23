@@ -391,7 +391,7 @@ function populateLocation() {
 
 function updateClick() {
 // alert("date: " + $.datepicker.formatDate('yy', $( "#to" ).datepicker( "getDate" )));
-
+useGenreFilter();
     //$("#playlistNav").empty();
     $(".button_container").empty();
     $(".button_container").html("Loading...")
@@ -405,7 +405,7 @@ function updateClick() {
 }
 
 function songkickUpdateClick() {
-
+useGenreFilter();
     //$("#playlistNav").empty();
     $(".button_container").empty();
     $(".button_container").html("Loading...")
@@ -439,6 +439,7 @@ function disableHeadlinersOnly() {
 
 function divScrollTo(element)
 {
+    // TODO BUG Giving errors, possibly because it is called before completely loaded?
     element.parentNode.parentNode.scrollTop = element.offsetTop - element.parentNode.parentNode.offsetTop;
 }
 
@@ -537,10 +538,22 @@ var MAX_GENRE_TAGS = 2;
 // cache all the lastFM genre info client side so we aren't constantly querying when updating the filters
 // TODO also check this when initially populating the list
 
+function useGenreFilter() {
+    if ($.cookie('genreFilter')) {
+        if ($("#tabs").tabs('option', 'selected') == 0) {
+            // console.log("use genre filter");
+            return true;
+        }
+    }
+
+    // console.log("don't use genre filter");
+    return false;
+}
+
 var lfm_artistCache = [];
 
 // assumes this has already been cached
-function addLastFMInfo(artistName, targetElement) {
+function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) {
     var text = "";
     var artistNode = lfm_artistCache[artistName];
     //$("#lastFMInfo").html("artist not found");
@@ -589,8 +602,13 @@ function addLastFMInfo(artistName, targetElement) {
 
                                 // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
                                 // if (!targetElemnt.parent.parent.parent) {
-
-                                // }                     
+                                if ($(targetElement).parents('.button_container').length) {
+                                    console.log("we have a parent!")
+                                } else {
+                                    targetEvent.appendTo(targetContainer);
+                                    console.log("no parent");
+                                }
+                                                        // }                     
                             }
                         }
                     }
@@ -603,6 +621,7 @@ function addLastFMInfo(artistName, targetElement) {
                     var myGenreTmpl = $('#artist_genre_tag').tmpl(genresList);
                     myGenreTmpl.appendTo(targetElement);
 
+
                     if ($.cookie('genreFilter')) {
                         if (artistNode.artist.tags.tag.name == $.cookie('genreFilter')) {
                             targetElement.className += " badgenre";
@@ -610,7 +629,13 @@ function addLastFMInfo(artistName, targetElement) {
                             // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
                             // if (!targetElemnt.parent.parent.parent) {
 
-                            // }                     
+                            // } 
+                            if ($(targetElement).parents('.button_container').length) {
+                                console.log("we have a parent!")
+                            } else {
+                                targetEvent.appendTo(targetContainer);
+                                console.log("no parent");
+                            }              
                         }
                     }
                 }
@@ -652,7 +677,7 @@ function addLastFMInfo(artistName, targetElement) {
     }
 }
 
-var addLastFMInfoCallbackByMBID = function(searchString, targetELement) {
+var addLastFMInfoCallbackByMBID = function(searchString, targetELement, targetEvent, targetContainer) {
     return function (data) {
 
         if (!(data.artist)) {
@@ -662,16 +687,16 @@ var addLastFMInfoCallbackByMBID = function(searchString, targetELement) {
         // alert('mbid?');
 
         lfm_artistCache[searchString] = data;
-        addLastFMInfo(searchString, targetELement);
+        addLastFMInfo(searchString, targetELement, targetEvent, targetContainer);
     };
 };
 
 
-var addLastFMInfoCallback = function(searchString, targetELement) {
+var addLastFMInfoCallback = function(searchString, targetELement, targetEvent, targetContainer) {
     return function (data) {
 
         lfm_artistCache[searchString] = data;
-        addLastFMInfo(searchString, targetELement);
+        addLastFMInfo(searchString, targetELement, targetEvent, targetContainer);
 
         if ((data.artist)) {
             // console.log("found by manual lastfm - " + data.artist.name);
@@ -688,7 +713,7 @@ var addLastFMInfoCallback = function(searchString, targetELement) {
 
 var numGenreAdd = 0;
 // dummy comment is this working?
-function addArtistDivElement(targetNode, sk_artistNode) {
+function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetContainer) {
     var artistName = sk_artistNode.displayName;
 
     var artists = [
@@ -703,18 +728,18 @@ function addArtistDivElement(targetNode, sk_artistNode) {
 
     if (lfm_artistCache[artistName]) {
         // alert(artistName + ' cached!');
-        addLastFMInfo(artistName, artistGenreTmpl);
+        addLastFMInfo(artistName, artistGenreTmpl, targetEvent, targetContainer);
     } else {
 
         if (sk_artistNode.artist.identifier.length > 0) {
             JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&mbid=" + sk_artistNode.artist.identifier[0].mbid + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-                addLastFMInfoCallbackByMBID(artistName, artistGenreTmpl)
+                addLastFMInfoCallbackByMBID(artistName, artistGenreTmpl, targetEvent, targetContainer)
             );
         } else {
             // TODO we can query by musicbrainz id instead of searching by artist name. this could give slightly better results but we will still
             // likely need the fallback
             JSONQuery("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + encodeLastFMParam(artistName) + "&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
-                addLastFMInfoCallback(artistName, artistGenreTmpl)
+                addLastFMInfoCallback(artistName, artistGenreTmpl, targetEvent, targetContainer)
             );
         }
     }
@@ -745,7 +770,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     var myEventTmpl = $('#event_item').tmpl(eventInfo);
 
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
-        addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j]);
+        addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j], myEventTmpl, targetNode);
     }
 
     // root item
@@ -762,7 +787,10 @@ function addEventDivElement(sk_eventNode, targetNode) {
         selectPlaying(myEventTmpl.find(".artist_item").get(0), false);
         // selectPlaying()
     } else {
-        myEventTmpl.appendTo(targetNode);
+
+        if (useGenreFilter() == false) {
+            myEventTmpl.appendTo(targetNode);
+        }
     }
 }
 function testClick() {
