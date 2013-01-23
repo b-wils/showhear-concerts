@@ -217,6 +217,19 @@ function foreachEventCB(item, eventCallback) {
   // console.log(item.displayName);
 }
 
+// app.get('/data/:type', function (req, res) {
+//   console.log('Received ' + type + ' data');
+// });
+
+app.get('/data/:type', function (req, res) {
+  console.log('Received ' + req.params.type + ' data');
+});
+
+app.get('/data', function (req, res) {
+  console.log('Received no path ' +  ' data');
+  res.json({"data": "none"});
+});
+
 // JSON responses
 app.get('/events.json', function(request, response) {
   //response.send('Hello World!');
@@ -240,9 +253,9 @@ app.get('/events.json', function(request, response) {
   }
 
   if(!request.query["page"]) {
-    console.log("page required");
-    response.json({status:"error", message:"page required"});
-    return;
+    // console.log("page required");
+    // response.json({status:"error", message:"page required"});
+    request.query["page"] = 1;
   }
 
   // TODO what location info does client pass in and how do we parse?
@@ -330,6 +343,94 @@ app.get('/events.json', function(request, response) {
   // response.json({ 'testvar':"default"})
 });
 
+function calendarEventCBWrapper(data, eventCallback) {
+  foreachEventCB(data.event, eventCallback);
+}
+
+app.get('/users/:username/calendar.json', function(request, response) {
+  //response.send('Hello World!');
+  //response.send('Hello World again!');
+  // response.render('GigCast.html', {
+
+  // var http = require('http');
+
+  if(!request.query["page"]) {
+    request.query["page"] = "1";
+  }
+
+  if(!request.query["reason"]) {
+    console.log("reason required");
+    response.json({status:"error", message:"reason required"});
+    return;
+  }
+
+  var queryStringParameterse = {
+    apikey: "bUMFhmMfaIpxiUgJ",
+    page: request.query["page"],
+    reason: request.query["reason"]
+  }
+
+  var myQueryString = qs.stringify(queryStringParameterse);
+
+  console.log(myQueryString);
+
+  var options = {
+    host: 'api.songkick.com',
+    path: '/api/3.0/users/' + request.params.username + '/calendar.json?' + myQueryString
+  };
+
+  console.log(options.host + options.path);
+
+  http.get(options, function(skres) {
+    var data = '';
+
+    // console.log('STATUS: ' + skres.statusCode);
+    // console.log('HEADERS: ' + JSON.stringify(skres.headers));
+    skres.on('data', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // response.write(chunk);
+      data += chunk;
+    });
+
+    skres.on('end', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // data += chunk;
+      if (chunk) {
+        data += chunk;
+      }
+
+      var songKickdata = JSON.parse(data);
+
+
+
+      async.forEach(songKickdata.resultsPage.results.calendarEntry, calendarEventCBWrapper, 
+        function(err){
+          if (err) {
+            console.log("error iterating for youtube links: " + err);
+          } else {
+            console.log("we have our data1!");
+            // response.writeHead(200, {
+            //   "Content-Type": "application/json",
+            //   "Access-Control-Allow-Origin": "*"
+            // });
+
+            // response.write(JSON.stringify(songKickdata));
+            // response.end;
+            response.json(songKickdata);
+            console.log("we have our data!");
+          }
+    // if any of the saves produced an error, err would equal that error
+      });
+    });
+
+    // response.json({ 'testvar':"success"})
+  }).on('error', function(e) {
+    console.log('ERROR: ' + e.message);
+    response.json({ 'testvar':"error"})
+  });
+
+  // response.json({ 'testvar':"default"})
+});
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
