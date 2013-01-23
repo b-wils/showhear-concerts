@@ -816,7 +816,7 @@ function buildSongkickUserQuery(user, pageNumber) {
         console.log("invalid usertracktype");
     }
 
-    var url = "http://api.songkick.com/api/3.0/users/"+user+"/calendar.json"
+    var url = "/users/"+user+"/calendar.json"
 
     var parameters = {
         apikey : "bUMFhmMfaIpxiUgJ",
@@ -825,7 +825,7 @@ function buildSongkickUserQuery(user, pageNumber) {
         jsoncallback: "?"
     };
 
-    return url + "?" + $.param(parameters) + "&jsoncallback=?";
+    return url + "?" + $.param(parameters);
 }
 
 function getSongkickEventPage(pageNumber) {
