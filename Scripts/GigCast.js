@@ -597,16 +597,14 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
                         }
 
                         if ($.cookie('genreFilter')) {
-                            if (artistNode.artist.tags.tag[i].name == $.cookie('genreFilter')) {
-                                targetElement.className += " badgenre";
+                            if (artistNode.artist.tags.tag[i].name.indexOf($.cookie('genreFilter')) != -1) {
+                                // targetElement.className += " badgenre";
 
                                 // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
                                 // if (!targetElemnt.parent.parent.parent) {
                                 if ($(targetElement).parents('.button_container').length) {
-                                    console.log("we have a parent!")
                                 } else {
                                     targetEvent.appendTo(targetContainer);
-                                    console.log("no parent");
                                 }
                                                         // }                     
                             }
@@ -623,18 +621,16 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
 
 
                     if ($.cookie('genreFilter')) {
-                        if (artistNode.artist.tags.tag.name == $.cookie('genreFilter')) {
-                            targetElement.className += " badgenre";
+                        if (artistNode.artist.tags.tag.name.indexOf($.cookie('genreFilter')) != -1) {
+                            // targetElement.className += " badgenre";
 
                             // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
                             // if (!targetElemnt.parent.parent.parent) {
 
                             // } 
                             if ($(targetElement).parents('.button_container').length) {
-                                console.log("we have a parent!")
                             } else {
                                 targetEvent.appendTo(targetContainer);
-                                console.log("no parent");
                             }              
                         }
                     }
