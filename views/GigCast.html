@@ -201,11 +201,25 @@
                     <div style="clear: both;"></div>
                   </div>
                   <div id="tabs-2">
-                    <p> Use Songkick to track events and artists you love
-                    </p>
+                     Enter your Songkick profile to track events and artists you love.
+                    
+                    <br/>
+                    Search by: 
+                    <form name="myform" class="radioInline" id="songkickQueryType">
+                        <input type="radio" name="songkickQueryTypeRadio" value="artist" checked>Tracked Artists
+                        <input type="radio" name="songkickQueryTypeRadio" value="event" >Added Events
+                    </form>
+                    <br/>
+
                     <label for="updLocationTxt">Songkick User</label>
+                    
+
+
                     <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
+
+                    
                     <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
+                    <div style="clear: both;"></div>
                   </div>
                 </div>
 

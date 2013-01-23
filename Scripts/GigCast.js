@@ -415,6 +415,7 @@ function songkickUpdateClick() {
     artistIndex = 0;
     eventIndex = 0;
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
+
     getSongkickEventPageByUser($("#songkickUserTxt").val(), 1);
 }
 
@@ -797,11 +798,29 @@ function buildSongkickAreaDateQuery(pageNumber) {
 }
 
 function buildSongkickUserQuery(user, pageNumber) {
+
+    console.log("songkick radio= " + $('input:radio[name=songkickQueryTypeRadio]:checked').val());
+
+    var userTrackType = $('input:radio[name=songkickQueryTypeRadio]:checked').val();
+
+    var userTrackValue;
+
+    if (userTrackType == "artist") {
+        userTrackValue = "tracked_artist";
+        console.log("searching artist!");
+    } else if (userTrackType == "event") {
+        userTrackValue = "attendance";
+        console.log("searching event!");
+    } else {
+        userTrackValue = "tracked_artist";
+        console.log("invalid usertracktype");
+    }
+
     var url = "http://api.songkick.com/api/3.0/users/"+user+"/calendar.json"
 
     var parameters = {
         apikey : "bUMFhmMfaIpxiUgJ",
-        reason: "tracked_artist",
+        reason: userTrackValue,
         page: pageNumber,
         jsoncallback: "?"
     };
