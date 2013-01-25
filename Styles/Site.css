@@ -16,7 +16,7 @@ body
 }
 
 .ui-button-text {
-        font-size: .2em;
+        font-size: .85em;
     }
 
 /*body,html{    
@@ -335,6 +335,7 @@ border:2px solid #aaa;
 
         .artist_item {
         overflow:hidden;
+        padding-bottom: 1px;
         }
 
         .artist_item:link {
