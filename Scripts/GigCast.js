@@ -860,24 +860,18 @@ function getSongkickEventPage(pageNumber) {
     // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     $.getJSON("/events.json?"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
     function (data) {
-        var text = "Event name: ";
-        //alert('get event');
-        // data is JSON response object
-        //alert(text + );
 
         if (data.resultsPage.totalEntries == 0) {
             console.log("no data");
             return;
         }
 
+        var totalPages = Math.ceil(data.resultsPage.totalEntries / data.resultsPage.perPage);
+
+        console.log("entries: "+ data.resultsPage.totalEntries + ", pages: " + totalPages );
+
         if (pageNumber == 1) {
             $(".button_container").empty();
-
-            var totalPages = data.resultsPage.totalEntries / data.resultsPage.perPage;
-
-            if ((data.resultsPage.totalEntries % data.resultsPage.perPage) > 0) {
-                totalPages++;
-            }
 
             // create a container for each page
             // result page indexes start at 1
@@ -912,20 +906,23 @@ function getSongkickEventPage(pageNumber) {
 
         }
 
-        if (pageNumber == 1) {
-            // TODO this should be cued and done in a better location and shouild only cue the video
-            if (!preLoadEventSKID) {
-                if(loadVideoOnUpdate) {
+        // TODO this should be cued and done in a better location and shouild only cue the video
+        if (!preLoadEventSKID) {
+            if(loadVideoOnUpdate) {
+                if ($(".media_item:eq(0) .artist_item").get(0)) {
+                    console.log("set initial playing");
                     loadVideoOnUpdate = false;
                     selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
                 }
             }
         }
+        
 
         // TODO bug- for some reason the preload event isn't scrolling properly, this will mostly fix, though 
         // incoming lastfm info will push the data slightly past. not a huge issue for smaller resultsets
 
-        divScrollTo($(".media_item").get(eventIndex));
+        // divScrollTo($(".media_item").get(eventIndex));
+
         // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
         //alert('end json');
     });
