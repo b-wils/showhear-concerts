@@ -367,15 +367,23 @@ img{
         }
 
     .genreTag{
-        border:1px solid black;
-        background-color:#70b2e1;
-        -moz-border-radius:5px;
-        -webkit-border-radius:5px;
-        margin:0px 2px 0px 2px;
+        border-left:1px solid blue;
+        background-color:black;
+        color: white;
         white-space: nowrap;
         /*color: #70b2e1;*/
-        padding:0px, 2px, 0px, 2px;
+        padding:2px 4px 4px 4px;
+        margin:2px 2px 0px 2px;
+        font-weight:bold;
+        /*display: inline;*/
+        /*float: left;*/
+        display:inline-block;
     }
+
+.artist_genre {
+    /*border: 2px solid green;*/
+    /*background-color:green;*/
+}
 
 .headerBuffer
 {
@@ -424,7 +432,8 @@ img{
     float:left;
 /*    margin:5px;
     padding:5px;*/
-
+    height:140px;
+    width:126px;
 }
 
 .moreinfoImageDiv {

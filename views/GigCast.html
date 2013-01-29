@@ -28,8 +28,9 @@
                 <span class="ui-icon ui-icon-play hover"></span>
             </div>
             <span onclick="artistDivClick(this.parentNode)" class="artist_name">${artistName}</span>
-            <span class="artist_genre">
-            </span>
+            <br/>
+            <div class="artist_genre">
+            </div>
             <input type="hidden" class="artistYoutubeID" value=${youtubeID}> </input>
             <input type="hidden" class="artistURI" value=${artistURI}></input>
             <input type="hidden" class="songkickID" value=${songkickID}></input>
@@ -49,7 +50,7 @@
     </script>
 
     <script id="artist_genre_tag" type="text/x-jquery-tmpl">
-        <span class="genreTag">${genreName}</span>
+        <div class="genreTag">${genreName}</div>
     </script>
 
     <script id="event_item" type="text/x-jquery-tmpl">
