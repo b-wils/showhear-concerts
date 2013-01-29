@@ -385,6 +385,10 @@ img{
     /*background-color:green;*/
 }
 
+.artist_alternate {
+    background-color: #b8c1c2;
+}
+
 .headerBuffer
 {
     background-color: #4a4a4a;

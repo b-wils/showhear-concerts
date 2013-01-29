@@ -771,6 +771,8 @@ function addEventDivElement(sk_eventNode, targetNode) {
         addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j], myEventTmpl, targetNode);
     }
 
+    $(".artist_item:nth-child(even)").addClass('artist_alternate');
+
     // root item
     // $(".button_container").get(0).appendChild(eventNode);
     // targetNode.appendChild(eventNode);
