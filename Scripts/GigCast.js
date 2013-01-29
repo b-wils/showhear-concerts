@@ -110,6 +110,8 @@ $.tubeplayer.defaults.afterReady
         showinfo: true, // if you want the player to include details about the video
         modestbranding: true, // specify to include/exclude the YouTube watermark
         wmode: "opaque", // note: transparent maintains z-index, but disables GPU acceleratio
+        theme: "dark", // possible options: "dark" or "light"
+        color: "white", // possible options: "red" or "white"
         onPlayerEnded: function(){nextVideo()},
         onPlay: function(id){}, // after the play method is called
         onPause: function(){}, // after the pause method is called

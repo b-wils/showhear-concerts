@@ -7,22 +7,36 @@
 
 body   
 {
-    background-color: #b8c1c2;
+    /*background-color: #b8c1c2;*/
     font-size: .80em;
     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
     /*color: #696969;*/
+    background-image:url('../images/showhear_temp_background.jpg');
+    background-repeat:no-repeat;
+    /*background-attachment:fixed;*/
+    background-position:center; 
 }
+
+/*::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}*/
 
 .ui-button-text {
         font-size: .85em;
     }
 
-/*body,html{    
-  height:100%;
-}
-*/
 a:link, a:visited
 {
     color: #ebebeb;
@@ -104,14 +118,6 @@ first child of the left and right table columns */
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 
-.page
-{
-    width: 960px;
-    background-color: #fff;
-    margin: 20px auto 0px auto;
-    border: 1px solid #496077;
-}
-
 .header
 {
     position: relative;
@@ -151,11 +157,12 @@ first child of the left and right table columns */
     margin-left: auto ;
     margin-right: auto ;
     align: center;
-    background-color: #4a4a4a ;
-
-    /*border:5px solid #aaa;*/
-            -moz-border-radius:5px;
-            -webkit-border-radius:5px;
+    background-color: rgba(0, 0, 0, 0.6);
+/*    background-color: #4a4a4a ;
+    opacity:0.4;
+    filter:alpha(opacity=40); /* For IE8 and earlier */*/
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
 }
 
 .rightFloat {
