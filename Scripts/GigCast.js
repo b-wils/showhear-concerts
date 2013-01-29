@@ -98,6 +98,26 @@ $(document).ready(function () {
 
 jQuery.support.cors = true; 
 
+$.tubeplayer.defaults.afterReady
+    = onPlayerReady2;
+
+    jQuery("#youtube-player-container").tubeplayer({
+        width: 640, // the width of the player
+        height: 390, // the height of the player
+        allowFullScreen: "true", // true by default, allow user to go full screen
+        initialVideo: "", // the video that is loaded into the player
+        preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
+        showinfo: true, // if you want the player to include details about the video
+        modestbranding: true, // specify to include/exclude the YouTube watermark
+        onPlayerEnded: function(){nextVideo()},
+        onPlay: function(id){}, // after the play method is called
+        onPause: function(){}, // after the pause method is called
+        onStop: function(){}, // after the player is stopped
+        onSeek: function(time){}, // after the video has been seeked to a defined point
+        onMute: function(){}, // after the player is muted
+        onUnMute: function(){} // after the player is unmuted
+    });
+
   $(function() {
     $( "#tabs" ).tabs( { heightStyle: "auto" });
   });
@@ -145,7 +165,7 @@ jQuery.support.cors = true;
         // show: "blind",
         // hide: "explode",
         closeOnEscape: true,
-        draggable: false,
+        // draggable: false,
         resizable: false,
         position: { my: "left top", at: "left bottom", of:"#locationChange" },
         buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
@@ -249,33 +269,8 @@ function setPreloadEvent() {
     });
 
 }
-
-// 2. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
-tag.src = "//www.youtube.com/iframe_api?wmode=opaque";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-var player;
 var playerLoaded = false;
 var initialVideoId;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        wmode: 'opaque',
-        height: '390',
-        width: '640',
-        events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-        }
-    });
-
-    // selectPlaying($(".artist_item").get(0));
-    var pos = $("#player").position();
-    // alert("iframe pos= " + pos);
-}
 
 function updateGenreFilter() {
     // alert("cached? " + lfm_artistCache["STATUETTE"].artist.name)
@@ -484,9 +479,15 @@ function selectPlaying(myDiv, autoStart) {
 
     if (playerLoaded) {
         if (autoStart) {
-            player.loadVideoById(myYoutubeID, 0, 'small');
+            console.log("play video");
+            // player.loadVideoById(myYoutubeID, 0, 'small');
+            jQuery("#youtube-player-container")
+               .tubeplayer("play", myYoutubeID);
         } else {
-            player.cueVideoById(myYoutubeID, 0, 'small');
+            console.log("cue video");
+            // player.cueVideoById(myYoutubeID, 0, 'small');
+            jQuery("#youtube-player-container")
+               .tubeplayer("cue", myYoutubeID);
         }
     } else {
         initialVideoId = myYoutubeID;
@@ -1048,10 +1049,25 @@ function onPlayerReady(event) {
 
     if (initialVideoId) {
         // TODO should autostart on load be toggleable?
-        player.cueVideoById(initialVideoId, 0, 'small');
+        // player.cueVideoById(initialVideoId, 0, 'small');
+        jQuery("#youtube-player-container")
+       .tubeplayer("cue", initialVideoId);
     }
 }
 
+
+function onPlayerReady2() {
+    //event.target.playVideo();
+    playerLoaded = true;
+    // loadVideoOnUpdate = true;
+
+    if (initialVideoId) {
+        // TODO should autostart on load be toggleable?
+        // player.cueVideoById(initialVideoId, 0, 'small');
+        jQuery("#youtube-player-container")
+       .tubeplayer("cue", initialVideoId);
+    }
+}
 function getMinDate() {
     return $.datepicker.formatDate("yy-mm-dd", $( "#from" ).datepicker( "getDate" ));
 }
@@ -1086,10 +1102,6 @@ function playVideo() {
 
 function pauseVideo() {
     player.pauseVideo();
-}
-
-function myLoadVideo(videoUrl) {
-    player.loadVideoByUrl(videoUrl, 0, 'small');
 }
 
 function favorite() {
@@ -1141,36 +1153,6 @@ function nextVideo() {
 
     selectPlaying($(".media_item:eq(" + eventIndex + ") .event_artist_list .artist_item").get(artistIndex), true);
 
-}
-
-function playlistChange() {
-    //var playlist = document.getElementById("playlistNav");
-    // document.getElementById("blah").innerHTML = "change!sdfa";
-    //document.getElementById("blah").innerHTML = playlist.options[playlist.selectedIndex].value;
-
-    //var artistName = playlist.options[playlist.selectedIndex].value;
-
-    JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
-    function (data) {
-
-        if (data.feed.entry) {
-
-            for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
-                if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
-                    var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
-                    // document.getElementById("blah").innerHTML = videoUrl;
-                    player.loadVideoByUrl(videoUrl, 0, 'small');
-                    break;
-                }
-            }
-        } else {
-            //document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
-            //alert
-        }
-    });
-
-    // populateArtistInfo(artistName);
-    // populateLastFMInfo(artistName);
 }
 
 function populateArtistInfo(artistName) {
