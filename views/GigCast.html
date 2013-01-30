@@ -92,6 +92,15 @@
 </head>
 <body>
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <div id="dialog" title="Update Location">
         <label for="updLocationTxt">New Location</label>
         <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all" />
@@ -251,6 +260,8 @@
     Find Concerts You'll Love
     <br/>
     Contact Us | Blog | About Us
+    <br/>
+    <div class="fb-like-box" data-href="http://www.facebook.com/showhear" data-width="292" data-show-faces="true" data-colorscheme="light" data-stream="false" data-header="false"></div>
     <div style="clear: both;"></div>
 </div>  
 <!-- <div class="footer2">
