@@ -55,10 +55,15 @@
 
     <script id="event_item" type="text/x-jquery-tmpl">
         <div class="media_item">
-            <div class="event_artist_list"/>
-            <div>
-                ${date} @ ${venue}
+            <div class="eventHeader">
+                <span class = eventHeaderTagline>Upcoming Concert:</span>
+                <span class = eventHeaderDate>${date}</span>
+                <br/>
+                <span class = eventHeaderLocation>@ ${venue}</span>
+                 
             </div>
+            <div class="event_artist_list"/>
+
             <div style="clear: both;"></div>
         </div>
     </script>
@@ -97,11 +102,72 @@
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
 </div>
 
+<div class="filterContainer">
+
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-1">Area/Date</a></li>
+        <li><a href="#tabs-2">Songkick</a></li>
+      </ul>
+      <div id="tabs-1" style:"overflow:auto; position: relative;">
+       <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
+        <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
+        <div class="ui-state-default" style="display:inline-block;">
+            <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
+        </div>
+        </span>
+
+        <label for="from">From</label>
+        <input type="text" id="from" name="from" style="width: 80px;"/>
+        <label for="to">to</label>
+        <input type="text" id="to" name="to" style="width: 80px;"/>
+
+        <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
+        <div style="display: inline-block" class="ui-state-default">
+            <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+        </div>
+        </span>
+
+        <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
+        <!-- <hr class="hrClear"> -->
+        <div style="clear: both;"></div>
+      </div>
+      <div id="tabs-2">
+         Enter your Songkick profile to track events and artists you love.
+        
+        Search by: 
+        <form name="songkickQueryType" class="radioInline" id="songkickQueryType">
+            <input type="radio" name="songkickQueryTypeRadio" value="artist" checked>Tracked Artists
+            <input type="radio" name="songkickQueryTypeRadio" value="event" >Added Events
+        </form>
+
+        <label for="updLocationTxt">Songkick User</label>
+        
+
+
+        <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
+
+        
+        <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+
+
+</div>
+<br />
+<div style="clear: both;"></div>
+
+
+
+
+<div id="backgroundImage">
 
 <div class="headerBuffer">
     <div class="myHeader">
         <a href="">
             <span class="headerTitle">ShowHear</span>
+            <br/>
             Find Concerts You'll Love
         </a>
         <span class="headerLinks rightFloat">
@@ -119,22 +185,13 @@
     <!-- <div id="playerContainer2" class="ui-widget-content"> -->
         <!-- pc2starton my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st -->
 
-        <div id="playerScreen" class="divborder"> 
+        <div class="playerHeader">
+            filter content here
+        </div>
+
+        <div id="playerScreen"> 
             
             <div id='youtube-player-container'> </div>
-            <div class="playerButtonContainer" align="right">
-            <!--     <input type="button" onclick="pauseVideo()" value="Pause" />
-            &nbsp;
-                <input type="button" onclick="playVideo()" value="Play"/>
-            &nbsp;
-                <input type="button" onclick="favorite()" value="Favorite"/>
-            &nbsp; -->
-                <!-- <input type="button" onclick="badLinkClick()" value="Bad Link"/> -->
-                <input type="button" onclick="nextVideoClick()" value="Next"/>
-            <!--     <input type="button" onclick="testClick()" value="TestButton"/>
-            &nbsp; -->
-            <!-- <hr> -->
-            </div> 
 
 
             <!-- bottomButtons -->
@@ -153,16 +210,17 @@
             <div class="moreinfoImageDiv">
                 <img src="http://userserve-ak.last.fm/serve/126/14973829.jpg" alt="an artist" id="info_image" class="moreinfoImage"/>
             </div>
-            <b> Now Playing: </b>
+<!--             <div class="playerButtonContainer" align="right">
+                <input type="button" onclick="nextVideoClick()" value="Next"/>
+            </div>  -->
+            <span class="redText"> Now Playing: </span>
             <span id="info_artist"> Loading...</span>
             <br/>
-            <b> Last.fm Tags: </b> 
-            <span id="info_lastfm"> 
-            </span>
-            <br/>
-            <b>Upcoming Shows:</b>
+            <span class="whiteText"> Venue: </span>
                 <ul id="info_shows">
                 </ul>
+            <span id="info_lastfm"> 
+            </span>
         </div>
         </div> <!-- playerScreen -->
         <!-- <hr> -->
@@ -172,82 +230,29 @@
             <br />
             Headliners Only: <input id="headlinersButton" type="button" onclick="headlinersClick()" value="Off" />
             <br /> -->
-            <div class="filterContainer">
-
-                <div id="tabs">
-                  <ul>
-                    <li><a href="#tabs-1">Area/Date</a></li>
-                    <li><a href="#tabs-2">Songkick</a></li>
-                  </ul>
-                  <div id="tabs-1" style:"overflow:auto; position: relative;">
-                   <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
-                    <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
-                    <div class="ui-state-default" style="display:inline-block;">
-                        <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
-                    </div>
-                    </span>
-                    <br />
-
-                    <label for="from">From</label>
-                    <input type="text" id="from" name="from" style="width: 80px;"/>
-                    <label for="to">to</label>
-                    <input type="text" id="to" name="to" style="width: 80px;"/>
-                    <br/>
-
-                    <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
-                    <div style="display: inline-block" class="ui-state-default">
-                        <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
-                    </div>
-                    </span>
-
-                    <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
-                    <!-- <hr class="hrClear"> -->
-                    <div style="clear: both;"></div>
-                  </div>
-                  <div id="tabs-2">
-                     Enter your Songkick profile to track events and artists you love.
-                    
-                    <br/>
-                    Search by: 
-                    <form name="songkickQueryType" class="radioInline" id="songkickQueryType">
-                        <input type="radio" name="songkickQueryTypeRadio" value="artist" checked>Tracked Artists
-                        <input type="radio" name="songkickQueryTypeRadio" value="event" >Added Events
-                    </form>
-                    <br/>
-
-                    <label for="updLocationTxt">Songkick User</label>
-                    
-
-
-                    <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
-
-                    
-                    <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
-                    <div style="clear: both;"></div>
-                  </div>
-                </div>
-
  
-            </div>
-            <br />
-        <div style="clear: both;"></div>
-        <div class ="playlist_container">
-            Upcoming Shows:
+
             <div class ="button_container">Loading... </div>
-        </div>
         <div style="clear: both;"></div>
     </div> <!-- sidebar -->
     <!-- <hr> -->
     <div style="clear: both;"></div>
 </div> <!-- main -->
-
-<div class="footerDiv"> 
-<b> Powered By: </b>
-<br/>
-<a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" alt="Last.Fm" class="footerImage"/> </a>
-<a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" alt="Songkick" class="footerImage"/> </a>
+</div>
+<div class="footerDiv">
+    <span class="poweredBy">
+    ShowHear is Powered by:
+    <br/>
+    <a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" alt="Last.Fm" class="footerImage"/> </a>
+    <a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" alt="Songkick" class="footerImage"/> </a>
+    </span>
+    ShowHear
+    <br/>
+    Find Concerts You'll Love
+    <br/>
+    Contact Us | Blog | About Us
+    <div style="clear: both;"></div>
 </div>  
-<hr/>
 <!-- <div class="footer2">
     OUtside player container
 </div> -->

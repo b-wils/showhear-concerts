@@ -125,6 +125,9 @@ $.tubeplayer.defaults.afterReady
     $( "#tabs" ).tabs( { heightStyle: "auto" });
   });
 
+    $("#tabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+    $("#tabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
+
 // JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
 //         function(data) {alert("success! " + data.feed.entry[0].media$group.media$content[0].url)});
 
@@ -1273,14 +1276,14 @@ function populateLastFMInfo(artistNode) {
 
         if (artistNode.artist.image) {
             // assume our size is the 2nd index
-            if (artistNode.artist.image[2].size != "large") {
+            if (artistNode.artist.image[1].size != "medium") {
                 console.log("warning last.fm image index assertion false!");
             }
 
             
-            $("#info_image").attr("src", artistNode.artist.image[2]["#text"]);
+            $("#info_image").attr("src", artistNode.artist.image[1]["#text"]);
 
-            if (artistNode.artist.image[2]["#text"] != "") {
+            if (artistNode.artist.image[1]["#text"] != "") {
                 $("#info_image").css("visibility", "visible");
             } 
             
