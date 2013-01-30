@@ -761,7 +761,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
         return;
     }
 // return $.datepicker.formatDate("yy-mm-dd", $( "#from" ).datepicker( "getDate" ));
-    var dateString = $.datepicker.formatDate("DD MM dd", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
+    var dateString = $.datepicker.formatDate("DD, MM dd", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
 
     var eventInfo = [
     {   date: dateString,

@@ -28,12 +28,13 @@
                 <span class="ui-icon ui-icon-play hover"></span>
             </div>
             <span onclick="artistDivClick(this.parentNode)" class="artist_name">${artistName}</span>
-            <br/>
-            <div class="artist_genre">
-            </div>
+            
+            <span class="artist_genre">
+            </span>
             <input type="hidden" class="artistYoutubeID" value=${youtubeID}> </input>
             <input type="hidden" class="artistURI" value=${artistURI}></input>
             <input type="hidden" class="songkickID" value=${songkickID}></input>
+            <input type="hidden" class="venue" value=${venue}></input>
         </div>
     </script>
 
@@ -56,9 +57,9 @@
     <script id="event_item" type="text/x-jquery-tmpl">
         <div class="media_item">
             <div class="eventHeader">
-                <span class = eventHeaderTagline>Upcoming Concert:</span>
+                <span class = eventHeaderTagline>:::</span>
                 <span class = eventHeaderDate>${date}</span>
-                <br/>
+                
                 <span class = eventHeaderLocation>@ ${venue}</span>
                  
             </div>
@@ -111,65 +112,6 @@
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
 </div>
 
-<div class="filterContainer">
-
-    <div id="tabs">
-      <ul>
-        <li><a href="#tabs-1">Area/Date</a></li>
-        <li><a href="#tabs-2">Songkick</a></li>
-      </ul>
-      <div id="tabs-1" style:"overflow:auto; position: relative;">
-       <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
-        <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
-        <div class="ui-state-default" style="display:inline-block;">
-            <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
-        </div>
-        </span>
-
-        <label for="from">From</label>
-        <input type="text" id="from" name="from" style="width: 80px;"/>
-        <label for="to">to</label>
-        <input type="text" id="to" name="to" style="width: 80px;"/>
-
-        <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
-        <div style="display: inline-block" class="ui-state-default">
-            <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
-        </div>
-        </span>
-
-        <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
-        <!-- <hr class="hrClear"> -->
-        <div style="clear: both;"></div>
-      </div>
-      <div id="tabs-2">
-         Enter your Songkick profile to track events and artists you love.
-        
-        Search by: 
-        <form name="songkickQueryType" class="radioInline" id="songkickQueryType">
-            <input type="radio" name="songkickQueryTypeRadio" value="artist" checked>Tracked Artists
-            <input type="radio" name="songkickQueryTypeRadio" value="event" >Added Events
-        </form>
-
-        <label for="updLocationTxt">Songkick User</label>
-        
-
-
-        <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
-
-        
-        <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
-        <div style="clear: both;"></div>
-      </div>
-    </div>
-
-
-</div>
-<br />
-<div style="clear: both;"></div>
-
-
-
-
 <div id="backgroundImage">
 
 <div class="headerBuffer">
@@ -195,8 +137,61 @@
         <!-- pc2starton my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st -->
 
         <div class="playerHeader">
-            filter content here
+            <div class="filterContainer">
+
+                <div id="tabs">
+                  <ul>
+                    <li><a href="#tabs-1">Area/Date</a></li>
+                    <li><a href="#tabs-2">Songkick</a></li>
+                  </ul>
+                  <div id="tabs-1" style:"overflow:auto; position: relative;">
+                   <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
+                    <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
+                    <div class="ui-state-default" style="display:inline-block;">
+                        <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
+                    </div>
+                    </span>
+
+                    <label for="from">From</label>
+                    <input type="text" id="from" name="from" style="width: 80px;"/>
+                    <label for="to">to</label>
+                    <input type="text" id="to" name="to" style="width: 80px;"/>
+
+                    <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
+                    <div style="display: inline-block" class="ui-state-default">
+                        <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+                    </div>
+                    </span>
+
+                    <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
+                    <!-- <hr class="hrClear"> -->
+                    <div style="clear: both;"></div>
+                  </div>
+                  <div id="tabs-2">
+                     Enter your Songkick profile to track events and artists you love.
+                    
+                    Search by: 
+                    <form name="songkickQueryType" class="radioInline" id="songkickQueryType">
+                        <input type="radio" name="songkickQueryTypeRadio" value="artist" checked>Tracked Artists
+                        <input type="radio" name="songkickQueryTypeRadio" value="event" >Added Events
+                    </form>
+
+                    <label for="updLocationTxt">Songkick User</label>
+                    
+
+
+                    <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
+
+                    
+                    <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+
+
+            </div>
         </div>
+        <div style="clear: both;"></div>
 
         <div id="playerScreen"> 
             
@@ -225,9 +220,8 @@
             <span class="redText"> Now Playing: </span>
             <span id="info_artist"> Loading...</span>
             <br/>
-            <span class="whiteText"> Venue: </span>
-                <ul id="info_shows">
-                </ul>
+            <span class="whiteText"> Venue: </span> A test venue
+            <br/>
             <span id="info_lastfm"> 
             </span>
         </div>
@@ -247,8 +241,11 @@
     <!-- <hr> -->
     <div style="clear: both;"></div>
 </div> <!-- main -->
-</div>
+</div> <!-- backgroudnImage -->
+                <ul id="info_shows">
+                </ul>
 <div class="footerDiv">
+    <div class="footerContainer">
     <span class="poweredBy">
     ShowHear is Powered by:
     <br/>
@@ -261,8 +258,13 @@
     <br/>
     Contact Us | Blog | About Us
     <br/>
-    <div class="fb-like-box" data-href="http://www.facebook.com/showhear" data-width="292" data-show-faces="true" data-colorscheme="light" data-stream="false" data-header="false"></div>
-    <div style="clear: both;"></div>
+    ShowHear.com 2013 - Austin, TX - All rights reserved
+    <br/>
+    <!-- TODO this takes up more vertical space than needed -->
+    <div class="fb-like-box" data-href="http://www.facebook.com/showhear" data-width="292" data-height="180" data-show-faces="true" data-colorscheme="light" data-stream="false" data-header="false"></div>
+    after facebook
+    <!-- <div style="clear: both;"></div> -->
+</div>
 </div>  
 <!-- <div class="footer2">
     OUtside player container
