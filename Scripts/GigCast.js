@@ -111,7 +111,7 @@ $.tubeplayer.defaults.afterReady
         modestbranding: true, // specify to include/exclude the YouTube watermark
         wmode: "opaque", // note: transparent maintains z-index, but disables GPU acceleratio
         theme: "dark", // possible options: "dark" or "light"
-        color: "white", // possible options: "red" or "white"
+        color: "red", // possible options: "red" or "white"
         onPlayerEnded: function(){nextVideo()},
         onPlay: function(id){}, // after the play method is called
         onPause: function(){}, // after the pause method is called
@@ -137,13 +137,14 @@ $.tubeplayer.defaults.afterReady
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
-        dateFormat: "M dd, yy",
+        dateFormat: "DD, MM dd",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        },
+
+        onSelect: function(dateText) {
+            updateClick();
         }
-        // onSelect: function(dateText) {
-        //     updateClick();
-        // }
     });
 
     $( "#from" ).datepicker( "setDate", "now" );
@@ -152,7 +153,7 @@ $.tubeplayer.defaults.afterReady
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
-        dateFormat: "M dd, yy",
+        dateFormat: "DD, MM dd",
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
         },
@@ -286,6 +287,7 @@ function updateGenreFilter() {
     if ($("#updateGenreText").val() != "") {
         $.cookie('genreFilter', $("#updateGenreText").val());
         $( "#genreFilterDialog" ).dialog( "close" );
+        updateClick();
     } else {
         clearGenreFilter();
     }
@@ -296,11 +298,12 @@ function clearGenreFilter() {
     $.removeCookie('genreFilter');
     $("#genreFilter").html("(None)");
     $("#genreFilterDialog" ).dialog( "close" );
+    updateClick();
 }
 
 // we may not want to always store this in cookie
 function setLocation(id, name) {
-    $("#locationText").html(name + " Area");
+    $("#locationText").html(name);
     $.cookie('sk_locationid', id);
     $.cookie('sk_locationName', name);
 }
@@ -312,7 +315,7 @@ function isNumeric(n) {
 function updateLocationCallback(data) {
     if (data.resultsPage.totalEntries > 0) {
         // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
-        $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName + " Area");
+        $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName);
         //document.cookie
         $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
         $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
@@ -379,7 +382,7 @@ function getLocationQueryVal() {
 
 function populateLocation() {
     if ($.cookie('sk_locationName')) {
-           $("#locationText").html($.cookie('sk_locationName') + " Area");
+           $("#locationText").html($.cookie('sk_locationName'));
     } else {
 
         $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",

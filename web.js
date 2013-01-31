@@ -312,8 +312,7 @@ app.get('/events.json', function(request, response) {
 
       var songKickdata = JSON.parse(data);
 
-
-
+      // BUG we errored out here somehow- if our results do not have any data
       async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
         function(err){
           if (err) {

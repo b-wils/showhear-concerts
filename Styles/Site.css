@@ -140,6 +140,16 @@ first child of the left and right table columns */
     -webkit-border-radius:5px;
 }
 
+.filterContainer2
+{
+    margin-left: auto ;
+    margin-right: auto ;
+    align: center;
+    /*background-color: rgba(0, 0, 0, 0.7);*/
+    width: 1060px;
+    color: white;
+}
+
 #main
 {
     padding: 10px;
@@ -540,13 +550,142 @@ ul { overflow: hidden; }
 #tabs {border: none}
 
   .ui-tabs-vertical { width: 100%; padding:0px; margin:0px;}
-  .ui-tabs-vertical .ui-tabs-nav { padding: 0px; float: left; width: 12em; }
-  .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0; }
+  .ui-tabs-vertical .ui-tabs-nav { padding-right: 0px; float: left; width: 150px; }
+  .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; margin: 0; padding-right: 10px;}
   .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
-  .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
-  .ui-tabs-vertical .ui-tabs-panel { padding:0px; float: right; width: 80%;}
+  .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: 0em; border-right-width: 0px; border-right-width: 0px; }
+  .ui-tabs-vertical .ui-tabs-panel { padding:0px; float: left; width: 80%;}
 
 .topLogo {
     /*margin-top: 30px;*/
 
+}
+
+.tabContainer {
+    display:inline-block;
+    float:left;
+}
+
+.myTab {
+    width: 140px;
+    text-align:center;
+    background-color: rgba(240, 29, 29, 0.5);
+    padding: 4px;
+    font-weight: bold;
+}
+
+.inactiveTab {
+    background-color: rgba(100, 100, 100, 0.5);
+    color: #5A5A5A;
+}
+
+.searchBlock {
+    height: 16px;
+    /*vertical-align: bottom;*/
+    border-right: 1px solid;
+    border-color: rgba(150, 150, 150, 0.5);
+    display:inline-block;
+    padding:21px 10px;
+    font-weight:bold;
+    /*background-color:green;*/
+    margin:0px;
+    text-align: center;
+}
+
+.searchBlock-noBorder {
+    border: none;
+}
+
+#tabs {
+    background: transparent;
+    border: 0px solid black;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#tabs .ui-widget-header {
+    background: transparent;
+    border: none;
+    padding: 0px;
+    margin: 0px;
+    border-bottom: 0px solid #c0c0c0;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#tabs .ui-state-default {
+    background: transparent;
+    background-color: rgba(100, 100, 100, 0.2);
+    color: #5A5A5A;
+    border: 0px solid black;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+#tabs .ui-state-active {
+    /*background: transparent url(img/uiTabsArrow.png) no-repeat bottom center;*/
+    background-color: rgba(240, 29, 29, 0.5);
+    color:white;
+}
+
+#tabs .ui-state-default a {
+    color: #5A5A5A;
+}
+#tabs .ui-state-active a {
+    color: white;
+}
+
+#tabs .ui-tabs-nav li a {
+    float: right;
+    width: 100%;
+    text-align: center;
+}
+
+#tabs .ui-tabs-panel {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 0px solid black;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: 910px;
+    height: 58px;
+}
+
+a .ui-tabs-anchor {
+    padding: 0px;
+    margin: 0px;
+}
+
+.calendar-input {
+    /*background-color: rgba(0, 0, 0, 0.7);*/
+    background: transparent;
+    color: white;
+    border: 0px;
+    padding: 0px;
+    margin:0px;
+    width: 160px;
+    /*text-align: center;*/
+}
+
+.tab-title-buffer {
+    width: 5px;
+}
+
+#locationChange {
+    width: 230px;
+    text-align: center;
+}
+
+#locationText {
+    /*width: 150px;*/
+/*    display:inline-block;
+    text-align: center;*/
 }

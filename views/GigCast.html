@@ -126,43 +126,51 @@
     </div>
 </div>
 
-<div id="main">
-    <!-- <div id="playerContainer2" class="ui-widget-content"> -->
-        <!-- pc2starton my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st -->
-
-        <div class="playerHeader">
-            <div class="filterContainer">
+<div class="filterContainer2">
 
                 <div id="tabs">
                   <ul>
-                    <li><a href="#tabs-1">Area/Date</a></li>
+                    <li><a href="#tabs-1">Area/Date</a> </li>
                     <li><a href="#tabs-2">Songkick</a></li>
                   </ul>
                   <div id="tabs-1" style:"overflow:auto; position: relative;">
-                   <span id="locationChange"> Shows in: <span id="locationText">(Loading...)</span>
-                    <!-- <button id="testbutton" class="iconbutton">Change Location</button> -->
-                    <div class="ui-state-default" style="display:inline-block;">
-                        <span class="ui-icon ui-icon-circle-triangle-s hover"></span> 
+                    <div id="locationChange" class="searchBlock">
+                        <span class="redText"> Current City: </span>
+                        <span class="whiteText" id="locationText"> (Loading...) </span>
+                        <div class="sprite-icons-Up-Button"> </div>
                     </div>
-                    </span>
 
-                    <label for="from">From</label>
-                    <input type="text" id="from" name="from" style="width: 80px;"/>
-                    <label for="to">to</label>
-                    <input type="text" id="to" name="to" style="width: 80px;"/>
+                    <div class="searchBlock">
 
-                    <span id="genreChange">Genre Filter: <span id="genreFilter">(None)</span>
-                    <div style="display: inline-block" class="ui-state-default">
-                        <span class="ui-icon ui-icon-circle-triangle-s" style="display:inline-block"></span>
+                        <label for="from" class="redText">
+                            From:
+                        </label>
+                        <input class="calendar-input" type="text" id="from" name="from" readonly/>
+                        <label for="from">
+                            <div class="sprite-icons-Up-Button"> </div>
+                        </label>
+
+                        <label for="to" class="redText">
+                            To:
+                        </label>
+                        <input class="calendar-input" type="text" id="to" name="from" readonly/>
+                        <label for="to">
+                            <div class="sprite-icons-Up-Button"> </div>
+                        </label>
                     </div>
-                    </span>
+<!--                     <label for="to">to</label>
+                    <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
-                    <input type="button" onclick="updateClick()" value="Update" style="float:right; clear:both;"/>
+                    <div class="searchBlock searchBlock-noBorder">
+                        <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
+                        <div class="sprite-icons-Up-Button"> </div>
+                        </span>
+                    </div>   
+
                     <!-- <hr class="hrClear"> -->
-                    <div style="clear: both;"></div>
                   </div>
                   <div id="tabs-2">
-                     Enter your Songkick profile to track events and artists you love.
+                     Enter your Songkick profile to track events and artists you love.afsdfdsafasEnter your
                     
                     Search by: 
                     <form name="songkickQueryType" class="radioInline" id="songkickQueryType">
@@ -181,11 +189,26 @@
                     <div style="clear: both;"></div>
                   </div>
                 </div>
-
-
-            </div>
+<!--     <div class="tabContainer">
+        <div class="myTab">
+            Area/Date
         </div>
-        <div style="clear: both;"></div>
+        <div class="myTab inactiveTab">
+            Songkick
+        </div>
+    </div>
+    
+    <div id="area-Date-Searcher" class="searchBlock">
+        <span class="redText"> Current City: </span>
+        <span class="whiteText"> Austin </span>
+        <div class="sprite-icons-Up-Button"> </div>
+    </div>
+    <div style="clear: both;"></div> -->
+</div>
+
+<div id="main">
+    <!-- <div id="playerContainer2" class="ui-widget-content"> -->
+        <!-- pc2starton my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st -->
 
         <div id="playerScreen"> 
             
