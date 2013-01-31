@@ -313,24 +313,28 @@ app.get('/events.json', function(request, response) {
       var songKickdata = JSON.parse(data);
 
       // BUG we errored out here somehow- if our results do not have any data
-      async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
-        function(err){
-          if (err) {
-            console.log("error iterating for youtube links: " + err);
-          } else {
-            console.log("we have our data1!");
-            // response.writeHead(200, {
-            //   "Content-Type": "application/json",
-            //   "Access-Control-Allow-Origin": "*"
-            // });
+      if (songKickdata.resultsPage.totalEntries > 0) {
+        async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
+          function(err){
+            if (err) {
+              console.log("error iterating for youtube links: " + err);
+            } else {
+              console.log("we have our data1!");
+              // response.writeHead(200, {
+              //   "Content-Type": "application/json",
+              //   "Access-Control-Allow-Origin": "*"
+              // });
 
-            // response.write(JSON.stringify(songKickdata));
-            // response.end;
-            response.json(songKickdata);
-            console.log("we have our data!");
-          }
-    // if any of the saves produced an error, err would equal that error
-      });
+              // response.write(JSON.stringify(songKickdata));
+              // response.end;
+              response.json(songKickdata);
+              console.log("we have our data!");
+            }
+      // if any of the saves produced an error, err would equal that error
+        });
+      }else {
+        response.json(songKickdata);
+      }
     });
 
     // response.json({ 'testvar':"success"})
@@ -401,25 +405,28 @@ app.get('/users/:username/calendar.json', function(request, response) {
       var songKickdata = JSON.parse(data);
 
 
+      if (songKickdata.resultsPage.totalEntries > 0) {
+        async.forEach(songKickdata.resultsPage.results.calendarEntry, calendarEventCBWrapper, 
+          function(err){
+            if (err) {
+              console.log("error iterating for youtube links: " + err);
+            } else {
+              console.log("we have our data1!");
+              // response.writeHead(200, {
+              //   "Content-Type": "application/json",
+              //   "Access-Control-Allow-Origin": "*"
+              // });
 
-      async.forEach(songKickdata.resultsPage.results.calendarEntry, calendarEventCBWrapper, 
-        function(err){
-          if (err) {
-            console.log("error iterating for youtube links: " + err);
-          } else {
-            console.log("we have our data1!");
-            // response.writeHead(200, {
-            //   "Content-Type": "application/json",
-            //   "Access-Control-Allow-Origin": "*"
-            // });
-
-            // response.write(JSON.stringify(songKickdata));
-            // response.end;
-            response.json(songKickdata);
-            console.log("we have our data!");
-          }
-    // if any of the saves produced an error, err would equal that error
-      });
+              // response.write(JSON.stringify(songKickdata));
+              // response.end;
+              response.json(songKickdata);
+              console.log("we have our data!");
+            }
+      // if any of the saves produced an error, err would equal that error
+        });
+      } else {
+        response.json(songKickdata);
+      }
     });
 
     // response.json({ 'testvar':"success"})
