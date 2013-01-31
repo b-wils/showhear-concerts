@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
     <title>ShowHear - Find Concerts You'll Love</title>
     
     
@@ -24,8 +25,7 @@
 
     <script id="artist_item_template" type="text/x-jquery-tmpl">
         <div class="artist_item">
-            <div onclick="artistDivClick(this.parentNode)" class="ui-state-default" style="display: inline-block;">
-                <span class="ui-icon ui-icon-play hover"></span>
+            <div onclick="artistDivClick(this.parentNode)" class="sprite-icons-Play-Button">
             </div>
             <span onclick="artistDivClick(this.parentNode)" class="artist_name">${artistName}</span>
             
@@ -39,8 +39,7 @@
     </script>
 
     <script id="artist_lastfm_link" type="text/x-jquery-tmpl">
-        <a target="_blank" href=${lastfmURI}>   
-            <img src="/images/lastfm_red_17px.png" alt="Last.Fm" class="lastfm_icon"/>
+        <a target="_blank" class="sprite-icons-LastFM-Small---Gray" href=${lastfmURI}>
         </a>
     </script>
 
@@ -57,11 +56,10 @@
     <script id="event_item" type="text/x-jquery-tmpl">
         <div class="media_item">
             <div class="eventHeader">
-                <span class = eventHeaderTagline>:::</span>
+                <div class="sprite-icons-Calendar---Red"></div>
                 <span class = eventHeaderDate>${date}</span>
                 
                 <span class = eventHeaderLocation>@ ${venue}</span>
-                 
             </div>
             <div class="event_artist_list"/>
 
@@ -85,8 +83,7 @@
 
     <script id="info_artist_tmpl" type="text/x-jQuery-tmpl">
         ${artistName}
-        <a target="_blank" href=${songkickURI}>   
-            <img src="/images/sk_white_pink_icon.png" alt="SK" class="songkick_icon" height="17" width="17"/>
+        <a target="_blank" href=${songkickURI} class="sprite-icons-SongKick-Small---Gray">   
         </a>
     </script>
 
@@ -116,11 +113,8 @@
 
 <div class="headerBuffer">
     <div class="myHeader">
-        <a href="">
-            <span class="headerTitle">ShowHear</span>
-            <br/>
-            Find Concerts You'll Love
-        </a>
+        <a class="sprite-icons-Logo topLogo" href=""></a>
+
         <span class="headerLinks rightFloat">
             <a href="http://showhear.tumblr.com/">
                 Blog
@@ -217,10 +211,10 @@
 <!--             <div class="playerButtonContainer" align="right">
                 <input type="button" onclick="nextVideoClick()" value="Next"/>
             </div>  -->
-            <span class="redText"> Now Playing: </span>
+            <div class="sprite-icons-Speaker-Small"> </div> <span class="redText"> Now Playing: </span>
             <span id="info_artist"> Loading...</span>
             <br/>
-            <span class="whiteText"> Venue: </span> A test venue
+            <div class="sprite-icons-MapPin"> </div> <span class="whiteText"> Venue: </span> A test venue
             <br/>
             <span id="info_lastfm"> 
             </span>
@@ -242,19 +236,16 @@
     <div style="clear: both;"></div>
 </div> <!-- main -->
 </div> <!-- backgroudnImage -->
-                <ul id="info_shows">
-                </ul>
+
 <div class="footerDiv">
     <div class="footerContainer">
     <span class="poweredBy">
     ShowHear is Powered by:
     <br/>
-    <a href="http://www.last.fm/"> <img src="/images/lastfm_badge_red.gif" alt="Last.Fm" class="footerImage"/> </a>
-    <a href="http://www.songkick.com/"> <img src="/images/sk_biglogo.png" alt="Songkick" class="footerImage"/> </a>
+    <a class="sprite-icons-SongKick-Footer" href="http://www.songkick.com/"></a>
+    <a class="sprite-icons-LastFM-Footer" href="http://www.last.fm/"></a>
     </span>
-    ShowHear
-    <br/>
-    Find Concerts You'll Love
+<a class="sprite-icons-Logo" href=""></a>
     <br/>
     Contact Us | Blog | About Us
     <br/>
@@ -271,7 +262,8 @@
 </div> -->
 <!-- on my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st
  -->
-
+                <ul id="info_shows">
+                </ul>
 </body>
 </html>
     

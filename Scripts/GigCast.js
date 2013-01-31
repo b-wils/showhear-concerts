@@ -456,10 +456,10 @@ function selectPlaying(myDiv, autoStart) {
     }
 
     // TODO this assumes this icon is only used once on the page
-    var nowPlayingIcon = $(".ui-icon-volume-on");
+    var nowPlayingIcon = $(".sprite-icons-Speaker-Square");
     if (nowPlayingIcon) {
-        nowPlayingIcon.removeClass("ui-icon-volume-on");
-        nowPlayingIcon.addClass("ui-icon-play");
+        nowPlayingIcon.removeClass("sprite-icons-Speaker-Square");
+        nowPlayingIcon.addClass("sprite-icons-Play-Button");
     }
 
     divScrollTo($(".media_item").get(eventIndex));
@@ -468,10 +468,10 @@ function selectPlaying(myDiv, autoStart) {
 
     // var artistName = myDiv.innerHTML;
 
-    var newPlayingIcon = $(myDiv).children(".ui-state-default").children(".ui-icon-play");
+    var newPlayingIcon = $(myDiv).children(".sprite-icons-Play-Button");
     // alert($(myDiv).children(".ui-state-default").children(".ui-icon-play").length + " test " + $(myDiv).children(".artist_name").length);
-    newPlayingIcon.addClass("ui-icon-volume-on");
-    newPlayingIcon.removeClass("ui-icon-play");
+    newPlayingIcon.addClass("sprite-icons-Speaker-Square");
+    newPlayingIcon.removeClass("sprite-icons-Play-Button");
 
     var artistName = $(myDiv).children(".artist_name").get(0).innerHTML;
     var artistURI = $(myDiv).children(".artistURI").get(0).value;
@@ -1237,7 +1237,7 @@ function populateLastFMInfo(artistNode) {
 
                     for (var i = 0; (i < artistNode.artist.tags.tag.length); i++) {
 
-                        if (i < MAX_GENRE_TAGS) {
+                        if (i < 5) {
                             var genresList = [
                                 {genreName: artistNode.artist.tags.tag[i].name}
                             ];
