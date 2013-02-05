@@ -479,8 +479,13 @@ function selectPlaying(myDiv, autoStart) {
     var artistName = $(myDiv).children(".artist_name").get(0).innerHTML;
     var artistURI = $(myDiv).children(".artistURI").get(0).value;
     var artistID = $(myDiv).children(".songkickID").get(0).value;
+    var showVenue = $(myDiv).children(".venue").get(0).value;
+    var showDate = $(myDiv).children(".playing-Date").get(0).value;
+    var showDayWeek = $(myDiv).children(".playing-Day-Week").get(0).value;
 
     var myYoutubeID = $(myDiv).children(".artistYoutubeID").get(0).value;
+
+    var showHotlinkURI = $(myDiv).children(".showHotlinkURI").get(0).value;
 
     // console.log("ytlink= " + myYoutubeID +"!");
 
@@ -528,7 +533,7 @@ function selectPlaying(myDiv, autoStart) {
     //     }
     // });
 
-    updatePlayingInfo(artistName, artistURI, artistID);
+    updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI);
 
     // populateArtistInfo(artistName);
     // populateLastFMInfo(artistName);
@@ -719,11 +724,24 @@ var addLastFMInfoCallback = function(searchString, targetELement, targetEvent, t
 
 var numGenreAdd = 0;
 // dummy comment is this working?
-function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetContainer) {
+function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetContainer, sk_eventNode) {
     var artistName = sk_artistNode.displayName;
 
+    var dateString = $.datepicker.formatDate("MM dd", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
+    var dayWeekString = $.datepicker.formatDate("DD", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
+
+
     var artists = [
-    {artistName: sk_artistNode.displayName, songkickID: sk_artistNode.artist.id, artistURI: sk_artistNode.artist.uri, youtubeID: sk_artistNode.artist.youtubeID}
+    {
+        artistName: sk_artistNode.displayName, 
+        songkickID: sk_artistNode.artist.id,
+        artistURI: sk_artistNode.artist.uri,
+        youtubeID: sk_artistNode.artist.youtubeID,
+        showVenue: sk_eventNode.venue.displayName,
+        showDayOfWeek: dayWeekString,
+        showDate: dateString,
+        showHotlinkURI: "?skEventId=" + sk_eventNode.id
+    }
     ];
 
     var myArtistTmpl = $('#artist_item_template').tmpl(artists);
@@ -776,7 +794,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     var myEventTmpl = $('#event_item').tmpl(eventInfo);
 
     for (var j = 0; j < sk_eventNode.performance.length; j++) {
-        addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j], myEventTmpl, targetNode);
+        addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j], myEventTmpl, targetNode, sk_eventNode);
     }
 
     $(".artist_item:nth-child(even)").addClass('artist_alternate');
@@ -1240,7 +1258,7 @@ function populateLastFMInfo(artistNode) {
 
                     for (var i = 0; (i < artistNode.artist.tags.tag.length); i++) {
 
-                        if (i < 5) {
+                        if (i < 3) {
                             var genresList = [
                                 {genreName: artistNode.artist.tags.tag[i].name}
                             ];
@@ -1266,10 +1284,6 @@ function populateLastFMInfo(artistNode) {
                 console.log("no last.fm tags for artist");
             }
 
-            var linkInfo = [
-                {lastfmURI: artistNode.artist.url}
-            ];
-
             // TODO we could do this for all tags at once if we build the array first
             // var myLinkTmpl = $('#artist_lastfm_link').tmpl(linkInfo);
             // $("#info_artist").append(myLinkTmpl);
@@ -1293,15 +1307,17 @@ function populateLastFMInfo(artistNode) {
         } else {
             console.log("no lastfm image!");
         }
-        var myLinkTmpl = $('#artist_lastfm_link').tmpl(linkInfo);
-        $("#info_artist").append(myLinkTmpl);
+        // var myLinkTmpl = $('#artist_lastfm_link').tmpl(linkInfo);
+        // $("#info_artist").append(myLinkTmpl);
+        $('#infoLastfmLink').get(0).href = artistNode.artist.url;
     } else {
-        // console.log("lastfm info not cached for currently playing artist");
+        $('#infoLastfmLink').get(0).removeAttr("href");
+        // $('#infoLastfmLink').removeClass().addClass()
     }
 }
 
 
-function updatePlayingInfo(artistName, artistURI, artistID) {
+function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI) {
     // alert(artistName);
     $("#info_artist").html(artistName);
     var targetElement = $("#info_lastfm").get(0);
@@ -1312,10 +1328,17 @@ function updatePlayingInfo(artistName, artistURI, artistID) {
     $("#info_image").css("visibility", "hidden");
 
     $("#info_artist").empty();
-    var myArtistInfo = { artistName: artistName, songkickURI: artistURI}
+    var myArtistInfo = { artistName: artistName, songkickURI: artistURI, hotlinkURI: showHotlinkURI}
 
     var myGenreTmpl = $('#info_artist_tmpl').tmpl(myArtistInfo);
     myGenreTmpl.appendTo($('#info_artist'));
+
+    $("#playing-Info-Venue").html(showVenue);
+    $("#playing-Info-Day").html(showDayWeek);
+    $("#playing-Info-Date").html(showDate);
+
+    $("#infoSongkickLink").get(0).href = artistURI;
+    $("#infoShareLink").get(0).href = showHotlinkURI;
 
     populateArtistInfo(artistName);
 

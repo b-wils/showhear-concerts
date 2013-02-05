@@ -474,7 +474,7 @@ text-decoration:underline;
     float:left;
     background-color:#1B1B1B;
     color: #5A5A5A;
-    width:620px;
+    width:530px;
     height:76px;
     overflow:auto;
     padding: 10px;
@@ -688,4 +688,32 @@ a .ui-tabs-anchor {
     /*width: 150px;*/
 /*    display:inline-block;
     text-align: center;*/
+}
+
+.next-Artist-Icon {
+    float:right;
+    width: 80px;
+    background-color:black;
+    height:86px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+}
+
+.centerIcon {
+    /*width:40px;*/
+    /*width: auto;*/
+    margin: 0px auto;
+    align: center;
+    display: table;
+    margin-top: 10px;
+    /*display: block;*/
+}
+
+.right-align-info {
+    float:right;
+    text-align: right;
+    font-weight: bold;
 }

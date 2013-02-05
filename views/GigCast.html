@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <link href="jquery-ui-1.9.2.custom/css/overcast/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
     <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
     <title>ShowHear - Find Concerts You'll Love</title>
     
     
@@ -12,8 +13,6 @@
     <script type="text/javascript" src="Scripts/jquery.ba-outside-events.js"></script>
     <script type="text/javascript" src="Scripts/GigCast.js"></script>
     <script type="text/javascript" src="jquerycookie/jquery.cookie.js"></script>
-    <link href="jquery-ui-1.9.2.custom/css/overcast/jquery-ui-1.9.2.custom.css" rel="stylesheet" type="text/css"/>
-
 
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
@@ -34,7 +33,10 @@
             <input type="hidden" class="artistYoutubeID" value=${youtubeID}> </input>
             <input type="hidden" class="artistURI" value=${artistURI}></input>
             <input type="hidden" class="songkickID" value=${songkickID}></input>
-            <input type="hidden" class="venue" value=${venue}></input>
+            <input type="hidden" class="venue" value="${showVenue}"></input>
+            <input type="hidden" class="playing-Date" value="${showDate}"></input>
+            <input type="hidden" class="playing-Day-Week" value="${showDayOfWeek}"></input>
+            <input type="hidden" class="showHotlinkURI" value="${showHotlinkURI}"></input>
         </div>
     </script>
 
@@ -83,8 +85,6 @@
 
     <script id="info_artist_tmpl" type="text/x-jQuery-tmpl">
         ${artistName}
-        <a target="_blank" href=${songkickURI} class="sprite-icons-SongKick-Small---Gray">   
-        </a>
     </script>
 
 </head>
@@ -228,6 +228,20 @@
         <!-- <hr> -->
         <!-- TODO would be good to get this in a separate border -->
         <div id="playingInfo">
+            <div class="right-align-info">
+                <div id="playingIcons">
+                    <a target="_blank" class="sprite-icons-Share---White" id="infoShareLink">   
+                    </a>
+                    <a target="_blank" class="sprite-icons-SongKick-Small---Gray" id="infoSongkickLink">   
+                    </a>
+                    <a target="_blank" class="sprite-icons-LastFM-Small---Gray" id="infoLastfmLink">
+                    </a>
+                </div>
+                <div class="redText" id="playing-Info-Day"></div>
+                <div class="whiteText" id="playing-Info-Date">
+                    
+                </div>
+            </div>
             <div class="moreinfoImageDiv">
                 <img src="http://userserve-ak.last.fm/serve/126/14973829.jpg" alt="an artist" id="info_image" class="moreinfoImage"/>
             </div>
@@ -237,11 +251,16 @@
             <div class="sprite-icons-Speaker-Small"> </div> <span class="redText"> Now Playing: </span>
             <span id="info_artist"> Loading...</span>
             <br/>
-            <div class="sprite-icons-MapPin"> </div> <span class="whiteText"> Venue: </span> A test venue
+            <div class="sprite-icons-MapPin"> </div> <span class="whiteText"> Venue: </span> <span id="playing-Info-Venue"></span>
             <br/>
             <span id="info_lastfm"> 
             </span>
         </div>
+            <div class="next-Artist-Icon" onclick="nextVideoClick()">
+                Next Artist
+                <br/>
+                <div class="sprite-icons-Next-Track-Arrow centerIcon"> </div>
+            </div>
         </div> <!-- playerScreen -->
         <!-- <hr> -->
     <!-- </div> playerContainer -->
