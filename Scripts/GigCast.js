@@ -68,6 +68,13 @@ function JSONQuery(url, callback) {
     }
 };
 
+function ExpandInput(obj){
+    console.log("expanding input");
+ if (!obj.savesize) obj.savesize=obj.size;
+ obj.size=Math.max(obj.savesize,obj.value.length);
+
+}
+
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split('&');
@@ -85,6 +92,21 @@ window.onerror = function (msg, url, line)
     // console.log("in the error thing");
     var message = "Error in "+url+" on line "+line+": "+msg;
     $.post("logerror", { "msg" : message }); 
+}
+
+function resizeFrom() {
+$('#from').each(function(){
+    console.log("resize from");
+    var value = $(this).val();
+    var size  = value.length;
+    // playing with the size attribute
+    //$(this).attr('size',size);
+    
+    // playing css width
+    size = size*2;
+    $(this).css('width',size*3);
+    
+    })
 }
 
 $(document).ready(function () {
@@ -128,6 +150,14 @@ $.tubeplayer.defaults.afterReady
     $("#tabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
     $("#tabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
 
+  $(function() {
+    $( "#songkickTabs" ).tabs( { heightStyle: "auto" });
+  });
+
+    $("#songkickTabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+    $("#songkickTabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
+
+
 // JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
 //         function(data) {alert("success! " + data.feed.entry[0].media$group.media$content[0].url)});
 
@@ -143,7 +173,9 @@ $.tubeplayer.defaults.afterReady
         },
 
         onSelect: function(dateText) {
-            updateClick();
+            // ExpandInput($( "#from" ).get(0));
+            resizeFrom();
+            // updateClick();
         }
     });
 
@@ -225,6 +257,33 @@ $.tubeplayer.defaults.afterReady
         }
     });
 
+    $( "#songkickUserDialog" ).dialog({
+        autoOpen: false,
+        // show: "blind",
+        // hide: "explode",
+        closeOnEscape: true,
+        draggable: false,
+        resizable: false,
+        position: { my: "left top", at: "left bottom", of:"#songkickUserChange" },//clearGenreFilter
+        buttons: [ { text: "Search", click: function() { updateSongkickQueryClick(); } }]
+    });
+
+    $( "#songkickUserDialog" ).bind('clickoutside',function(){
+        $( "#songkickUserDialog" ).dialog('close');
+    });
+
+    $( "#songkickUserChange" ).click(function() {
+        ($("#songkickUserDialog").dialog("isOpen") == false) ? $("#songkickUserDialog").dialog("open") : $("#songkickUserDialog").dialog("close") ;
+        return false;
+    });
+
+    $("#updateSongkickText").keyup(function(event){
+        if(event.keyCode == 13){
+            updateSongkickQueryClick();
+        }
+    });
+
+
     populateLocation();
 
     preLoadEventSKID = getQueryVariable("skEventId");
@@ -238,6 +297,11 @@ $.tubeplayer.defaults.afterReady
 
     if ($.cookie('genreFilter')) {
         $("#genreFilter").html($.cookie('genreFilter'));
+    }
+
+    if ($.cookie('songkickUser')) {
+        console.log("our user: " + $.cookie('songkickUser'))
+        $("#songkickUser").html($.cookie('songkickUser'));
     }
 
 buildSongkickAreaDateQuery( );
@@ -409,18 +473,23 @@ useGenreFilter();
 }
 
 function songkickUpdateClick() {
-useGenreFilter();
-    //$("#playlistNav").empty();
-    $(".button_container").empty();
-    $(".button_container").html("Loading...")
-    preLoadEventSKID = null;
-    totalArtists = 0;
-    shownArtists = 0;
-    artistIndex = 0;
-    eventIndex = 0;
+
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
 
-    getSongkickEventPageByUser($("#songkickUserTxt").val(), 1);
+    if ( $.cookie('songkickUser')) {
+        useGenreFilter();
+        //$("#playlistNav").empty();
+        $(".button_container").empty();
+        $(".button_container").html("Loading...")
+        preLoadEventSKID = null;
+        totalArtists = 0;
+        shownArtists = 0;
+        artistIndex = 0;
+        eventIndex = 0;
+        getSongkickEventPageByUser($.cookie('songkickUser'), 1);
+    } else {
+        console.log("no songkick user");
+    }
 }
 
 function headlinersClick() {
@@ -853,9 +922,8 @@ function buildSongkickAreaDateQuery(pageNumber) {
 
 function buildSongkickUserQuery(user, pageNumber) {
 
-    console.log("songkick radio= " + $('input:radio[name=songkickQueryTypeRadio]:checked').val());
-
-    var userTrackType = $('input:radio[name=songkickQueryTypeRadio]:checked').val();
+    var userTrackType = $(".headerToggleActive").children(".queryType").get(0).value;
+    console.log("songkick radio= " + userTrackType);
 
     var userTrackValue;
 
@@ -1187,45 +1255,45 @@ function nextVideo() {
 function populateArtistInfo(artistName) {
     // location hardcoded to austin id:9179
     // TODO can we encode this better?
-    artistName = artistName.replace("&amp;","%26");
-    // console.log("our artist after replace: " + artistName);
+//     artistName = artistName.replace("&amp;","%26");
+//     // console.log("our artist after replace: " + artistName);
 
-    $('#info_shows').empty();
-    $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
-    // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",        
-    function (data) {
-        //var text = "<b>Events:</b>";
-        var eventItems = [];
-        // data is JSON response object
-        //alert(text + );
+//     $('#info_shows').empty();
+//     $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
+//     // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&location=sk:9179&artist_name=" + artistName + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",        
+//     function (data) {
+//         //var text = "<b>Events:</b>";
+//         var eventItems = [];
+//         // data is JSON response object
+//         //alert(text + );
 
-        for (var i = 0; i < data.resultsPage.results.event.length; i++) {
-            var eventNode = data.resultsPage.results.event[i];
-            // text += "<br/>" + data.resultsPage.results.event[i].displayName + "<br/>";
-            // for (var j = 0; j < data.resultsPage.results.event[i].performance.length; j++) {
-            //     var iartistName = data.resultsPage.results.event[i].performance[j].displayName;
+//         for (var i = 0; i < data.resultsPage.results.event.length; i++) {
+//             var eventNode = data.resultsPage.results.event[i];
+//             // text += "<br/>" + data.resultsPage.results.event[i].displayName + "<br/>";
+//             // for (var j = 0; j < data.resultsPage.results.event[i].performance.length; j++) {
+//             //     var iartistName = data.resultsPage.results.event[i].performance[j].displayName;
 
-            //     eventItems
+//             //     eventItems
 
-            //     //text += iartistName + "&nbsp;";
-            // }
+//             //     //text += iartistName + "&nbsp;";
+//             // }
 
-            eventItems[i] = { eventName: eventNode.displayName
-                            , songkickURI: eventNode.uri
-                            , eventPermalink:"?skEventId=" + eventNode.id};
-            //text = text + data.resultsPage.results.event[i].displayName + " NEXT: ";
+//             eventItems[i] = { eventName: eventNode.displayName
+//                             , songkickURI: eventNode.uri
+//                             , eventPermalink:"?skEventId=" + eventNode.id};
+//             //text = text + data.resultsPage.results.event[i].displayName + " NEXT: ";
 
-        }
+//         }
 
-// eventItems = [
-//             {eventName: "test1"},
-//             {eventName: "test1"},
-//             ];
+// // eventItems = [
+// //             {eventName: "test1"},
+// //             {eventName: "test1"},
+// //             ];
 
-        var myGenreTmpl = $('#info_event').tmpl(eventItems);
-        myGenreTmpl.appendTo($('#info_shows'));
+//         var myGenreTmpl = $('#info_event').tmpl(eventItems);
+//         myGenreTmpl.appendTo($('#info_shows'));
 
-    });
+//     });
 }
 
 function encodeLastFMParam(param) {
@@ -1340,7 +1408,7 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     $("#infoSongkickLink").get(0).href = artistURI;
     $("#infoShareLink").get(0).href = showHotlinkURI;
 
-    populateArtistInfo(artistName);
+    // populateArtistInfo(artistName);
 
     // TODO bug, artist doesn't seem to be cached if there is an amperstand ("&") in their name
     var artistNode = lfm_artistCache[artistName];
@@ -1363,4 +1431,45 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     }
 
 
+}
+
+function skqSelectArtist() {
+    console.log("skqSelectArtist");
+    $("#skqEvent").removeClass("headerToggleActive");
+    $("#skqArtist").addClass("headerToggleActive");
+    updateSongkickTabClick();
+}
+
+function skqSelectEvent() {
+    console.log("skqSelectEvent");
+    $("#skqArtist").removeClass("headerToggleActive");
+    $("#skqEvent").addClass("headerToggleActive");
+    updateSongkickTabClick();
+}
+
+function updateSongkickQueryClick() {
+    var queryType = $(".headerToggleActive").children(".queryType").get(0).value;
+    console.log("updateSongkickQuery: " + queryType);
+    $("#songkickUser").html($("#updateSongkickText").val());
+    
+
+    $("#genreFilter").html($("#updateGenreText").val());
+
+    if ($("#updateSongkickText").val() != "") {
+        $.cookie('songkickUser', $("#updateSongkickText").val());
+        $( "#songkickUserDialog" ).dialog( "close" );
+        songkickUpdateClick();
+    } else {
+        clearSongkickUser();
+    }
+
+}
+
+function clearSongkickUser() {
+    $.removeCookie('songkickUser');
+    $("#songkickUser").html("(None)");
+}
+
+function updateSongkickTabClick() {
+    songkickUpdateClick();
 }

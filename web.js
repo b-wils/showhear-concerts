@@ -38,6 +38,9 @@ var dbURL = process.env.DATABASE_URL || 'postgres://localhost:5432/showhear';
 // client = new pg.Client(connectionString);
 // client.connect();
 
+var oneYear = 31557600000;
+var oneDay = 86400;
+
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
@@ -47,7 +50,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
 
   app.use("/Styles", express.static(__dirname + '/Styles'));
   app.use("/images", express.static(__dirname + '/images'));
@@ -238,6 +241,9 @@ app.get('/events.json', function(request, response) {
 
   // var http = require('http');
 
+  // response.setHeader('Cache-Control', 'public, max-age=' + oneDay);
+  // console.log('HEADERS: ' + JSON.stringify(response.headers));
+
   var myClientIp = getClientIp(request);
 
   if(!request.query["min_date"]) {
@@ -314,6 +320,7 @@ app.get('/events.json', function(request, response) {
 
       // BUG we errored out here somehow- if our results do not have any data
       if (songKickdata.resultsPage.totalEntries > 0) {
+        console.log(songKickdata.resultsPage.totalEntries);
         async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
           function(err){
             if (err) {

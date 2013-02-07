@@ -30,7 +30,8 @@
 .sprite-icons-Background-Module-Transparent{background-image:url('../images/icons.png');background-repeat:no-repeat;display:inline-block;}
 
 .sprite-icons-Logo{background-position:0px 0px;width:139px;height:38px;}
-.sprite-icons-SongKick-Footer{background-position:0px -38px;width:104px;height:24px;}
+.sprite-icons-SongKick-Footer{background-position:0px -38px;width:104px;height:24px;position: relative;
+top: 4px;}
 .sprite-icons-LastFM-Footer{background-position:0px -62px;width:68px;height:18px;}
 .sprite-icons-Nav-Transparent{background-position:0px -80px;width:1px;height:48px;}
 .sprite-icons-Scroll-Bar{background-position:-1px -80px;width:14px;height:46px;}

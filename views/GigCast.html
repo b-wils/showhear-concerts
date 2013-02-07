@@ -89,16 +89,12 @@
 
 </head>
 <body>
+<!--     Test Input
+<form>
+<input name="fred" size="5" onkeyup="ExpandInput(this);" />
+</form> -->
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
+<div style="clear: both;"></div>
 <div id="dialog" title="Update Location">
         <label for="updLocationTxt">New Location</label>
         <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all" />
@@ -107,6 +103,11 @@
 <div id="genreFilterDialog" title="Select Genre">
         <label for="updateGenreText">Genre Filter</label>
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all" />
+</div>
+
+<div id="songkickUserDialog" title="Enter User">
+        <label for="updateGenreText">Genre Filter</label>
+        <input type="text" name="updateSongkickText" id="updateSongkickText" class="text ui-widget-content ui-corner-all" />
 </div>
 
 <div id="backgroundImage">
@@ -128,20 +129,22 @@
 
 <div class="filterContainer2">
 
-                <div id="tabs">
+                <div id="tabs" class="myTabs">
                   <ul>
-                    <li><a href="#tabs-1">Area/Date</a> </li>
-                    <li><a href="#tabs-2">Songkick</a></li>
+                    <li><a href="#tabs-1"><span class="vert-tab-title"> Area/Date</span></a> </li>
+                    <li><a href="#tabs-2"><span class="vert-tab-title"> Songkick</span></a></li>
                   </ul>
                   <div id="tabs-1" style:"overflow:auto; position: relative;">
-                    <div id="locationChange" class="searchBlock">
+                    <div id="locationChange" class="searchBlock centerText">
+                        <span class="centerTextElement">
                         <span class="redText"> Current City: </span>
                         <span class="whiteText" id="locationText"> (Loading...) </span>
                         <div class="sprite-icons-Up-Button"> </div>
+                    </span>
                     </div>
 
-                    <div class="searchBlock">
-
+                    <div class="searchBlock centerText">
+                        <span class="centerTextElement">
                         <label for="from" class="redText">
                             From:
                         </label>
@@ -157,36 +160,52 @@
                         <label for="to">
                             <div class="sprite-icons-Up-Button"> </div>
                         </label>
+                        </span>
                     </div>
 <!--                     <label for="to">to</label>
                     <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
-                    <div class="searchBlock searchBlock-noBorder">
-                        <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
-                        <div class="sprite-icons-Up-Button"> </div>
+                    <div class="searchBlock searchBlock-noBorder centerText">
+                        <span class="centerTextElement">
+                            <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
+                            <div class="sprite-icons-Up-Button"> </div>
+                            </span>
                         </span>
                     </div>   
 
                     <!-- <hr class="hrClear"> -->
                   </div>
                   <div id="tabs-2">
-                     Enter your Songkick profile to track events and artists you love.afsdfdsafasEnter your
+                    <div class="songkickToggleBlock">
+                        <div class="headerToggle headerToggleActive" id="skqArtist" onclick="skqSelectArtist()">
+                            <input type="hidden" class="queryType" value="artist"> </input>
+                            <span class="centerText headerToggleText"> <span class="centerTextElement">Tracked Artists </span> </span>
+                        </div>
+                        
+                        <div class="headerToggle" id="skqEvent" onclick="skqSelectEvent()">
+                            <input type="hidden" class="queryType" value="event"> </input>
+                            <span class="centerText headerToggleText"> <span class="centerTextElement" align="center">Added Events </span> </span>
+                        </div>
+                    </div>
+                    <div class="songkickHeaderBlock centerText">
+                        <span class="centerTextElement grayText">
+                        Enter your Songkick profile to <br/>track events and artists you love. </span>
+                    </div>
+
+                    <div class="songkickHeaderBlock centerText">
+                        <span class="centerTextElement" id="songkickUserChange">
+                        <label for="updLocationTxt" class="redText">Songkick User:</label>
+                    <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->
+                    <span class="whiteText" id="songkickUser"> (songkickUser) </span>
+                    <div class="sprite-icons-Up-Button"> </div>
+                    <!-- <input type="button" onclick="songkickUpdateClick()" value="Go"/> -->
+                </span>
+                    </div> 
+                
+
+
                     
-                    Search by: 
-                    <form name="songkickQueryType" class="radioInline" id="songkickQueryType">
-                        <input type="radio" name="songkickQueryTypeRadio" value="artist" checked>Tracked Artists
-                        <input type="radio" name="songkickQueryTypeRadio" value="event" >Added Events
-                    </form>
-
-                    <label for="updLocationTxt">Songkick User</label>
-                    
-
-
-                    <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/>
-
-                    
-                    <input type="button" onclick="songkickUpdateClick()" value="Go" style="float:right;"/>
-                    <div style="clear: both;"></div>
+                    <!-- <div style="clear: both;"></div> -->
                   </div>
                 </div>
 <!--     <div class="tabContainer">
@@ -237,8 +256,8 @@
                     <a target="_blank" class="sprite-icons-LastFM-Small---Gray" id="infoLastfmLink">
                     </a>
                 </div>
-                <div class="redText" id="playing-Info-Day"></div>
-                <div class="whiteText" id="playing-Info-Date">
+                <div class="redText rightInfoText" id="playing-Info-Day"></div>
+                <div class="whiteText rightInfoText" id="playing-Info-Date">
                     
                 </div>
             </div>
@@ -248,11 +267,15 @@
 <!--             <div class="playerButtonContainer" align="right">
                 <input type="button" onclick="nextVideoClick()" value="Next"/>
             </div>  -->
-            <div class="sprite-icons-Speaker-Small"> </div> <span class="redText"> Now Playing: </span>
+            <div class="infoText">
+            <div class="sprite-icons-Speaker-Small moreInfoIcon"> </div> <span class="redText"> Now Playing: </span>
             <span id="info_artist"> Loading...</span>
-            <br/>
-            <div class="sprite-icons-MapPin"> </div> <span class="whiteText"> Venue: </span> <span id="playing-Info-Venue"></span>
-            <br/>
+        </div>
+            
+            <div class="infoText">
+            <div class="sprite-icons-MapPin moreInfoIcon"> </div> <span class="whiteText"> Venue: </span> <span id="playing-Info-Venue"></span>
+            </div>
+            
             <span id="info_lastfm"> 
             </span>
         </div>
@@ -293,19 +316,11 @@
     <br/>
     ShowHear.com 2013 - Austin, TX - All rights reserved
     <br/>
+    <br/>
     <!-- TODO this takes up more vertical space than needed -->
-    <div class="fb-like-box" data-href="http://www.facebook.com/showhear" data-width="292" data-height="180" data-show-faces="true" data-colorscheme="light" data-stream="false" data-header="false"></div>
-    after facebook
-    <!-- <div style="clear: both;"></div> -->
+<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FShowhear&amp;send=false&amp;layout=standard&amp;width=300&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:80px;" allowTransparency="true"></iframe>
 </div>
 </div>  
-<!-- <div class="footer2">
-    OUtside player container
-</div> -->
-<!-- on my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st
- -->
-                <ul id="info_shows">
-                </ul>
 </body>
 </html>
     
