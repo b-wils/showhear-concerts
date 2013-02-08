@@ -279,6 +279,7 @@ overflow:auto;
     padding-top: 20px;
     padding-bottom: 20px;
     /*margin-top: 50px;*/
+    /*font-size: 0.95em;*/
 }
 
 .footerContainer
@@ -335,7 +336,7 @@ overflow:auto;
     background-color: white;
     height:505px;
 }
-.button_container {
+.event-container {
       float:left;
     height:486px;
     /*height:auto;*/
@@ -717,7 +718,7 @@ a .ui-tabs-anchor {
     border: 0px;
     padding: 0px;
     margin:0px;
-    /*width: 160px;*/
+    width: 160px;
     /*text-align: center;*/
 }
 
@@ -847,4 +848,40 @@ a .ui-tabs-anchor {
 
 .moreInfoIcon {
     margin: 0px 4px;
+}
+
+.events-loading {
+    width: 100%;
+    
+    background-color: white;
+}
+
+.no_vid {
+    color: #5A5A5A;
+    font-weight:bold;
+    padding-left: 30px;
+}
+
+.no_vid:hover {
+    text-decoration: none;
+}
+
+.filterHeader {
+    width: 195px;
+}
+
+.songkickHeaderEmptyDiv {
+    width:200px;
+}
+
+.songkickHeaderUserDiv {
+    width:282px;
+}
+
+.headerLink {
+    padding-left:7px;
+}
+
+.footerIcon {
+    padding-right:10px;
 }

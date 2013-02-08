@@ -22,8 +22,18 @@ var artistIndex = 0;
 
 var preLoadEventSKID;
 
+var headerDateFormatString = "DD, MM dd"
+
+var queryId = "";
+
 window.onload = function () {
 
+};
+
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+             .toString(16)
+             .substring(1);
 };
 
 // IE workaround
@@ -84,7 +94,7 @@ function getQueryVariable(variable) {
             return decodeURIComponent(pair[1]);
         }
     }
-    console.log('Query variable %s not found', variable);
+    // console.log('Query variable %s not found', variable);
 }
 
 window.onerror = function (msg, url, line)
@@ -150,6 +160,19 @@ $.tubeplayer.defaults.afterReady
     $("#tabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
     $("#tabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
 
+    $('#tabs').tabs({
+      select: function(event, ui){
+        
+        if( ui.index == 0) {
+            updateClick();
+        } else if (ui.index ==1) {
+            songkickUpdateClick();
+        } else {
+            console.error("bad tab index");
+        }
+      }
+    });
+
   $(function() {
     $( "#songkickTabs" ).tabs( { heightStyle: "auto" });
   });
@@ -167,15 +190,15 @@ $.tubeplayer.defaults.afterReady
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
-        dateFormat: "DD, MM dd",
+        dateFormat: headerDateFormatString,
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
         },
 
         onSelect: function(dateText) {
             // ExpandInput($( "#from" ).get(0));
-            resizeFrom();
-            // updateClick();
+            // resizeFrom();
+            updateClick();
         }
     });
 
@@ -185,7 +208,7 @@ $.tubeplayer.defaults.afterReady
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
-        dateFormat: "DD, MM dd",
+        dateFormat: headerDateFormatString,
         onClose: function( selectedDate ) {
             $( "#to" ).datepicker( "option", "minDate", selectedDate );
         },
@@ -300,7 +323,7 @@ $.tubeplayer.defaults.afterReady
     }
 
     if ($.cookie('songkickUser')) {
-        console.log("our user: " + $.cookie('songkickUser'))
+        // console.log("our user: " + $.cookie('songkickUser'));
         $("#songkickUser").html($.cookie('songkickUser'));
     }
 
@@ -461,14 +484,14 @@ function updateClick() {
 // alert("date: " + $.datepicker.formatDate('yy', $( "#to" ).datepicker( "getDate" )));
 useGenreFilter();
     //$("#playlistNav").empty();
-    $(".button_container").empty();
-    $(".button_container").html("Loading...")
+    setLoadingEvents();
     preLoadEventSKID = null;
     totalArtists = 0;
     shownArtists = 0;
     artistIndex = 0;
     eventIndex = 0;
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
+    queryId = s4();
     getSongkickEventPage(1);
 }
 
@@ -479,13 +502,13 @@ function songkickUpdateClick() {
     if ( $.cookie('songkickUser')) {
         useGenreFilter();
         //$("#playlistNav").empty();
-        $(".button_container").empty();
-        $(".button_container").html("Loading...")
+        setLoadingEvents();
         preLoadEventSKID = null;
         totalArtists = 0;
         shownArtists = 0;
         artistIndex = 0;
         eventIndex = 0;
+        queryId = s4();
         getSongkickEventPageByUser($.cookie('songkickUser'), 1);
     } else {
         console.log("no songkick user");
@@ -567,7 +590,6 @@ function selectPlaying(myDiv, autoStart) {
             jQuery("#youtube-player-container")
                .tubeplayer("play", myYoutubeID);
         } else {
-            console.log("cue video");
             // player.cueVideoById(myYoutubeID, 0, 'small');
             jQuery("#youtube-player-container")
                .tubeplayer("cue", myYoutubeID);
@@ -686,7 +708,7 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
 
                                 // TODO if we add here this will not preserve ordering. should probably create a dummy div for these to reside in
                                 // if (!targetElemnt.parent.parent.parent) {
-                                if ($(targetElement).parents('.button_container').length) {
+                                if ($(targetElement).parents('.upcoming-events').length) {
                                 } else {
                                     targetEvent.appendTo(targetContainer);
                                 }
@@ -712,7 +734,7 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
                             // if (!targetElemnt.parent.parent.parent) {
 
                             // } 
-                            if ($(targetElement).parents('.button_container').length) {
+                            if ($(targetElement).parents('.upcoming-events').length) {
                             } else {
                                 targetEvent.appendTo(targetContainer);
                             }              
@@ -813,7 +835,13 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
     }
     ];
 
-    var myArtistTmpl = $('#artist_item_template').tmpl(artists);
+    var myArtistTmpl;
+
+    if (sk_artistNode.artist.youtubeID) {
+        myArtistTmpl = $('#artist_item_template').tmpl(artists);
+    } else {
+        myArtistTmpl = $('#artist_item_no_vid_template').tmpl(artists);
+    }
 
     myArtistTmpl.appendTo(targetNode)
 
@@ -866,10 +894,8 @@ function addEventDivElement(sk_eventNode, targetNode) {
         addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j], myEventTmpl, targetNode, sk_eventNode);
     }
 
-    $(".artist_item:nth-child(even)").addClass('artist_alternate');
-
     // root item
-    // $(".button_container").get(0).appendChild(eventNode);
+    // $(".upcoming-events").get(0).appendChild(eventNode);
     // targetNode.appendChild(eventNode);
 
     // TODO this assumes that the event is within the users area and default date range
@@ -887,6 +913,8 @@ function addEventDivElement(sk_eventNode, targetNode) {
             myEventTmpl.appendTo(targetNode);
         }
     }
+
+    $(".artist_item:nth-child(even)").addClass('artist_alternate');
 }
 function testClick() {
     // alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
@@ -923,16 +951,14 @@ function buildSongkickAreaDateQuery(pageNumber) {
 function buildSongkickUserQuery(user, pageNumber) {
 
     var userTrackType = $(".headerToggleActive").children(".queryType").get(0).value;
-    console.log("songkick radio= " + userTrackType);
+    // console.log("songkick radio= " + userTrackType);
 
     var userTrackValue;
 
     if (userTrackType == "artist") {
         userTrackValue = "tracked_artist";
-        console.log("searching artist!");
     } else if (userTrackType == "event") {
         userTrackValue = "attendance";
-        console.log("searching event!");
     } else {
         userTrackValue = "tracked_artist";
         console.log("invalid usertracktype");
@@ -966,10 +992,10 @@ function getSongkickEventPage(pageNumber) {
 
         var totalPages = Math.ceil(data.resultsPage.totalEntries / data.resultsPage.perPage);
 
-        console.log("entries: "+ data.resultsPage.totalEntries + ", pages: " + totalPages );
+        // console.log("entries: "+ data.resultsPage.totalEntries + ", pages: " + totalPages );
 
         if (pageNumber == 1) {
-            $(".button_container").empty();
+            clearLoadingEvents();
 
             // create a container for each page
             // result page indexes start at 1
@@ -977,7 +1003,7 @@ function getSongkickEventPage(pageNumber) {
                 var containerNode = document.createElement('div');
                 containerNode.className = "sk_page_container_" + i;
 
-                $(".button_container").get(0).appendChild(containerNode);
+                $(".upcoming-events").get(0).appendChild(containerNode);
             }
 
             if (totalPages > 1) {
@@ -999,7 +1025,7 @@ function getSongkickEventPage(pageNumber) {
 
             //checkAndAddEvent(data.resultsPage.results.event[i]);
 
-            // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
+            // $(".upcoming-events").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
             addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
 
         }
@@ -1008,7 +1034,7 @@ function getSongkickEventPage(pageNumber) {
         if (!preLoadEventSKID) {
             if(loadVideoOnUpdate) {
                 if ($(".media_item:eq(0) .artist_item").get(0)) {
-                    console.log("set initial playing");
+                    // console.log("set initial playing");
                     loadVideoOnUpdate = false;
                     selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
                 }
@@ -1037,7 +1063,7 @@ function getSongkickEventPageByUser(user, pageNumber) {
         }
 
         if (pageNumber == 1) {
-            $(".button_container").empty();
+            clearLoadingEvents();
 
             var totalPages = data.resultsPage.totalEntries / data.resultsPage.perPage;
 
@@ -1051,7 +1077,7 @@ function getSongkickEventPageByUser(user, pageNumber) {
                 var containerNode = document.createElement('div');
                 containerNode.className = "sk_page_container_" + i;
 
-                $(".button_container").get(0).appendChild(containerNode);
+                $(".upcoming-events").get(0).appendChild(containerNode);
             }
 
             if (totalPages > 1) {
@@ -1072,7 +1098,7 @@ function getSongkickEventPageByUser(user, pageNumber) {
 
             //checkAndAddEvent(data.resultsPage.results.event[i]);
 
-            // $(".button_container").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
+            // $(".upcoming-events").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
             addEventDivElement(data.resultsPage.results.calendarEntry[i].event, $(".sk_page_container_" + pageNumber).get(0));
 
         }
@@ -1434,14 +1460,12 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
 }
 
 function skqSelectArtist() {
-    console.log("skqSelectArtist");
     $("#skqEvent").removeClass("headerToggleActive");
     $("#skqArtist").addClass("headerToggleActive");
     updateSongkickTabClick();
 }
 
 function skqSelectEvent() {
-    console.log("skqSelectEvent");
     $("#skqArtist").removeClass("headerToggleActive");
     $("#skqEvent").addClass("headerToggleActive");
     updateSongkickTabClick();
@@ -1472,4 +1496,19 @@ function clearSongkickUser() {
 
 function updateSongkickTabClick() {
     songkickUpdateClick();
+}
+
+function setLoadingEvents() {
+    $(".upcoming-events").empty();
+    $(".upcoming-events").html("Loading...");
+    $(".events-loading").show();
+}
+
+function clearLoadingEvents() {
+    $(".upcoming-events").empty();
+    $(".events-loading").hide();
+}
+
+function baseTabClick() {
+    console.log("a base tab click!");
 }

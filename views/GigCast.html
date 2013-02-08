@@ -40,6 +40,23 @@
         </div>
     </script>
 
+    <script id="artist_item_no_vid_template" type="text/x-jquery-tmpl">
+        <div class="artist_item no_vid">
+
+            <span class="">${artistName}</span>
+            
+            <span class="artist_genre">
+            </span>
+            <input type="hidden" class="artistYoutubeID" value=${youtubeID}> </input>
+            <input type="hidden" class="artistURI" value=${artistURI}></input>
+            <input type="hidden" class="songkickID" value=${songkickID}></input>
+            <input type="hidden" class="venue" value="${showVenue}"></input>
+            <input type="hidden" class="playing-Date" value="${showDate}"></input>
+            <input type="hidden" class="playing-Day-Week" value="${showDayOfWeek}"></input>
+            <input type="hidden" class="showHotlinkURI" value="${showHotlinkURI}"></input>
+        </div>
+    </script>
+
     <script id="artist_lastfm_link" type="text/x-jquery-tmpl">
         <a target="_blank" class="sprite-icons-LastFM-Small---Gray" href=${lastfmURI}>
         </a>
@@ -117,11 +134,12 @@
         <a class="sprite-icons-Logo topLogo" href=""></a>
 
         <span class="headerLinks rightFloat">
-            <a href="http://showhear.tumblr.com/">
+            <a href="http://showhear.tumblr.com/" class="headerLink">
                 Blog
             </a>
-            <a href="mailto:showhear@gmail.com">
-                Contact
+            
+            <a href="mailto:showhear@gmail.com" class="headerLink">
+                Contact Us
             </a>
         </span>
     </div>
@@ -165,7 +183,7 @@
 <!--                     <label for="to">to</label>
                     <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
-                    <div class="searchBlock searchBlock-noBorder centerText">
+                    <div class="searchBlock searchBlock-noBorder centerText filterHeader">
                         <span class="centerTextElement">
                             <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
                             <div class="sprite-icons-Up-Button"> </div>
@@ -192,15 +210,17 @@
                         Enter your Songkick profile to <br/>track events and artists you love. </span>
                     </div>
 
-                    <div class="songkickHeaderBlock centerText">
+                    <div class="songkickHeaderBlock centerText songkickHeaderUserDiv">
                         <span class="centerTextElement" id="songkickUserChange">
                         <label for="updLocationTxt" class="redText">Songkick User:</label>
-                    <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->
-                    <span class="whiteText" id="songkickUser"> (songkickUser) </span>
-                    <div class="sprite-icons-Up-Button"> </div>
-                    <!-- <input type="button" onclick="songkickUpdateClick()" value="Go"/> -->
-                </span>
+                        <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->
+                        <span class="whiteText" id="songkickUser"> (enter user) </span>
+                        <div class="sprite-icons-Up-Button"> </div>
+                        <!-- <input type="button" onclick="songkickUpdateClick()" value="Go"/> -->
+                    
+                        </span>
                     </div> 
+                    <div class="songkickHeaderBlock centerText songkickHeaderEmptyDiv searchBlock-noBorder"> </div>
                 
 
 
@@ -293,8 +313,12 @@
             Headliners Only: <input id="headlinersButton" type="button" onclick="headlinersClick()" value="Off" />
             <br /> -->
  
-
-            <div class ="button_container">Loading... </div>
+            <div class="event-container">
+                <div class ="upcoming-events">Loading... </div>
+                <div class="events-loading">
+                    <!-- Loading2... -->
+                </div>
+            </div>
         <div style="clear: both;"></div>
     </div> <!-- sidebar -->
     <!-- <hr> -->
@@ -307,18 +331,27 @@
     <span class="poweredBy">
     ShowHear is Powered by:
     <br/>
-    <a class="sprite-icons-SongKick-Footer" href="http://www.songkick.com/"></a>
-    <a class="sprite-icons-LastFM-Footer" href="http://www.last.fm/"></a>
+    <span class="footerIcon"> <a class="sprite-icons-SongKick-Footer" href="http://www.songkick.com/"></a></span>
+    
+    <span class="footerIcon"> <a class="sprite-icons-LastFM-Footer" href="http://www.last.fm/"></a></span>
     </span>
 <a class="sprite-icons-Logo" href=""></a>
     <br/>
-    Contact Us | Blog | About Us
+    <a href="mailto:showhear@gmail.com"> Contact Us</a> 
+    |
+    <a href="http://showhear.tumblr.com/"> Blog </a>
+    <!-- | About Us -->
     <br/>
     ShowHear.com 2013 - Austin, TX - All rights reserved
     <br/>
     <br/>
     <!-- TODO this takes up more vertical space than needed -->
-<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FShowhear&amp;send=false&amp;layout=standard&amp;width=300&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:80px;" allowTransparency="true"></iframe>
+<iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FShowHear&amp;send=false&amp;layout=standard&amp;width=300&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=65" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:65px;" allowTransparency="true"></iframe>
+<br/>
+
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://showhear.com" data-via="ShowHear">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
 </div>
 </div>  
 </body>

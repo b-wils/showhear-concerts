@@ -319,7 +319,8 @@ app.get('/events.json', function(request, response) {
       var songKickdata = JSON.parse(data);
 
       // BUG we errored out here somehow- if our results do not have any data
-      if (songKickdata.resultsPage.totalEntries > 0) {
+      // hardcoded to 50 per page
+      if (songKickdata.resultsPage.totalEntries - (songKickdata.resultsPage.page -1) * songKickdata.resultsPage.perPage> 0) {
         console.log(songKickdata.resultsPage.totalEntries);
         async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
           function(err){
@@ -412,7 +413,7 @@ app.get('/users/:username/calendar.json', function(request, response) {
       var songKickdata = JSON.parse(data);
 
 
-      if (songKickdata.resultsPage.totalEntries > 0) {
+      if (songKickdata.resultsPage.totalEntries - (songKickdata.resultsPage.page -1) * songKickdata.resultsPage.perPage> 0) {
         async.forEach(songKickdata.resultsPage.results.calendarEntry, calendarEventCBWrapper, 
           function(err){
             if (err) {
