@@ -1,4 +1,6 @@
 /*label, input { display:block; }*/
+
+/*TODO check these*/
         input.text { margin-bottom:12px; width:95%; padding: .4em; }
         fieldset { padding:0; border:0; margin-top:25px; }
 
@@ -867,11 +869,11 @@ a .ui-tabs-anchor {
 }
 
 .filterHeader {
-    width: 195px;
+    width: 185px;
 }
 
 .songkickHeaderEmptyDiv {
-    width:200px;
+    width:180px;
 }
 
 .songkickHeaderUserDiv {
@@ -887,9 +889,16 @@ a .ui-tabs-anchor {
 }
 
 .dateSearch {
-    width: 423px;
+    width: 433px;
 }
 
 .songkickDescription {
-    width: 216px;
+    width: 236px;
+}
+
+.myui-input {
+    background:none;
+    background-color:white;
+    /*color:green;*/
+    color: black;
 }

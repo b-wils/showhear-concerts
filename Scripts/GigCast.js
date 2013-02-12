@@ -646,7 +646,8 @@ var MAX_GENRE_TAGS = 2;
 
 function useGenreFilter() {
     if ($.cookie('genreFilter')) {
-        if ($("#tabs").tabs('option', 'selected') == 0) {
+        // console.log("tab selected: " + $("#tabs").tabs('option', 'active'));
+        if ($("#tabs").tabs('option', 'active') == 0) {
             // console.log("use genre filter");
             return true;
         }

@@ -40,6 +40,7 @@ var dbURL = process.env.DATABASE_URL || 'postgres://localhost:5432/showhear';
 
 var oneYear = 31557600000;
 var oneDay = 86400;
+var oneHour = 3600;
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -50,7 +51,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(__dirname + '/public', { maxAge: oneYear }));
+  app.use(express.static(__dirname + '/public', {}));
 
   app.use("/Styles", express.static(__dirname + '/Styles'));
   app.use("/images", express.static(__dirname + '/images'));
@@ -242,8 +243,8 @@ app.get('/events.json', function(request, response) {
 
   // var http = require('http');
 
-  // response.setHeader('Cache-Control', 'public, max-age=' + oneDay);
-  // console.log('HEADERS: ' + JSON.stringify(response.headers));
+  response.setHeader('Cache-Control', 'public, max-age=' + oneHour);
+  console.log('HEADERS: ' + JSON.stringify(response.headers));
 
   var myClientIp = getClientIp(request);
 
