@@ -61,6 +61,7 @@ app.configure(function(){
   app.use("/Scripts", express.static(__dirname + '/Scripts'));
   app.use("/jquery-ui-1.9.2.custom", express.static(__dirname + '/jquery-ui-1.9.2.custom'));
   app.use("/jquerycookie", express.static(__dirname + '/jquerycookie'));
+  app.use("/jquery-ui-1.10.0.custom", express.static(__dirname + '/jquery-ui-1.10.0.custom'));
 
   // app.enable("jsonp callback");
 
