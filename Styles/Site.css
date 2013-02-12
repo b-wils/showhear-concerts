@@ -15,6 +15,7 @@ body
     margin: 0px;
     padding: 0px;
     background-color: #010101;
+    height: 100%;
     /*color: #696969;*/
 }
 
@@ -192,10 +193,10 @@ first child of the left and right table columns */
 {
     color: #4e5766;
     padding: 8px 0px 0px 0px;
-    /*margin: 0px auto;*/
+    /*margin: 0px auto;
     text-align: center;
     line-height: normal;
-}
+}*/
 
 .footer2
 {
@@ -226,7 +227,7 @@ first child of the left and right table columns */
 {
     float: left;
     width: 100%;
-    margin:10px;
+    /*margin:10px;*/
 }
 
 #playerContainer2
@@ -281,6 +282,13 @@ overflow:auto;
     color: white;
     padding-top: 20px;
     padding-bottom: 20px;
+
+    /*sticky footer testing*/
+ clear: both;
+ position: relative;
+ z-index: 10;
+ height: 180px;
+ margin-top: -220px;
     /*margin-top: 50px;*/
     /*font-size: 0.95em;*/
 }
@@ -916,4 +924,15 @@ a .ui-tabs-anchor {
 .sprite-icons-Speaker-Square {
     position: relative;
     /*top: 3px;*/
+}
+
+html, body, #stickycontainer { height: 100%; }
+body > #stickycontainer { height: auto; min-height: 100%; }
+#stickycontainer {
+    /*padding-bottom:200px;*/
+}
+
+#stickypush {
+    height:220px;
+    /*background-color:red;*/
 }

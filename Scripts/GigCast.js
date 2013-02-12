@@ -128,10 +128,10 @@ $(document).ready(function () {
 
   // nonexistfunction();
 
-jQuery.support.cors = true; 
+    jQuery.support.cors = true; 
 
-$.tubeplayer.defaults.afterReady
-    = onPlayerReady2;
+    $.tubeplayer.defaults.afterReady
+        = onPlayerReady2;
 
     jQuery("#youtube-player-container").tubeplayer({
         width: 640, // the width of the player
