@@ -22,7 +22,7 @@ var artistIndex = 0;
 
 var preLoadEventSKID;
 
-var headerDateFormatString = "DD, MM dd"
+var headerDateFormatString = "DD, M dd"
 
 var queryId = "";
 
@@ -1406,7 +1406,8 @@ function populateLastFMInfo(artistNode) {
         // $("#info_artist").append(myLinkTmpl);
         $('#infoLastfmLink').get(0).href = artistNode.artist.url;
     } else {
-        $('#infoLastfmLink').get(0).removeAttr("href");
+        // if ()
+        $('#infoLastfmLink').removeAttr("href");
         // $('#infoLastfmLink').removeClass().addClass()
     }
 }

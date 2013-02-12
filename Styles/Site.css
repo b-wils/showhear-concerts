@@ -14,6 +14,7 @@ body
     font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
+    background-color: #010101;
     /*color: #696969;*/
 }
 
@@ -379,8 +380,8 @@ overflow:auto;
 
         .artist_item {
             background-color: white;
-        overflow:hidden;
-        padding: 5px;
+            overflow:hidden;
+            /*padding: 5px;*/
         }
 
         .artist_item:link {
@@ -401,6 +402,8 @@ text-decoration:underline;
 
 .artist_name {
     font-weight:bold;
+    position: relative;
+    top: -4px;
 }
 
         .playing{
@@ -421,14 +424,14 @@ text-decoration:underline;
         white-space: nowrap;
         /*color: #70b2e1;*/
         padding:0px 2px 2px 2px;
-        margin:4px 2px 0px 2px;
+        margin:4px 2px -4px 2px;
         font-weight:bold;
         /*display: inline;*/
         /*float: left;*/
         display:inline-block;
         font-size: 0.9em;
         position:relative;
-        top:-2px;
+        top:-6px;
     }
 
 .artist_genre {
@@ -720,7 +723,7 @@ a .ui-tabs-anchor {
     border: 0px;
     padding: 0px;
     margin:0px;
-    width: 160px;
+    width: 130px;
     /*text-align: center;*/
 }
 
@@ -869,7 +872,7 @@ a .ui-tabs-anchor {
 }
 
 .filterHeader {
-    width: 185px;
+    width: 235px;
 }
 
 .songkickHeaderEmptyDiv {
@@ -889,7 +892,7 @@ a .ui-tabs-anchor {
 }
 
 .dateSearch {
-    width: 433px;
+    width: 383px;
 }
 
 .songkickDescription {
@@ -901,4 +904,16 @@ a .ui-tabs-anchor {
     background-color:white;
     /*color:green;*/
     color: black;
+}
+
+/* mods to icons */
+
+.sprite-icons-Play-Button {
+    position: relative;
+    /*top: 4px;*/
+}
+
+.sprite-icons-Speaker-Square {
+    position: relative;
+    /*top: 3px;*/
 }
