@@ -389,7 +389,7 @@ overflow:auto;
         .artist_item {
             background-color: white;
             overflow:hidden;
-            /*padding: 5px;*/
+            padding: 5px;
         }
 
         .artist_item:link {
@@ -411,7 +411,7 @@ text-decoration:underline;
 .artist_name {
     font-weight:bold;
     position: relative;
-    top: -4px;
+    top: -2px;
 }
 
         .playing{
@@ -439,7 +439,7 @@ text-decoration:underline;
         display:inline-block;
         font-size: 0.9em;
         position:relative;
-        top:-6px;
+        top:-4px;
     }
 
 .artist_genre {
@@ -531,9 +531,10 @@ ul { overflow: hidden; }
     color:white;
     background-color:black;
     font-weight:bold;
-    padding-top: 5px;
+/*    padding-top: 5px;
     padding-bottom: 5px;
-    padding-left: 20px;
+    padding-left: 20px;*/
+    padding: 5px;
     font-size: 0.95em;
 }
 
@@ -919,11 +920,15 @@ a .ui-tabs-anchor {
 .sprite-icons-Play-Button {
     position: relative;
     /*top: 4px;*/
+    margin-bottom:-2px;
+    cursor: pointer;
 }
 
 .sprite-icons-Speaker-Square {
     position: relative;
     /*top: 3px;*/
+    margin-bottom:-2px;
+    cursor: pointer;
 }
 
 html, body, #stickycontainer { height: 100%; }
@@ -935,4 +940,8 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 #stickypush {
     height:220px;
     /*background-color:red;*/
+}
+
+#info_lastfm .genreTag {
+    top: 0px;
 }

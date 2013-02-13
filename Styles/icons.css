@@ -54,7 +54,7 @@ top: 4px;}
 .sprite-icons-Up-Button{background-position:-139px -14px;width:13px;height:13px;}
 .sprite-icons-Down-Button{background-position:-139px -27px;width:13px;height:13px;}
 .sprite-icons-Calendar---White{background-position:-139px -40px;width:13px;height:13px;}
-.sprite-icons-Calendar---Red{background-position:-139px -53px;width:13px;height:13px;}
+.sprite-icons-Calendar---Red{background-position:-139px -53px;width:13px;height:13px; padding-right:8px; margin-left:4px;}
 .sprite-icons-Calendar---Gray{background-position:-139px -66px;width:13px;height:13px;}
 .sprite-icons-Speaker-Small{background-position:-139px -79px;width:10px;height:8px;}
 .sprite-icons-MapPin{background-position:-139px -87px;width:7px;height:9px;}

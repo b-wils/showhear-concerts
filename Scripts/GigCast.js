@@ -1395,10 +1395,6 @@ function populateLastFMInfo(artistNode) {
             
             $("#info_image").attr("src", artistNode.artist.image[1]["#text"]);
 
-            if (artistNode.artist.image[1]["#text"] != "") {
-                $("#info_image").css("visibility", "visible");
-            } 
-            
         } else {
             console.log("no lastfm image!");
         }
@@ -1420,8 +1416,8 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     $("#info_lastfm").empty();
 
     // TODO we should find a better placeholder image
-    $("#info_image").attr("src", "");
-    $("#info_image").css("visibility", "hidden");
+    $("#info_image").attr("src", "/images/missing_artist.png");
+    // $("#info_image").css("visibility", "hidden");
 
     $("#info_artist").empty();
     var myArtistInfo = { artistName: artistName, songkickURI: artistURI, hotlinkURI: showHotlinkURI}
