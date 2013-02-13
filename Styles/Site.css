@@ -763,6 +763,12 @@ a .ui-tabs-anchor {
     padding: 5px;
 }
 
+.next-Artist-Button:hover {
+    position:relative;
+        top: 1px;
+    left: 1px;
+}
+
 .centerIcon {
     /*width:40px;*/
     /*width: auto;*/
@@ -937,6 +943,11 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     /*padding-bottom:200px;*/
 }
 
+.sprite-icons-Play-Button:hover {
+    top: 1px;
+    left: 1px;
+}
+
 #stickypush {
     height:220px;
     /*background-color:red;*/
@@ -945,3 +956,6 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 #info_lastfm .genreTag {
     top: 0px;
 }
+
+/*jqueryui mods*/
+/*.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0px; background: none; }*/
