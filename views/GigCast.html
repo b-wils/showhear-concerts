@@ -7,8 +7,6 @@
 
 
     <link href="jquery-ui-1.10.0.custom/css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" type="text/css"/>
-    <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
-    <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
     <title>ShowHear - Find Concerts You'll Love</title>
     
     
@@ -22,6 +20,9 @@
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
 <script type='text/javascript' src='js/jQuery.tubeplayer.min.js'></script>
+
+    <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
 
     <script id="book_template" type="text/x-jquery-tmpl">
         <li>${name} (${year})</li>
@@ -134,6 +135,14 @@
 
 <!-- BEGIN CONTENT -->
 
+<!-- *<span id="inlineDate"> testDate</span> *<button type="button" onclick="dateTestClick()">Click Me!</button>
+<div id="inlineDatepicker" class="myui-calendar positionable"> </div> -->
+
+<div id="from" class="myui-calendar positionable"> </div>
+<div id="to" class="myui-calendar positionable"> </div>
+
+<!-- <div id="POS-TEST"> HELLO POSITION!!!!! </div> -->
+
 <div id="stickycontainer">
 <div id="backgroundImage">
 
@@ -169,29 +178,32 @@
                     </span>
                     </div>
 
-                    <div class="searchBlock centerText dateSearch">
-                        <span class="centerTextElement">
-                            <label for="from" class="redText">
+                    <div class="searchBlock centerText dateSearch" id="dateSearch">
+                        <span class="centerTextElement" >
+                            <span onclick="dateFromSpanClick()" id="fromSpan">
+                            <span class="redText">
                                 From:
-                            </label>
-                            <input class="calendar-input" type="text" id="from" name="from" readonly/>
-                            <label for="from">
+                            </span>
+                            <span id="fromText"> testText</span>
+                            <!-- <input class="calendar-input" type="text" id="from" name="from" readonly/> -->
+                            
                                 <div class="sprite-icons-Up-Button"> </div>
-                            </label>
+                            
+                            </span>
 
-                            <label for="to" class="redText">
+                            <span onclick="dateToSpanClick()" id="toSpan">
+                            <span for="to" class="redText">
                                 To:
-                            </label>
-                            <input class="calendar-input" type="text" id="to" name="from" readonly/>
-                            <label for="to">
+                            </span>
+                            <span id="toText"> testText</span>
                                 <div class="sprite-icons-Up-Button"> </div>
-                            </label>
+                            </span>
                         </span>
                     </div>
 <!--                     <label for="to">to</label>
                     <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
-                    <div class="searchBlock searchBlock-noBorder centerText filterHeader">
+                    <div class="searchBlock searchBlock-noBorder centerText filterHeader" id="filterHeader">
                         <span class="centerTextElement">
                             <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
                             <div class="sprite-icons-Up-Button"> </div>
@@ -221,7 +233,7 @@
 
                     </div>
 
-                    <div class="songkickHeaderBlock centerText songkickHeaderUserDiv">
+                    <div class="songkickHeaderBlock centerText songkickHeaderUserDiv" id="songkickHeaderUserDiv">
                         <span class="centerTextElement" id="songkickUserChange">
                         <label for="updLocationTxt" class="redText">Songkick User:</label>
                         <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->

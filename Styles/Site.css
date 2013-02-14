@@ -769,6 +769,11 @@ a .ui-tabs-anchor {
     left: 1px;
 }
 
+.next-Artist-Icon:hover{
+   background-color:#2C2C2C;
+}
+/*.next-Artist-Button:hover{opacity: .7; filter:alpha(opacity=70); /* For IE8 and earlier */}*/
+
 .centerIcon {
     /*width:40px;*/
     /*width: auto;*/
@@ -948,6 +953,8 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     left: 1px;
 }
 
+.sprite-icons-Play-Button:hover{opacity: .7; filter:alpha(opacity=70); /* For IE8 and earlier */}
+
 #stickypush {
     height:220px;
     /*background-color:red;*/
@@ -957,5 +964,77 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     top: 0px;
 }
 
+.sprite-icons-Up-Button:hover{opacity: .5; filter:alpha(opacity=50); /* For IE8 and earlier */}
+
+  .positionable {
+    position: absolute;
+   display: block;
+    right: 0;
+    bottom: 0;
+    /*background-color: #bcd5e6;*/
+    /*text-align: center;*/
+  }
+
 /*jqueryui mods*/
 /*.ui-tabs .ui-tabs-panel { display: block; border-width: 0; padding: 0px; background: none; }*/
+
+.myui-calendar {
+        width: 241px;
+    height: 193px;
+    z-index:1000;
+    text-align: center;
+}
+
+.myui-calendar thead tr th {
+    background-color: #d6d6d6;
+    color: #737373;
+    padding: 0;
+}
+
+.myui-calendar a.ui-state-default.ui-state-hover {
+    /*background-color: #633863;*/
+    /*color: #302130;*/
+    background-color:#6CC6BB;
+}
+
+.myui-calendar div.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    margin: 0;
+    padding: 0;
+}
+
+.myui-calendar .ui-state-default,
+.myui-calendar .ui-widget-content .ui-state-default,
+.myui-calendar .ui-widget-header .ui-state-default {
+    border: 1px solid white;
+    background: white;
+    font-weight: bold;
+    color: black;
+    text-align:center;
+}
+
+.myui-calendar .ui-state-active,
+.myui-calendar .ui-widget-content .ui-state-active,
+.myui-calendar .ui-widget-header .ui-state-active {
+    border: 1px solid #cccccc;
+    background: #cccccc;
+    font-weight: bold;
+    color: #444444;
+}
+
+.myui-calendar .ui-state-highlight,
+.myui-calendar .ui-widget-content .ui-state-highlight,
+.myui-calendar .ui-widget-header .ui-state-highlight {
+    border: 1px solid #cccccc;
+    background: #cccccc;
+    color: #444444;
+}
+
+#POS-TEST {
+    background-color:green;
+    width: 80px;
+}
+
+#inlineDate {
+    color:white;
+    background-color: green;
+}

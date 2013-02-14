@@ -121,10 +121,12 @@ $('#from').each(function(){
 
 $(document).ready(function () {
 
-    // $( "#datepicker" ).datepicker({
-    //     showOtherMonths: true,
-    //     selectOtherMonths: true
-    // });
+// $( ".positionable" ).position({
+//         of: $( "#parent" ),
+//         my: $( "#my_horizontal" ).val() + " " + $( "#my_vertical" ).val(),
+//         at: $( "#at_horizontal" ).val() + " " + $( "#at_vertical" ).val(),
+//         collision: $( "#collision_horizontal" ).val() + " " + $( "#collision_vertical" ).val()
+//       });
 
   // nonexistfunction();
 
@@ -186,37 +188,62 @@ $(document).ready(function () {
 
     // $.post("logerror", { "msg" : "a test error" });
 
+    $( "#inlineDatepicker" ).datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: false,
+        altField: "#inlineDate",
+        altFormat: "DD, d MM, yy",
+        onSelect: function(date, ui){
+            $("#inlineDate").html(date);
+            $("#inlineDatepicker").hide();
+        }
+
+    }).hide();
+
     $( "#from" ).datepicker({
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
         dateFormat: headerDateFormatString,
-        onClose: function( selectedDate ) {
-            $( "#to" ).datepicker( "option", "minDate", selectedDate );
-        },
+        // onClose: function( selectedDate ) {
+        //     $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        // },
 
         onSelect: function(dateText) {
-            // ExpandInput($( "#from" ).get(0));
-            // resizeFrom();
+            $("#fromText").html(dateText);
+            $("#from").hide();
             updateClick();
         }
-    });
+    }).hide();
 
     $( "#from" ).datepicker( "setDate", "now" );
+    var tempDate = $.datepicker.formatDate(headerDateFormatString, $( "#from" ).datepicker( "getDate" ));
+    $("#fromText").html(tempDate);
+
 
     $( "#to" ).datepicker({
         numberOfMonths: 1,
         showOtherMonths: true,
         selectOtherMonths: true,
         dateFormat: headerDateFormatString,
-        onClose: function( selectedDate ) {
-            $( "#to" ).datepicker( "option", "minDate", selectedDate );
-        },
+        // onClose: function( selectedDate ) {
+        //     $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        // },
         onSelect: function(dateText) {
+            $("#toText").html(dateText);
+            $("#to").hide();
             updateClick();
         }
-    });
+    }).hide();
+
     $( "#to" ).datepicker( "setDate", "+1w" );
+    tempDate = $.datepicker.formatDate(headerDateFormatString, $( "#to" ).datepicker( "getDate" ));
+    $("#toText").html(tempDate);
+
+
+    $( "#to" ).bind('clickoutside',function(){
+        // $( "#to" ).hide();
+    });
 
     // alert("date: " +  $( "#from" ).datepicker( "getDate" ).getDate());
 
@@ -261,7 +288,7 @@ $(document).ready(function () {
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "left top", at: "left bottom", of:"#genreChange" },//clearGenreFilter
+        position: { my: "right top", at: "right bottom", of:"#filterHeader" },//clearGenreFilter
         buttons: [ { text: "Clear", click: function() { clearGenreFilter(); } }, { text: "Filter", click: function() { updateGenreFilter(); } }]
     });
 
@@ -287,7 +314,7 @@ $(document).ready(function () {
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "left top", at: "left bottom", of:"#songkickUserChange" },//clearGenreFilter
+        position: { my: "left top", at: "left bottom", of:"#songkickHeaderUserDiv" },//clearGenreFilter
         buttons: [ { text: "Search", click: function() { updateSongkickQueryClick(); } }]
     });
 
@@ -327,19 +354,60 @@ $(document).ready(function () {
         $("#songkickUser").html($.cookie('songkickUser'));
     }
 
-buildSongkickAreaDateQuery( );
+    buildSongkickAreaDateQuery( );
 
-// $.getJSON("/test",
-//         function (data) {
-//             alert('test response: ' + data.testvar);
-//         });
+    // $.getJSON("/test",
+    //         function (data) {
+    //             alert('test response: ' + data.testvar);
+    //         });
 
-// $( "#testbutton" ).button({
-//       icons: {
-//         primary: "ui-icon-circle-triangle-s"
-//       },
-//       text: false
-//     })
+    // $( "#testbutton" ).button({
+    //       icons: {
+    //         primary: "ui-icon-circle-triangle-s"
+    //       },
+    //       text: false
+    //     })
+
+    $( "#inlineDatepicker" ).position({
+            my: "left top",
+            at: "left bottom",
+            // collision: "none none",
+        of: $("#dateSearch")
+    });
+
+    $( "#from" ).position({
+            my: "left top",
+            at: "left bottom",
+            // collision: "none none",
+        of: $("#dateSearch")
+    });
+
+    $( "#to" ).position({
+            my: "right top",
+            at: "right bottom",
+            // collision: "none none",
+        of: $("#dateSearch")
+    });
+
+    $('#fromSpan').click(function(event) {
+        // TODO this will hide the calendar if you click on it
+        $("#to").hide();
+        $('body').one('click',function() {
+            // $("#from").hide();
+        });
+
+      event.stopPropagation();
+    });
+
+    $('#toSpan').click(function(event) {
+        // TODO this will hide the calendar if you click on it
+        $("#from").hide();
+        $('body').one('click',function() {
+            $("#to").hide();
+        });
+
+      event.stopPropagation();
+    });
 
 });
 
@@ -1509,4 +1577,33 @@ function clearLoadingEvents() {
 
 function baseTabClick() {
     console.log("a base tab click!");
+}
+
+function dateTestClick() {
+    console.log("test clicker");
+    $("#from").toggle();
+}
+
+function dateFromSpanClick() {
+    $("#from").toggle();
+
+    // if ($("#from").is(":visible")) {
+    //     console.log("from visible");
+
+    //     $( "#from" ).bind('clickoutside',function() {
+    //         $( "#from" ).hide();
+    //     });
+
+    //     $( "#from" ).show();
+    // } else 
+    // {
+    //     console.log("from invisible");
+    //     $( "#from" ).unbind('clickoutside');
+    // }
+
+    
+}
+
+function dateToSpanClick() {
+    $("#to").toggle();
 }
