@@ -208,7 +208,7 @@ $(document).ready(function () {
         // onClose: function( selectedDate ) {
         //     $( "#to" ).datepicker( "option", "minDate", selectedDate );
         // },
-
+        dayNamesMin: [ "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" ],
         onSelect: function(dateText) {
             $("#fromText").html(dateText);
             $("#from").hide();
@@ -229,6 +229,7 @@ $(document).ready(function () {
         // onClose: function( selectedDate ) {
         //     $( "#to" ).datepicker( "option", "minDate", selectedDate );
         // },
+        dayNamesMin: [ "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" ],
         onSelect: function(dateText) {
             $("#toText").html(dateText);
             $("#to").hide();
@@ -390,7 +391,7 @@ $(document).ready(function () {
     });
 
     $('#fromSpan').click(function(event) {
-        // TODO this will hide the calendar if you click on it
+        
         $("#to").hide();
         $('body').one('click',function() {
             $("#from").hide();
@@ -400,7 +401,7 @@ $(document).ready(function () {
     });
 
     $('#toSpan').click(function(event) {
-        // TODO this will hide the calendar if you click on it
+        
         $("#from").hide();
         $('body').one('click',function() {
             $("#to").hide();
@@ -445,6 +446,12 @@ function setPreloadEvent() {
             // TODO should we have a bigger date range?
             $( "#from" ).datepicker( "setDate",  $.datepicker.parseDate("yy-mm-dd",  data.resultsPage.results.event.start.date));
             $( "#to" ).datepicker( "setDate",  $.datepicker.parseDate("yy-mm-dd",  data.resultsPage.results.event.start.date));
+
+            var tempDate = $.datepicker.formatDate(headerDateFormatString, $( "#from" ).datepicker( "getDate" ));
+            $("#fromText").html(tempDate);
+
+            tempDate = $.datepicker.formatDate(headerDateFormatString, $( "#to" ).datepicker( "getDate" ));
+            $("#toText").html(tempDate);
         }
 
         // need to get this no matter what
