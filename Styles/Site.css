@@ -295,7 +295,7 @@ overflow:auto;
 
 .footerContainer
 {
-    width: 1044px;
+    width: 1060px;
     margin-left: auto ;
     margin-right: auto ;
 }
@@ -459,7 +459,7 @@ text-decoration:underline;
 
 .myHeader
 {
-    width:1044px;
+    width:1060px;
     margin-left: auto ;
     margin-right: auto ;
     color: white;
@@ -764,9 +764,9 @@ a .ui-tabs-anchor {
 }
 
 .next-Artist-Button:hover {
-    position:relative;
+/*    position:relative;
         top: 1px;
-    left: 1px;
+    left: 1px;*/
 }
 
 .next-Artist-Icon:hover{
@@ -1027,14 +1027,4 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     border: 1px solid #cccccc;
     background: #cccccc;
     color: #444444;
-}
-
-#POS-TEST {
-    background-color:green;
-    width: 80px;
-}
-
-#inlineDate {
-    color:white;
-    background-color: green;
 }

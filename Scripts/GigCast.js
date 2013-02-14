@@ -409,6 +409,27 @@ $(document).ready(function () {
       event.stopPropagation();
     });
 
+    $('#to').click(function(event) {
+        // TODO this will hide the calendar if you click on it
+        // $("#from").hide();
+        // $('body').one('click',function() {
+        //     $("#to").hide();
+        // });
+
+      event.stopPropagation();
+    });    
+
+
+    $('#from').click(function(event) {
+        // TODO this will hide the calendar if you click on it
+        // $("#from").hide();
+        // $('body').one('click',function() {
+        //     $("#to").hide();
+        // });
+
+      event.stopPropagation();
+    });   
+
 });
 
 function setPreloadEvent() {
