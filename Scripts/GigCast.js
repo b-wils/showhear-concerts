@@ -393,7 +393,7 @@ $(document).ready(function () {
         // TODO this will hide the calendar if you click on it
         $("#to").hide();
         $('body').one('click',function() {
-            // $("#from").hide();
+            $("#from").hide();
         });
 
       event.stopPropagation();
