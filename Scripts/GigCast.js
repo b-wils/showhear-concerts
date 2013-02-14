@@ -284,6 +284,7 @@ $(document).ready(function () {
 
     $( "#genreFilterDialog" ).dialog({
         autoOpen: false,
+        // maxHeight:170,
         // show: "blind",
         // hide: "explode",
         closeOnEscape: true,

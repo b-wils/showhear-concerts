@@ -10,8 +10,8 @@
 body   
 {
     /*background-color: #b8c1c2;*/
-    font-size: .80em;
-    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-size: .75em;
+    font-family: "Helvetica Neue", Helvetica, Arial,  Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
     background-color: #010101;
@@ -763,16 +763,10 @@ a .ui-tabs-anchor {
     padding: 5px;
 }
 
-.next-Artist-Button:hover {
-/*    position:relative;
-        top: 1px;
-    left: 1px;*/
-}
 
 .next-Artist-Icon:hover{
    background-color:#2C2C2C;
 }
-/*.next-Artist-Button:hover{opacity: .7; filter:alpha(opacity=70); /* For IE8 and earlier */}*/
 
 .centerIcon {
     /*width:40px;*/
