@@ -723,6 +723,7 @@ ul { overflow: hidden; }
 a .ui-tabs-anchor {
     padding: 0px;
     margin: 0px;
+    /*height: 16px;*/
 }
 
 .calendar-input {
@@ -974,23 +975,22 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 
 .myui-calendar {
     /*width: 241px;
-    height: 193px;*/
-    z-index:1000;
+   height: 193px;*/
+    z-index: 1000;
     text-align: center;
     color: #636363;
 }
 
 .myui-calendar thead tr th {
-    background-color: #E7E7E7;
-    color: #636363;
+    background-color: #000;
+    color: white;
     padding: 1px;
 }
 
 .myui-calendar a.ui-state-default.ui-state-hover {
-    /*background-color: #633863;*/
-    /*color: #302130;*/
-    color: #535353;
-    background-color:#6CC6BB;
+    border: 1px solid #6CC6BB;
+    background: #6CC6BB;
+    color: #fff;
 }
 
 .myui-calendar div.ui-datepicker-inline.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
@@ -998,33 +998,32 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     padding: 0;
 }
 
-.myui-calendar .ui-state-default,
-.myui-calendar .ui-widget-content .ui-state-default,
-.myui-calendar .ui-widget-header .ui-state-default {
+.myui-calendar .ui-state-default, .myui-calendar .ui-widget-content .ui-state-default, .myui-calendar .ui-widget-header .ui-state-default {
     border: 1px solid white;
     background: white;
     font-weight: bold;
-    color: #535353;
-    text-align:center;
+    color: #030303;
+    text-align: center;
 }
 
-.myui-calendar .ui-state-active,
-.myui-calendar .ui-widget-content .ui-state-active,
-.myui-calendar .ui-widget-header .ui-state-active {
-    border: 1px solid #E7E7E7;
-    background: #E7E7E7;
-    font-weight: bold;
-    color: #535353;
-
-}
-
-.myui-calendar .ui-state-highlight,
-.myui-calendar .ui-widget-content .ui-state-highlight,
 .myui-calendar .ui-widget-header .ui-state-highlight {
-    border: 1px solid #E7E7E7;
-    background: #E7E7E7;
-    color: #535353;
+
+    
 }
+
+.myui-calendar .ui-state-active, .myui-calendar .ui-widget-content .ui-state-active, .myui-calendar .ui-widget-header .ui-state-active {
+
+
+    color: #fff;
+    background-color: #b91f1f;
+    border-color: #b91f1f;
+}
+
+.myui-calendar .ui-datepicker table {
+    margin: 0;
+}
+
+
 
 .myui-calendar .ui-datepicker table {
     margin: 0;
@@ -1045,4 +1044,12 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     filter:Alpha(Opacity=100);
     font-weight: normal;
     color:#DADADA;
+}
+
+.myui-calendar .ui-state-highlight, .myui-calendar .ui-widget-content .ui-state-highlight, .myui-calendar .ui-widget-header .ui-state-highlight {
+/*background:#f6f6f6;*/
+   font-weight: bold;
+   background-image: url('https://dl.dropbox.com/u/26832079/corner-tab.png');
+   background-repeat:no-repeat;
+   background-position:right top;
 }
