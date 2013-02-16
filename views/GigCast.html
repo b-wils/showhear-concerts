@@ -22,6 +22,7 @@
 <script type='text/javascript' src='js/jQuery.tubeplayer.min.js'></script>
 
     <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/Styles/icons_mod.css" rel="stylesheet" type="text/css" />
     <link href="/Styles/Site.css" rel="stylesheet" type="text/css" />
 
     <script id="book_template" type="text/x-jquery-tmpl">
@@ -135,6 +136,7 @@
 
 <!-- BEGIN CONTENT -->
 
+
 <!-- *<span id="inlineDate"> testDate</span> *<button type="button" onclick="dateTestClick()">Click Me!</button>
 <div id="inlineDatepicker" class="myui-calendar positionable"> </div> -->
 
@@ -166,23 +168,36 @@
 
                 <div id="tabs" class="myTabs">
                   <ul>
-                    <li><a href="#tabs-1"><span class="vert-tab-title"> Area/Date</span></a> </li>
-                    <li><a href="#tabs-2"><span class="vert-tab-title"> Songkick</span></a></li>
+                    <li><a href="#tabs-1"><span class="vert-tab-title"> 
+                        <div class="sprite-icons-Calendar---White"> </div> Area/Date</span>
+                    </a> </li>
+                    <li><a href="#tabs-2"><span class="vert-tab-title"> <div class="sprite-icons-SongKick-Nav-Logo-White"> </div>
+                    </span></a></li>
                   </ul>
                   <div id="tabs-1" style:"overflow:auto; position: relative;">
                     <div id="locationChange" class="searchBlock centerText">
+                        <span class="header-Number centerTextElement">
+                            1
+                        </span>
                         <span class="centerTextElement">
-                        <span class="grayText"> 1. Enter your current city</span>
+                        <span class="grayText"> Enter your current city:</span>
                         <br/>
-                        <span class="redText"> Current City: </span>
+                        <span class="redText"> City: </span>
                         <span class="whiteText" id="locationText"> (Loading...) </span>
                         <div class="sprite-icons-Up-Button"> </div>
                     </span>
                     </div>
 
+                    <div class="divider-Arrow-Div">
+                        <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
+                    </div>
+
                     <div class="searchBlock centerText dateSearch" id="dateSearch">
+                        <span class="header-Number centerTextElement">
+                            2
+                        </span>
                         <span class="centerTextElement" >
-                                                    <span class="grayText"> 2. Select a date range</span>
+                                                    <span class="grayText"> Select a date range:</span>
                         <br/>
                             <span onclick="dateFromSpanClick()" id="fromSpan">
                             <span class="redText">
@@ -204,12 +219,18 @@
                             </span>
                         </span>
                     </div>
+                    <div class="divider-Arrow-Div">
+                        <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
+                    </div>
 <!--                     <label for="to">to</label>
                     <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
                     <div class="searchBlock searchBlock-noBorder centerText filterHeader" id="filterHeader">
+                        <span class="header-Number centerTextElement">
+                            3
+                        </span>
                         <span class="centerTextElement">
-                        <span class="grayText"> 3. (optional) Filter by genre</span>
+                        <span class="grayText"> Filter by genre (optional):</span>
                         <br/>
                             <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
                             <div class="sprite-icons-Up-Button"> </div>
@@ -220,28 +241,32 @@
                     <!-- <hr class="hrClear"> -->
                   </div>
                   <div id="tabs-2">
-                    <div class="songkickToggleBlock">
-                        <div class="headerToggle headerToggleActive" id="skqArtist" onclick="skqSelectArtist()">
-                            <input type="hidden" class="queryType" value="artist"> </input>
-                            <span class="centerText headerToggleText"> <span class="centerTextElement">Tracked Artists </span> </span>
-                        </div>
-                        
-                        <div class="headerToggle" id="skqEvent" onclick="skqSelectEvent()">
-                            <input type="hidden" class="queryType" value="event"> </input>
-                            <span class="centerText headerToggleText"> <span class="centerTextElement" align="center">Added Events </span> </span>
-                        </div>
-                    </div>
                     <div class="songkickDescription songkickHeaderBlock centerText">
+                        <span class="header-Number centerTextElement">
+                            1
+                        </span>
                         <span class="grayText centerTextElement">
-                        Enter your Songkick profile to track events and artists you love.
+                        Sign up for Songkick and enter or import your favorite artists
 
-                    </span>
+                        </span>
 
+                    </div>
+
+                    <div class="divider-Arrow-Div">
+                        <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
                     </div>
 
                     <div class="songkickHeaderBlock centerText songkickHeaderUserDiv" id="songkickHeaderUserDiv">
+                        <span class="header-Number centerTextElement">
+                            2
+                        </span>
+
                         <span class="centerTextElement" id="songkickUserChange">
-                        <label for="updLocationTxt" class="redText">Songkick User:</label>
+                            <span class="grayText">
+                            Enter your songkick username:
+                            </span>
+                            <br/>
+                        <span class="redText">User:</label>
                         <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->
                         <span class="whiteText" id="songkickUser"> (enter user) </span>
                         <div class="sprite-icons-Up-Button"> </div>
@@ -249,7 +274,34 @@
                     
                         </span>
                     </div> 
-                    <div class="songkickHeaderBlock centerText songkickHeaderEmptyDiv searchBlock-noBorder"> </div>
+
+                    <div class="divider-Arrow-Div">
+                        <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
+                    </div>
+
+                    <div class="songkickHeaderBlock centerText" id="songkickToggleDiv">
+                        <span class="header-Number centerTextElement">
+                            3
+                        </span>
+                        <span class="centerTextElement" >
+                            <span class="grayText" id="toggleInfoText">
+                                Browse by your:
+                            </span>
+                            
+                            <div style="clear: both;"></div>
+                            <span class="songkick-Toggle" id="skqArtist" onclick="skqSelectArtist()">
+                                Tracked Events
+                                <input type="hidden" class="queryType" value="artist"> </input>
+                            </span>
+                    
+                            <span class="songkick-Toggle songkick-Toggle-Active" id="skqEvent" onclick="skqSelectEvent()">
+                                Tracked Artists
+                                <input type="hidden" class="queryType" value="event"> </input>
+                            </span>
+                        </span>
+                    </div> 
+
+                    <!-- <div class="songkickHeaderBlock centerText songkickHeaderEmptyDiv searchBlock-noBorder"> </div> -->
                 
 
 

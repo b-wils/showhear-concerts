@@ -22,7 +22,7 @@ var artistIndex = 0;
 
 var preLoadEventSKID;
 
-var headerDateFormatString = "DD, M dd"
+var headerDateFormatString = "D, M dd"
 
 var queryId = "";
 
@@ -1555,14 +1555,14 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
 }
 
 function skqSelectArtist() {
-    $("#skqEvent").removeClass("headerToggleActive");
-    $("#skqArtist").addClass("headerToggleActive");
+    $("#skqEvent").removeClass("songkick-Toggle-Active");
+    $("#skqArtist").addClass("songkick-Toggle-Active");
     updateSongkickTabClick();
 }
 
 function skqSelectEvent() {
-    $("#skqArtist").removeClass("headerToggleActive");
-    $("#skqEvent").addClass("headerToggleActive");
+    $("#skqArtist").removeClass("songkick-Toggle-Active");
+    $("#skqEvent").addClass("songkick-Toggle-Active");
     updateSongkickTabClick();
 }
 
