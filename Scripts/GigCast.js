@@ -30,6 +30,31 @@ window.onload = function () {
 
 };
 
+// var availableGenreTags = [
+//       "ActionScript",
+//       "AppleScript",
+//       "Asp",
+//       "BASIC",
+//       "C",
+//       "C++",
+//       "Clojure",
+//       "COBOL",
+//       "ColdFusion",
+//       "Erlang",
+//       "Fortran",
+//       "Groovy",
+//       "Haskell",
+//       "Java",
+//       "JavaScript",
+//       "Lisp",
+//       "Perl",
+//       "PHP",
+//       "Python",
+//       "Ruby",
+//       "Scala",
+//       "Scheme"
+//     ];
+
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
              .toString(16)
@@ -129,6 +154,10 @@ $(document).ready(function () {
 //       });
 
   // nonexistfunction();
+
+    // $( "#updateGenreText" ).autocomplete({
+    //   source: availableGenreTags
+    // });
 
     jQuery.support.cors = true; 
 
@@ -1048,7 +1077,7 @@ function buildSongkickAreaDateQuery(pageNumber) {
 
 function buildSongkickUserQuery(user, pageNumber) {
 
-    var userTrackType = $(".headerToggleActive").children(".queryType").get(0).value;
+    var userTrackType = $(".songkick-Toggle-Active").children(".queryType").get(0).value;
     // console.log("songkick radio= " + userTrackType);
 
     var userTrackValue;
@@ -1567,7 +1596,7 @@ function skqSelectEvent() {
 }
 
 function updateSongkickQueryClick() {
-    var queryType = $(".headerToggleActive").children(".queryType").get(0).value;
+    var queryType = $(".songkick-Toggle-Active").children(".queryType").get(0).value;
     console.log("updateSongkickQuery: " + queryType);
     $("#songkickUser").html($("#updateSongkickText").val());
     
