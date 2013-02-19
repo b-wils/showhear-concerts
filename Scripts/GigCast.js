@@ -579,6 +579,7 @@ useGenreFilter();
     eventIndex = 0;
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
     queryId = s4();
+    // $("#loading-results-message").show();
     getSongkickEventPage(1);
 }
 
@@ -1073,8 +1074,12 @@ function getSongkickEventPage(pageNumber) {
     $.getJSON("/events.json?"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
     function (data) {
 
+        // $("#loading-results-message").hide();
+
         if (data.resultsPage.totalEntries == 0) {
+            clearLoadingEvents();
             console.log("no data");
+            $("#no-events-message").show();
             return;
         }
 
@@ -1146,6 +1151,8 @@ function getSongkickEventPageByUser(user, pageNumber) {
     function (data) {
 
         if (data.resultsPage.totalEntries == 0) {
+            clearLoadingEvents();
+            $("#no-events-message").show();
             console.log("no data");
             return;
         }
@@ -1616,13 +1623,14 @@ function updateSongkickTabClick() {
 
 function setLoadingEvents() {
     $(".upcoming-events").empty();
-    $(".upcoming-events").html("Loading...");
-    $(".events-loading").show();
+    $("#no-events-message").hide();
+    // $(".upcoming-events").html("Loading...");
+    $("#loading-results-message").show();
 }
 
 function clearLoadingEvents() {
     $(".upcoming-events").empty();
-    $(".events-loading").hide();
+    $("#loading-results-message").hide();
 }
 
 function baseTabClick() {

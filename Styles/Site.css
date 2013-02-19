@@ -1104,3 +1104,35 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     top:48px;
     left:518px;
 }
+
+.playlist-message {
+    height:100%;
+    width:100%;
+    background-color:black;
+    background-color: rgba(0, 0, 0, 0.4);
+    font-weight:bold;
+}
+
+#no-events-message {
+    text-align:center;
+    color:#E7E7E7;
+    display:none;
+}
+
+#no-events-text {
+    padding-top:160px;
+}
+
+#loading-results-message {
+    text-align:center;
+    color:#E7E7E7;
+    font-size:1.2em;
+}
+
+#loading-results-text {
+    padding-top:160px;
+}
+
+.white-loading-speaker {
+    margin-top:7px;
+}
