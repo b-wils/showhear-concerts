@@ -424,6 +424,7 @@ $(document).ready(function () {
     });   
 
     setDialogPositions();
+$("#loading-more-results").hide();
 
 });
 
@@ -1137,16 +1138,19 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
 
         // TODO this should be done after all of our lastfm queries return
         if (pagesProcessed == totalPages) {
-
+            $("#loading-more-results").hide();
+            $("#loading-results-message").hide();
+        } else {
+            if ($(".media_item").length > 0) {
+                $("#loading-results-message").hide();
+                $("#loading-more-results").show();
+            } else {
+                $("#loading-results-message").show();
+            }
         }
 
         //var playlistNav = document.getElementById("playlistNav");
         eventIterator(data, pageNumber);
-
-        // TODO this should be done after all of our lastfm queries return
-        if (pagesProcessed == totalPages) {
-
-        }
 
         // TODO this should be cued and done in a better location and shouild only cue the video
         if (!preLoadEventSKID) {
@@ -1541,7 +1545,7 @@ function setLoadingEvents() {
 
 function clearLoadingEvents() {
     $(".upcoming-events").empty();
-        $("#loading-results-message").hide();
+    $("#loading-results-message").hide();
 }
 
 function baseTabClick() {
