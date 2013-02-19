@@ -61,6 +61,11 @@ function s4() {
              .substring(1);
 };
 
+$(window).resize(function() {
+  
+  // setDialogPositions();
+});
+
 // IE workaround
 function JSONQuery(url, callback) {
    if ($.browser.msie && window.XDomainRequest) {
@@ -142,6 +147,24 @@ $('#from').each(function(){
     $(this).css('width',size*3);
     
     })
+}
+
+function setDialogPositions() {
+
+
+    $( "#from" ).position({
+            my: "left top",
+            at: "left bottom",
+            collision: "fit fit",
+        of: $("#dateSearch")
+    });
+
+    $( "#to" ).position({
+            my: "right top",
+            at: "right bottom",
+            collision: "fit fit",
+        of: $("#dateSearch")
+    });
 }
 
 $(document).ready(function () {
@@ -354,39 +377,6 @@ $(document).ready(function () {
 
     buildSongkickAreaDateQuery( );
 
-    // $.getJSON("/test",
-    //         function (data) {
-    //             alert('test response: ' + data.testvar);
-    //         });
-
-    // $( "#testbutton" ).button({
-    //       icons: {
-    //         primary: "ui-icon-circle-triangle-s"
-    //       },
-    //       text: false
-    //     })
-
-    $( "#inlineDatepicker" ).position({
-            my: "left top",
-            at: "left bottom",
-            // collision: "none none",
-        of: $("#dateSearch")
-    });
-
-    $( "#from" ).position({
-            my: "left top",
-            at: "left bottom",
-            // collision: "none none",
-        of: $("#dateSearch")
-    });
-
-    $( "#to" ).position({
-            my: "right top",
-            at: "right bottom",
-            // collision: "none none",
-        of: $("#dateSearch")
-    });
-
     $('#fromSpan').click(function(event) {
         
         $("#to").hide();
@@ -427,6 +417,8 @@ $(document).ready(function () {
 
       event.stopPropagation();
     });   
+
+    setDialogPositions();
 
 });
 
@@ -1642,7 +1634,7 @@ function dateTestClick() {
 
 function dateFromSpanClick() {
     $("#from").toggle();
-
+setDialogPositions();
     // if ($("#from").is(":visible")) {
     //     console.log("from visible");
 
