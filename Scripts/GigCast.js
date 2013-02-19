@@ -583,10 +583,13 @@ useGenreFilter();
     eventIndex = 0;
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
     queryId = s4();
+    pagesProcessed = 0;
     // $("#loading-results-message").show();
             getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
                     1,songkickEventIterator);
 }
+
+var pagesProcessed = 0;
 
 function songkickUpdateClick() {
 
@@ -602,6 +605,7 @@ function songkickUpdateClick() {
         artistIndex = 0;
         eventIndex = 0;
         queryId = s4();
+        pagesProcessed = 0;
         getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator);
     } else {
         console.log("no songkick user");
@@ -1100,6 +1104,8 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
             return;
         }
 
+        pagesProcessed++;
+
         var totalPages = Math.ceil(data.resultsPage.totalEntries / data.resultsPage.perPage);
 
         // console.log("entries: "+ data.resultsPage.totalEntries + ", pages: " + totalPages );
@@ -1129,8 +1135,18 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
             // 
         }
 
+        // TODO this should be done after all of our lastfm queries return
+        if (pagesProcessed == totalPages) {
+
+        }
+
         //var playlistNav = document.getElementById("playlistNav");
         eventIterator(data, pageNumber);
+
+        // TODO this should be done after all of our lastfm queries return
+        if (pagesProcessed == totalPages) {
+
+        }
 
         // TODO this should be cued and done in a better location and shouild only cue the video
         if (!preLoadEventSKID) {
