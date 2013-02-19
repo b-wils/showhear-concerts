@@ -149,9 +149,11 @@ first child of the left and right table columns */
     margin-left: auto ;
     margin-right: auto ;
     align: center;
-    /*background-color: rgba(0, 0, 0, 0.7);*/
+    background-color: rgba(0, 0, 0, 0.7);
     width: 1060px;
     color: white;
+    /*border: 1px solid black;*/
+
 }
 
 #main
@@ -601,47 +603,25 @@ ul { overflow: hidden; }
 }
 
 .divider-Arrow-Div {
-    background-color: rgba(0, 0, 0, 0.7);
+    /*background-color: rgba(0, 0, 0, 0.7);*/
     height: 48px;
     display:inline-block;
     float: left;
 }
 
 .searchBlock {
-    background-color: rgba(0, 0, 0, 0.7);
     height: 48px;
     padding:0px 10px;
-    /*vertical-align: bottom;*/
-    /*border-right: 1px solid;*/
     display:inline-block;
     font-weight:bold;
-    /*background-color:green;*/
     margin:0px;
-    /*text-align: center;*/
     float: left;
-
-}
-
-.songkickHeaderBlock {
-    background-color: rgba(0, 0, 0, 0.7);
-    height: 48px;
-    /*line-height:50px;*/
-    /*vertical-align: bottom;*/
-    /*border-right: 1px solid;*/
-    
-    display:inline-block;
-    font-weight:bold;
-    /*background-color:green;*/
-    /*text-align: center;*/
-    float: left;
-    color: white;
-    margin:0px;
-    padding: 0px 10px;
 }
 
 .songkickToggleBlock {
-    height: 58px;
+    height: 48px;
     padding:0px;
+    /*width:200px;*/
     /*line-height:50px;*/
     /*vertical-align: bottom;*/
     display:inline-block;
@@ -650,17 +630,8 @@ ul { overflow: hidden; }
     margin:0px;
     text-align: center;
     float: left;
-}
-
-.songkickTabBlock {
-    /*height: 36px;*/
-    /*display:inline-block;*/
-    margin:0px;
-    float: left;
-}
-
-.searchBlock-noBorder {
-    border: none;
+    clear:both;
+    width: 145px;
 }
 
 .myTabs {
@@ -749,7 +720,7 @@ a .ui-tabs-anchor {
 
 #locationChange {
     width: 230px;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 #locationText {
@@ -835,16 +806,17 @@ a .ui-tabs-anchor {
   text-align: center; 
 }
 
-.headerToggle {
+.searchToggle {
     height: 50%;
-    width: 150px;
+    width: 140px;
     cursor: pointer;
     text-align:center;
     background-color: rgba(100, 100, 100, 0.2);
-    color: #8A8A8A;
+    color:#434343;
+    padding-right:5px;
 }
 
-.headerToggleActive {
+.searchToggleActive {
     background-color: rgba(240, 29, 29, 0.5);
     color:white;
 }
@@ -895,7 +867,7 @@ a .ui-tabs-anchor {
 }
 
 .songkickHeaderUserDiv {
-    width:250px;
+    width:300px;
 }
 
 .headerLink {
@@ -907,11 +879,11 @@ a .ui-tabs-anchor {
 }
 
 .dateSearch {
-    width: 323px;
+    width: 300px;
 }
 
 .songkickDescription {
-    width: 250px;
+    width: 230px;
 }
 
 .myui-input {
@@ -1062,6 +1034,8 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 .header-Number {
     color:white;
     font-size: 36px;
+    width:20px;
+    /*border:1px solid green;*/
 }
 
 .centerTextElement {
@@ -1071,19 +1045,28 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 }
 
 .songkick-Toggle {
-    margin:4px 0px;
-    padding:2px 6px;
+    margin:4px 4px;
+    padding:0px 4px;
     cursor: pointer;
+    border: solid 1px #8A8A8A;
+    color: #434343;
+    background-color: rgba(100, 100, 100, 0.2);
 }
 
 .songkick-Toggle-Active {
     background-color: rgba(240, 29, 29, 0.5);
+    color:white;
 }
 
 #songkickToggleDiv {
-    width:310px;
+    width:290px;
+    line-height: 1.55em;
 }
 
 #toggleInfoText {
     display:inline-block;
+}
+
+.tabArrow {
+    float:right;
 }

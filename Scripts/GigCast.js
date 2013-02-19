@@ -184,39 +184,6 @@ $(document).ready(function () {
         onUnMute: function(){} // after the player is unmuted
     });
 
-  $(function() {
-    $( "#tabs" ).tabs( { heightStyle: "auto" });
-  });
-
-    $("#tabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
-    $("#tabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
-
-    $('#tabs').tabs({
-      select: function(event, ui){
-        
-        if( ui.index == 0) {
-            updateClick();
-        } else if (ui.index ==1) {
-            songkickUpdateClick();
-        } else {
-            console.error("bad tab index");
-        }
-      }
-    });
-
-  $(function() {
-    $( "#songkickTabs" ).tabs( { heightStyle: "auto" });
-  });
-
-    $("#songkickTabs").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
-    $("#songkickTabs li").removeClass('ui-corner-top').addClass('ui-corner-left');
-
-
-// JSONQueryTest("http://gdata.youtube.com/feeds/api/videos?q=cher&category=Music&alt=json",
-//         function(data) {alert("success! " + data.feed.entry[0].media$group.media$content[0].url)});
-
-    // $.post("logerror", { "msg" : "a test error" });
-
     $( "#inlineDatepicker" ).datepicker({
         showOtherMonths: true,
         selectOtherMonths: false,
@@ -772,8 +739,8 @@ var MAX_GENRE_TAGS = 2;
 
 function useGenreFilter() {
     if ($.cookie('genreFilter')) {
-        // console.log("tab selected: " + $("#tabs").tabs('option', 'active'));
-        if ($("#tabs").tabs('option', 'active') == 0) {
+        
+        if ($(".searchToggleActive").attr('id') == "areaDateTab") {
             // console.log("use genre filter");
             return true;
         }
@@ -1581,6 +1548,37 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     }
 
 
+}
+
+function clickAreaDateSearch() {
+    $("#songkickTab").removeClass("searchToggleActive");
+    $("#songkickTabIcon").removeClass("sprite-icons-SongKick-Nav-Logo-White").addClass("sprite-icons-SongKick-Nav-Logo-Gray");
+    $("#songkickTabArrow").css('visibility', 'hidden');
+
+    $("#areaDateTab").addClass("searchToggleActive");
+    $("#areaDateTabIcon").removeClass("sprite-icons-Nav-Button-Calendar-Gray").addClass("sprite-icons-Calendar---White");
+    $("#areaDateTabArrow").css('visibility', 'visible');
+
+    $("#tabs-1").show();
+    $("#tabs-2").hide();
+    
+
+    // updateSongkickTabClick();
+}
+
+function clickSongkickSearch() {
+    $("#areaDateTab").removeClass("searchToggleActive");
+    $("#areaDateTabIcon").addClass("sprite-icons-Nav-Button-Calendar-Gray").removeClass("sprite-icons-Calendar---White");
+    $("#areaDateTabArrow").css('visibility', 'hidden');
+
+    $("#songkickTab").addClass("searchToggleActive");
+    $("#songkickTabIcon").addClass("sprite-icons-SongKick-Nav-Logo-White").removeClass("sprite-icons-SongKick-Nav-Logo-Gray");
+    $("#songkickTabArrow").css('visibility', 'visible');
+
+    $("#tabs-1").hide();
+    $("#tabs-2").show();
+
+    // updateSongkickTabClick();
 }
 
 function skqSelectArtist() {

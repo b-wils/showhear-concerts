@@ -118,6 +118,9 @@
 <input name="fred" size="5" onkeyup="ExpandInput(this);" />
 </form> -->
 
+
+
+
 <div style="clear: both;"></div>
 <div id="dialog" title="Update Location">
         <!-- <label for="updLocationTxt">New Location</label> -->
@@ -166,26 +169,36 @@
 
 <div class="filterContainer2">
 
-                <div id="tabs" class="myTabs">
-                  <ul>
-                    <li><a href="#tabs-1"><span class="vert-tab-title"> 
-                        <div class="sprite-icons-Calendar---White"> </div> Area/Date</span>
-                    </a> </li>
-                    <li><a href="#tabs-2"><span class="vert-tab-title"> <div class="sprite-icons-SongKick-Nav-Logo-White"> </div>
-                    </span></a></li>
-                  </ul>
-                  <div id="tabs-1" style:"overflow:auto; position: relative;">
+<div class="songkickToggleBlock">
+    <div class="searchToggle centerText searchToggleActive" id="areaDateTab" onclick="clickAreaDateSearch()"> 
+        <span class="centerTextElement">
+        <div class="sprite-icons-Calendar---White" id="areaDateTabIcon"> </div> Area/Date 
+        <!-- <div class="sprite-icons-Nav-Button-Right-Arrow-White tabArrow centerTextElement" id="areaDateTabArrow"> </div> -->
+        </span>
+    </div>
+    <br/>
+    <div class="searchToggle centerText" id="songkickTab" onclick="clickSongkickSearch()">
+        <span class="centerTextElement">
+        <div class="sprite-icons-SongKick-Nav-Logo-Gray" id="songkickTabIcon"> </div>
+        <!-- <div class="sprite-icons-Nav-Button-Right-Arrow-White tabArrow" id="songkickTabArrow"> </div> -->
+        </span>
+    </div>
+</div>
+
+
+                  <div id="tabs-1">
                     <div id="locationChange" class="searchBlock centerText">
+                        
                         <span class="header-Number centerTextElement">
                             1
                         </span>
                         <span class="centerTextElement">
-                        <span class="grayText"> Enter your current city:</span>
-                        <br/>
-                        <span class="redText"> City: </span>
-                        <span class="whiteText" id="locationText"> (Loading...) </span>
-                        <div class="sprite-icons-Up-Button"> </div>
-                    </span>
+                            <span class="grayText"> Enter your current city:</span>
+                            <br/>
+                            <span class="redText"> City: </span>
+                            <span class="whiteText" id="locationText"> (Loading...) </span>
+                            <div class="sprite-icons-Up-Button"> </div>
+                        </span>
                     </div>
 
                     <div class="divider-Arrow-Div">
@@ -225,7 +238,7 @@
 <!--                     <label for="to">to</label>
                     <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
-                    <div class="searchBlock searchBlock-noBorder centerText filterHeader" id="filterHeader">
+                    <div class="searchBlock centerText filterHeader" id="filterHeader">
                         <span class="header-Number centerTextElement">
                             3
                         </span>
@@ -240,8 +253,9 @@
 
                     <!-- <hr class="hrClear"> -->
                   </div>
-                  <div id="tabs-2">
-                    <div class="songkickDescription songkickHeaderBlock centerText">
+                  <div id="tabs-2" style="display:none;">
+                    <div class="songkickDescription searchBlock centerText">
+
                         <span class="header-Number centerTextElement">
                             1
                         </span>
@@ -256,7 +270,7 @@
                         <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
                     </div>
 
-                    <div class="songkickHeaderBlock centerText songkickHeaderUserDiv" id="songkickHeaderUserDiv">
+                    <div class="searchBlock centerText songkickHeaderUserDiv" id="songkickHeaderUserDiv">
                         <span class="header-Number centerTextElement">
                             2
                         </span>
@@ -279,7 +293,7 @@
                         <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
                     </div>
 
-                    <div class="songkickHeaderBlock centerText" id="songkickToggleDiv">
+                    <div class="searchBlock centerText" id="songkickToggleDiv">
                         <span class="header-Number centerTextElement">
                             3
                         </span>
@@ -300,53 +314,21 @@
                             </span>
                         </span>
                     </div> 
-
-                    <!-- <div class="songkickHeaderBlock centerText songkickHeaderEmptyDiv searchBlock-noBorder"> </div> -->
-                
-
-
-                    
-                    <!-- <div style="clear: both;"></div> -->
                   </div>
-                </div>
-<!--     <div class="tabContainer">
-        <div class="myTab">
-            Area/Date
-        </div>
-        <div class="myTab inactiveTab">
-            Songkick
-        </div>
-    </div>
-    
-    <div id="area-Date-Searcher" class="searchBlock">
-        <span class="redText"> Current City: </span>
-        <span class="whiteText"> Austin </span>
-        <div class="sprite-icons-Up-Button"> </div>
-    </div>
-    <div style="clear: both;"></div> -->
+                <!-- </div> -->
+
+<div style="clear: both;"></div>
 </div>
 
+<div style="clear: both;"></div>
+
+
 <div id="main">
-    <!-- <div id="playerContainer2" class="ui-widget-content"> -->
-        <!-- pc2starton my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;ston my own fdasjoi jifodsjia olfdjsai lofds o;jitgdsla jt;ldast ikjelrw;aij lasj lstatjiis;laitj dl;sfiajf;lkdgsa jl;dsak jfldkasj flkdsa j;ltihjr asl;ith rlsahtn lkjsdahnt hlsrdanthl skatjn lisdjatp ijera ;st -->
 
         <div id="playerScreen"> 
             
             <div id='youtube-player-container'> </div>
 
-
-            <!-- bottomButtons -->
-<!--             <b>Last.FM info:</b>
-            <div id="lastFMInfo"> Test Info</div>
-            <br />
-            <b> Events:</b>
-            <div id="playingInfo"> Test Info</div>
-            <br /> -->
-<!--         <div class="footer22">
-            Inside player container
-            </div> -->
-        <!-- <hr> -->
-        <!-- TODO would be good to get this in a separate border -->
         <div id="playingInfo">
             <div class="right-align-info">
                 <div id="playingIcons">
@@ -365,9 +347,7 @@
             <div class="moreinfoImageDiv">
                 <img src="/images/missing_artist.png" alt="an artist" id="info_image" class="moreinfoImage"/>
             </div>
-<!--             <div class="playerButtonContainer" align="right">
-                <input type="button" onclick="nextVideoClick()" value="Next"/>
-            </div>  -->
+
             <div class="infoText">
             <div class="sprite-icons-Speaker-Small moreInfoIcon"> </div> <span class="redText"> Now Playing: </span>
             <span id="info_artist"> Loading...</span>
