@@ -365,7 +365,10 @@ $(document).ready(function () {
         setPreloadEvent();
     } else {
         // TODO this will execute before we get our location info
-        getSongkickEventPage(1);
+        // getSongkickEventPage(1);
+
+        getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                    1,songkickEventIterator);
     }
 
     if ($.cookie('genreFilter')) {
@@ -446,7 +449,8 @@ function setPreloadEvent() {
         }
 
         // need to get this no matter what
-        getSongkickEventPage(1);
+                getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                    1,songkickEventIterator);
     });
 
 }
@@ -580,7 +584,8 @@ useGenreFilter();
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
     queryId = s4();
     // $("#loading-results-message").show();
-    getSongkickEventPage(1);
+            getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                    1,songkickEventIterator);
 }
 
 function songkickUpdateClick() {
@@ -597,7 +602,7 @@ function songkickUpdateClick() {
         artistIndex = 0;
         eventIndex = 0;
         queryId = s4();
-        getSongkickEventPageByUser($.cookie('songkickUser'), 1);
+        getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator);
     } else {
         console.log("no songkick user");
     }
@@ -1037,7 +1042,7 @@ function buildSongkickAreaDateQuery(pageNumber) {
     return url + "?" + $.param(parameters);
 }
 
-function buildSongkickUserQuery(user, pageNumber) {
+function buildSongkickUserQuery(user) {
 
     var userTrackType = $(".songkick-Toggle-Active").children(".queryType").get(0).value;
     // console.log("songkick radio= " + userTrackType);
@@ -1058,20 +1063,32 @@ function buildSongkickUserQuery(user, pageNumber) {
     var parameters = {
         apikey : "bUMFhmMfaIpxiUgJ",
         reason: userTrackValue,
-        page: pageNumber,
         jsoncallback: "?"
     };
 
     return url + "?" + $.param(parameters);
 }
 
-function getSongkickEventPage(pageNumber) {
+function songkickEventIterator(data, pageNumber) {
+    
+    for (var i = 0; i < data.resultsPage.results.event.length; i++) {
+        addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
+    }
+}
+
+function songkickUserIterator(data, pageNumber) {
+    for (var i = 0; i < data.resultsPage.results.calendarEntry.length; i++) {
+        addEventDivElement(data.resultsPage.results.calendarEntry[i].event, $(".sk_page_container_" + pageNumber).get(0));
+    }    
+}
+
+function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
 
     // location hardcoded to austin 9179
     // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
-    $.getJSON("/events.json?"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+    $.getJSON(query + "&page=" + pageNumber,
     function (data) {
 
         // $("#loading-results-message").hide();
@@ -1105,7 +1122,7 @@ function getSongkickEventPage(pageNumber) {
                 // TODO this does not preserve page ordering, do we need it?
 
                 for (var i = 2; i <= totalPages; i++) {
-                    getSongkickEventPage(i);
+                    getSongkickEventPageTemp(query, i, eventIterator);
                 }
             }
 
@@ -1113,15 +1130,7 @@ function getSongkickEventPage(pageNumber) {
         }
 
         //var playlistNav = document.getElementById("playlistNav");
-
-        for (var i = 0; i < data.resultsPage.results.event.length; i++) {
-
-            //checkAndAddEvent(data.resultsPage.results.event[i]);
-
-            // $(".upcoming-events").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
-            addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
-
-        }
+        eventIterator(data, pageNumber);
 
         // TODO this should be cued and done in a better location and shouild only cue the video
         if (!preLoadEventSKID) {
@@ -1143,120 +1152,6 @@ function getSongkickEventPage(pageNumber) {
         // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
         //alert('end json');
     });
-}
-
-// We should try and refactor with the above code
-function getSongkickEventPageByUser(user, pageNumber) {
-    $.getJSON(buildSongkickUserQuery(user, pageNumber),
-    function (data) {
-
-        if (data.resultsPage.totalEntries == 0) {
-            clearLoadingEvents();
-            $("#no-events-message").show();
-            console.log("no data");
-            return;
-        }
-
-        if (pageNumber == 1) {
-            clearLoadingEvents();
-
-            var totalPages = data.resultsPage.totalEntries / data.resultsPage.perPage;
-
-            if ((data.resultsPage.totalEntries % data.resultsPage.perPage) > 0) {
-                totalPages++;
-            }
-
-            // create a container for each page
-            // result page indexes start at 1
-            for (var i = 1; i <= totalPages; i++) {
-                var containerNode = document.createElement('div');
-                containerNode.className = "sk_page_container_" + i;
-
-                $(".upcoming-events").get(0).appendChild(containerNode);
-            }
-
-            if (totalPages > 1) {
-
-                // We have more results to query
-
-                for (var i = 2; i <= totalPages; i++) {
-                    getSongkickEventPage(i);
-                }
-            }
-
-            // 
-        }
-
-        //var playlistNav = document.getElementById("playlistNav");
-
-        for (var i = 0; i < data.resultsPage.results.calendarEntry.length; i++) {
-
-            //checkAndAddEvent(data.resultsPage.results.event[i]);
-
-            // $(".upcoming-events").get(0).innerHTML += addEventDivElement(data.resultsPage.results.event[i]);
-            addEventDivElement(data.resultsPage.results.calendarEntry[i].event, $(".sk_page_container_" + pageNumber).get(0));
-
-        }
-
-        if (pageNumber == 1) {
-            // TODO this should be cued and done in a better location and shouild only cue the video
-            if (!preLoadEventSKID) {
-                if(loadVideoOnUpdate) {
-                    loadVideoOnUpdate = false;
-                    selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
-                }
-            }
-        }
-
-        // TODO bug- for some reason the preload event isn't scrolling properly, this will mostly fix, though 
-        // incoming lastfm info will push the data slightly past. not a huge issue for smaller resultsets
-
-        divScrollTo($(".media_item").get(eventIndex));
-        // document.getElementById("playlistInfo").innerHTML = "Showing " + shownArtists + " of " + totalArtists + " artists";
-        //alert('end json');
-    });
-}
-
-function checkAndAddEvent(eventNode) {
-
-    if (eventNode.performance.length < 1) {
-        return;
-    }
-
-    if (eventNode.status == "cancelled") {
-        return;
-    }
-
-    for (var j = 0; j < eventNode.performance.length; j++) {
-        checkAndAddArtist(eventNode.performance[j]);
-    }
-}
-
-function checkAndAddArtist(artistNode) {
-    totalArtists++;
-
-    var playlistNav = document.getElementById("playlistNav");
-    var option = document.createElement("option");
-
-    if (artistNode.billing == "headline") {
-        option.text = "*";
-    } else {
-        option.text = "-";
-    }
-
-    option.text += " " + artistNode.displayName;
-    option.value = artistNode.displayName;
-    //option.value = data.resultsPage.results.event[i].performance[j]
-    try {
-        // for IE earlier than version 8
-        playlistNav.add(option, playlistNav.options[null]);
-    }
-    catch (e) {
-        playlistNav.add(option, null);
-    }
-
-    shownArtists++;
-
 }
 
 // 4. The API will call this function when the video player is ready.
@@ -1630,7 +1525,7 @@ function setLoadingEvents() {
 
 function clearLoadingEvents() {
     $(".upcoming-events").empty();
-    $("#loading-results-message").hide();
+        $("#loading-results-message").hide();
 }
 
 function baseTabClick() {
