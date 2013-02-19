@@ -810,6 +810,7 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
                                 if ($(targetElement).parents('.upcoming-events').length) {
                                 } else {
                                     targetEvent.appendTo(targetContainer);
+                                    $("#no-events-message").hide();
                                 }
                                                         // }                     
                             }
@@ -1140,6 +1141,13 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
         if (pagesProcessed == totalPages) {
             $("#loading-more-results").hide();
             $("#loading-results-message").hide();
+
+            // TODO BUG this should wait for all lastfm queries to return
+            // TODO different message for when it doesn't pass genre filter?
+            if ($(".media_item").length == 0) {
+                $("#no-events-message").show();
+            } 
+
         } else {
             if ($(".media_item").length > 0) {
                 $("#loading-results-message").hide();
