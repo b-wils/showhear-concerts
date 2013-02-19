@@ -631,7 +631,7 @@ ul { overflow: hidden; }
     text-align: center;
     float: left;
     clear:both;
-    width: 145px;
+    width: 135px;
 }
 
 .myTabs {
@@ -808,12 +808,13 @@ a .ui-tabs-anchor {
 
 .searchToggle {
     height: 50%;
-    width: 140px;
+    width: 115px;
     cursor: pointer;
     text-align:center;
     background-color: rgba(100, 100, 100, 0.2);
     color:#434343;
     padding-right:5px;
+    padding-left:15px;
 }
 
 .searchToggleActive {
