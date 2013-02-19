@@ -414,6 +414,8 @@ text-decoration:underline;
     font-weight:bold;
     position: relative;
     top: -2px;
+margin-left: 3px;
+margin-right: 3px;
 }
 
         .playing{
@@ -424,25 +426,25 @@ text-decoration:underline;
             color:blue;
         }
 
-    .genreTag{
-        border-left:2px solid #6CC6BB;
-        border-right:1px solid #5A5A5A;
-        border-top:1px solid #5A5A5A;
-        border-bottom:1px solid #5A5A5A;
-        background-color:black;
-        color: white;
-        white-space: nowrap;
-        /*color: #70b2e1;*/
-        padding:0px 2px 2px 2px;
-        margin:4px 2px -4px 2px;
-        font-weight:bold;
-        /*display: inline;*/
-        /*float: left;*/
-        display:inline-block;
-        font-size: 0.9em;
-        position:relative;
-        top:-4px;
-    }
+.genreTag{
+    border-left:2px solid #6CC6BB;
+    background-color:black;
+    color: white;
+    white-space: nowrap;
+    /*color: #70b2e1;*/
+    padding: 1px 4px 2px 4px;
+    margin:4px 2px -4px 2px;
+    font-weight:bold;
+    /*display: inline;*/
+    /*float: left;*/
+    display:inline-block;
+    font-size: 0.9em;
+    position:relative;
+    top:-4px;
+    -moz-box-shadow: 1px 1px 0 0 #2C2C2C;
+    -webkit-box-shadow: 1px 1px 0 0 #2C2C2C;
+    box-shadow: 1px 1px 0 0 #2C2C2C;
+}
 
 .artist_genre {
     /*border: 2px solid green;*/
@@ -1049,14 +1051,16 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     margin:4px 4px;
     padding:0px 4px;
     cursor: pointer;
-    border: solid 1px #8A8A8A;
+    
     color: #434343;
     background-color: rgba(100, 100, 100, 0.2);
+    border: solid 1px rgb(41, 41, 41);
 }
 
 .songkick-Toggle-Active {
     background-color: rgba(240, 29, 29, 0.5);
     color:white;
+    border-color: rgb(119, 5, 5);
 }
 
 #songkickToggleDiv {
