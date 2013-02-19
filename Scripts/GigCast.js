@@ -61,10 +61,12 @@ function s4() {
              .substring(1);
 };
 
-$(window).resize(function() {
-  
-  // setDialogPositions();
+$(window).resize(function(){
+    $('#dialog').dialog('option', 'position', $("#dialog").dialog('option','position'));
+    $('#genreFilterDialog').dialog('option', 'position', $("#genreFilterDialog").dialog('option','position'));
+    $('#songkickUserDialog').dialog('option', 'position', $("#songkickUserDialog").dialog('option','position'));
 });
+
 
 // IE workaround
 function JSONQuery(url, callback) {
@@ -152,19 +154,19 @@ $('#from').each(function(){
 function setDialogPositions() {
 
 
-    $( "#from" ).position({
-            my: "left top",
-            at: "left bottom",
-            collision: "fit fit",
-        of: $("#dateSearch")
-    });
+    // $( "#from" ).position({
+    //         my: "left top",
+    //         at: "left bottom",
+    //         collision: "fit fit",
+    //     of: $("#dateSearch")
+    // });
 
-    $( "#to" ).position({
-            my: "right top",
-            at: "right bottom",
-            collision: "fit fit",
-        of: $("#dateSearch")
-    });
+    // $( "#to" ).position({
+    //         my: "right top",
+    //         at: "right bottom",
+    //         collision: "fit fit",
+    //     of: $("#dateSearch")
+    // });
 }
 
 $(document).ready(function () {
@@ -276,7 +278,7 @@ $(document).ready(function () {
         closeOnEscape: true,
         // draggable: false,
         resizable: false,
-        position: { my: "left top", at: "left bottom", of:"#locationChange" },
+        position: { my: "left top", at: "left bottom", of:"#locationChange", collision:"none none" },
         buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
     });
 
@@ -309,7 +311,7 @@ $(document).ready(function () {
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "right top", at: "right bottom", of:"#filterHeader" },//clearGenreFilter
+        position: { my: "right top", at: "right bottom", of:"#filterHeader", collision:"none none" },//clearGenreFilter
         buttons: [ { text: "Clear", click: function() { clearGenreFilter(); } }, { text: "Filter", click: function() { updateGenreFilter(); } }]
     });
 
@@ -335,7 +337,7 @@ $(document).ready(function () {
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "left top", at: "left bottom", of:"#songkickHeaderUserDiv" },//clearGenreFilter
+        position: { my: "left top", at: "left bottom", of:"#songkickHeaderUserDiv", collision:"none none" },//clearGenreFilter
         buttons: [ { text: "Search", click: function() { updateSongkickQueryClick(); } }]
     });
 

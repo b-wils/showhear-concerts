@@ -153,7 +153,7 @@ first child of the left and right table columns */
     width: 1060px;
     color: white;
     /*border: 1px solid black;*/
-
+    position:relative;
 }
 
 #main
@@ -938,9 +938,9 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 
   .positionable {
     position: absolute;
-   display: block;
+/*   display: block;
     right: 0;
-    bottom: 0;
+    bottom: 0;*/
     /*background-color: #bcd5e6;*/
     /*text-align: center;*/
   }
@@ -1093,4 +1093,14 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 
 .event-container::-webkit-scrollbar-thumb:hover {
        background-color:rgba(240, 29, 29, 1);
+}
+
+#from {
+    top:48px;
+    left:385px;
+}
+
+#to {
+    top:48px;
+    left:518px;
 }
