@@ -1140,6 +1140,10 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
             // 
         }
 
+
+        //var playlistNav = document.getElementById("playlistNav");
+        eventIterator(data, pageNumber);
+
         // TODO this should be done after all of our lastfm queries return
         if (pagesProcessed == totalPages) {
             $("#loading-more-results").hide();
@@ -1148,6 +1152,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
             // TODO BUG this should wait for all lastfm queries to return
             // TODO different message for when it doesn't pass genre filter?
             if ($(".media_item").length == 0) {
+                console.log("no items in list!");
                 $("#no-events-message").show();
             } 
 
@@ -1159,9 +1164,6 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
                 $("#loading-results-message").show();
             }
         }
-
-        //var playlistNav = document.getElementById("playlistNav");
-        eventIterator(data, pageNumber);
 
         // TODO this should be cued and done in a better location and shouild only cue the video
         if (!preLoadEventSKID) {
