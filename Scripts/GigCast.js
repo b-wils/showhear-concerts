@@ -25,6 +25,7 @@ var preLoadEventSKID;
 var headerDateFormatString = "D, M dd"
 
 var queryId = "";
+var pagesProcessed = 0;
 
 window.onload = function () {
 
@@ -368,7 +369,7 @@ $(document).ready(function () {
         // getSongkickEventPage(1);
 
         getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator);
+                    1,songkickEventIterator, "");
     }
 
     if ($.cookie('genreFilter')) {
@@ -451,7 +452,7 @@ function setPreloadEvent() {
 
         // need to get this no matter what
                 getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator);
+                    1,songkickEventIterator, "");
     });
 
 }
@@ -587,10 +588,8 @@ useGenreFilter();
     pagesProcessed = 0;
     // $("#loading-results-message").show();
             getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator);
+                    1,songkickEventIterator, queryId);
 }
-
-var pagesProcessed = 0;
 
 function songkickUpdateClick() {
 
@@ -607,7 +606,7 @@ function songkickUpdateClick() {
         eventIndex = 0;
         queryId = s4();
         pagesProcessed = 0;
-        getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator);
+        getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator, queryId);
     } else {
         console.log("no songkick user");
     }
@@ -1088,7 +1087,7 @@ function songkickUserIterator(data, pageNumber) {
     }    
 }
 
-function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
+function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
 
@@ -1097,6 +1096,10 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
     $.getJSON(query + "&page=" + pageNumber,
     function (data) {
 
+        if (myQueryId != queryId) {
+            console.log("query expired, this: " + myQueryId + " global: " + queryId);
+            return;
+        }
         // $("#loading-results-message").hide();
 
         if (data.resultsPage.totalEntries == 0) {
@@ -1130,7 +1133,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator) {
                 // TODO this does not preserve page ordering, do we need it?
 
                 for (var i = 2; i <= totalPages; i++) {
-                    getSongkickEventPageTemp(query, i, eventIterator);
+                    getSongkickEventPageTemp(query, i, eventIterator, myQueryId);
                 }
             }
 
@@ -1486,6 +1489,7 @@ function clickAreaDateSearch() {
     $("#tabs-1").show();
     $("#tabs-2").hide();
     
+    updateClick()
 
     // updateSongkickTabClick();
 }
@@ -1502,6 +1506,8 @@ function clickSongkickSearch() {
     $("#tabs-1").hide();
     $("#tabs-2").show();
 
+
+    songkickUpdateClick();
     // updateSongkickTabClick();
 }
 
@@ -1556,9 +1562,6 @@ function clearLoadingEvents() {
     $("#loading-results-message").hide();
 }
 
-function baseTabClick() {
-    console.log("a base tab click!");
-}
 
 function dateTestClick() {
     console.log("test clicker");
@@ -1567,7 +1570,7 @@ function dateTestClick() {
 
 function dateFromSpanClick() {
     $("#from").toggle();
-setDialogPositions();
+    setDialogPositions();
     // if ($("#from").is(":visible")) {
     //     console.log("from visible");
 
