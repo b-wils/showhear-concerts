@@ -674,6 +674,7 @@ function selectPlaying(myDiv, autoStart) {
 
     var myYoutubeID = $(myDiv).children(".artistYoutubeID").get(0).value;
 
+    var songkickEventURI = $(myDiv).children(".songkickEventURI").get(0).value;
     var showHotlinkURI = $(myDiv).children(".showHotlinkURI").get(0).value;
 
     // console.log("ytlink= " + myYoutubeID +"!");
@@ -721,7 +722,7 @@ function selectPlaying(myDiv, autoStart) {
     //     }
     // });
 
-    updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI);
+    updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI, songkickEventURI);
 
     // populateArtistInfo(artistName);
     // populateLastFMInfo(artistName);
@@ -930,7 +931,8 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
         showVenue: sk_eventNode.venue.displayName,
         showDayOfWeek: dayWeekString,
         showDate: dateString,
-        showHotlinkURI: "?skEventId=" + sk_eventNode.id
+        showHotlinkURI: "?skEventId=" + sk_eventNode.id,
+        songkickEventURI: sk_eventNode.uri
     }
     ];
 
@@ -1431,7 +1433,7 @@ function populateLastFMInfo(artistNode) {
 }
 
 
-function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI) {
+function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI, songkickEventURI ) {
     // alert(artistName);
     $("#info_artist").html(artistName);
     var targetElement = $("#info_lastfm").get(0);
@@ -1447,7 +1449,14 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     var myGenreTmpl = $('#info_artist_tmpl').tmpl(myArtistInfo);
     myGenreTmpl.appendTo($('#info_artist'));
 
-    $("#playing-Info-Venue").html(showVenue);
+    var eventinfo = {
+        eventURI: songkickEventURI,
+        eventName: showVenue
+    }
+    $("#playing-Info-Venue").empty();
+    var myEventTmpl = $('#info-event-tmpl').tmpl(eventinfo);
+    myEventTmpl.appendTo($('#playing-Info-Venue'));
+
     $("#playing-Info-Day").html(showDayWeek);
     $("#playing-Info-Date").html(showDate);
 

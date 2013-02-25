@@ -44,6 +44,7 @@
             <input type="hidden" class="playing-Date" value="${showDate}"></input>
             <input type="hidden" class="playing-Day-Week" value="${showDayOfWeek}"></input>
             <input type="hidden" class="showHotlinkURI" value="${showHotlinkURI}"></input>
+            <input type="hidden" class="songkickEventURI" value="${songkickEventURI}"></input>
         </div>
     </script>
 
@@ -108,7 +109,16 @@
     </script>
 
     <script id="info_artist_tmpl" type="text/x-jQuery-tmpl">
-        ${artistName}
+        <span class="artistLink">
+            <a href=${songkickURI}> ${artistName} </a>
+        </span>
+    </script>
+
+
+    <script id="info-event-tmpl" type="text/x-jQuery-tmpl">
+        <span class="info-Event-Link">
+            <a href=${eventURI}> ${eventName} </a>
+        </span>
     </script>
 
 </head>
@@ -172,7 +182,7 @@
 <div class="songkickToggleBlock">
     <div class="searchToggle centerText searchToggleActive" id="areaDateTab" onclick="clickAreaDateSearch()"> 
         <span class="centerTextElement">
-        <div class="sprite-icons-Calendar---White" id="areaDateTabIcon"> </div> Area/Date 
+        <div class="sprite-icons-Calendar---White" id="areaDateTabIcon"> </div> Area / Date 
         </span>
         <span class="centerTextElement">
         <div class="sprite-icons-Nav-Button-Right-Arrow-White tabArrow centerTextElement" id="areaDateTabArrow"> </div>
@@ -265,7 +275,7 @@
                             1
                         </span>
                         <span class="grayText centerTextElement">
-                        Sign up for Songkick and enter or import your favorite artists
+                        Sign up for Songkick and track your favorite artists and locations
 
                         </span>
 
