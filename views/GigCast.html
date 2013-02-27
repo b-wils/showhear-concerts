@@ -210,9 +210,11 @@
                         <span class="centerTextElement">
                             <span class="grayText"> Enter your current city:</span>
                             <br/>
-                            <span class="redText"> City: </span>
-                            <span class="whiteText" id="locationText"> (Loading...) </span>
-                            <div class="sprite-icons-Up-Button"> </div>
+                            <span class="selector-span" id="locationSelector">
+                                <span class="redText"> City: </span>
+                                <span class="whiteText" id="locationText"> (Loading...) </span>
+                                <div class="sprite-icons-Up-Button"> </div>
+                            </span>
                         </span>
                     </div>
 
@@ -227,27 +229,27 @@
                         <span class="centerTextElement" >
                                                     <span class="grayText"> Select a date range:</span>
                         <br/>
-                            <span onclick="dateFromSpanClick()" id="fromSpan">
+                            <span id="fromSpan" class="selector-span">
                             <span class="redText">
                                 From:
                             </span>
-                            <span id="fromText"> testText</span>
+                            <span id="fromText" class="whiteText"> testText</span>
                             <!-- <input class="calendar-input" type="text" id="from" name="from" readonly/> -->
                             
                                 <div class="sprite-icons-Up-Button"> </div>
                             
                             </span>
 
-                            <span onclick="dateToSpanClick()" id="toSpan">
+                            <span id="toSpan" class="selector-span">
                             <span for="to" class="redText">
                                 To:
                             </span>
-                            <span id="toText"> testText</span>
+                            <span id="toText" class="whiteText"> testText</span>
                                 <div class="sprite-icons-Up-Button"> </div>
                             </span>
                         </span>
                     </div>
-                    <div class="divider-Arrow-Div">
+                    <div class="divider-Arrow-Div" id="t1-a2">
                         <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
                     </div>
 <!--                     <label for="to">to</label>
@@ -260,13 +262,15 @@
                         <span class="centerTextElement">
                         <span class="grayText"> Filter by genre (optional):</span>
                         <br/>
+                            <span class="selector-span" id="genreSelector">
                             <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
                             <div class="sprite-icons-Up-Button"> </div>
+                        </span>
                             </span>
                         </span>
                     </div>   
 
-                    <!-- <hr class="hrClear"> -->
+                    <div style="clear: both;"></div>
                   </div>
                   <div id="tabs-2" style="display:none;">
                     <div class="songkickDescription searchBlock centerText">
@@ -281,7 +285,7 @@
 
                     </div>
 
-                    <div class="divider-Arrow-Div">
+                    <div class="divider-Arrow-Div" id="t2-a1">
                         <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
                     </div>
 
@@ -295,10 +299,12 @@
                             Enter your songkick username:
                             </span>
                             <br/>
+                            <span class="selector-span" id="songkickUserSelector">
                         <span class="redText">User:</label>
                         <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->
                         <span class="whiteText" id="songkickUser"> (enter user) </span>
                         <div class="sprite-icons-Up-Button"> </div>
+                    </span>
                         <!-- <input type="button" onclick="songkickUpdateClick()" value="Go"/> -->
                     
                         </span>

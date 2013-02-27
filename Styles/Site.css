@@ -1,8 +1,8 @@
 /*label, input { display:block; }*/
 
 /*TODO check these*/
-        input.text { margin-bottom:12px; width:95%; padding: .4em; }
-        fieldset { padding:0; border:0; margin-top:25px; }
+        /*input.text { margin-bottom:12px; width:93%; padding: .4em; }*/
+        /*fieldset { padding:0; border:0; margin-top:25px; }*/
 
 /* DEFAULTS
 ----------------------------------------------------------*/
@@ -1173,4 +1173,27 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 .info-Event-Link a:hover{
     color:#5A5A5A;
     text-decoration: underline;
+}
+
+.selector-span:hover {
+    cursor: pointer;
+}
+.selector-span:hover .whiteText {
+    text-decoration: underline;
+}
+
+.selector-span:hover .sprite-icons-Up-Button {
+    opacity: .5;
+    filter:alpha(opacity=50); 
+}
+
+div.ui-dialog input.text { width:93%;  padding:.4em;}
+
+div.ui-dialog-content.ui-widget-content {
+    padding-bottom: 0;
+}
+
+div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
+    margin: 0;
+    padding: 0;
 }

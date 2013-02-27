@@ -276,18 +276,20 @@ $(document).ready(function () {
         autoOpen: false,
         // show: "blind",
         // hide: "explode",
+        width:244,
+        height:120,
         closeOnEscape: true,
-        // draggable: false,
+        draggable: false,
         resizable: false,
         position: { my: "left top", at: "left bottom", of:"#locationChange", collision:"none none" },
         buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
-    });
+    }).show();
 
     $( "#dialog" ).bind('clickoutside',function(){
         $( "#dialog" ).dialog('close');
     });
 
-    $( "#locationChange" ).click(function() {
+    $( "#locationSelector" ).click(function() {
         ($("#dialog").dialog("isOpen") == false) ? $("#dialog").dialog("open") : $("#dialog").dialog("close") ;
         return false;
     });
@@ -306,13 +308,15 @@ $(document).ready(function () {
 
     $( "#genreFilterDialog" ).dialog({
         autoOpen: false,
+        width:335,
+        height:120,
         // maxHeight:170,
         // show: "blind",
         // hide: "explode",
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "right top", at: "right bottom", of:"#filterHeader", collision:"none none" },//clearGenreFilter
+        position: { my: "right top", at: "right bottom", of:"#tabs-1", collision:"none none" },//clearGenreFilter
         buttons: [ { text: "Clear", click: function() { clearGenreFilter(); } }, { text: "Filter", click: function() { updateGenreFilter(); } }]
     });
 
@@ -320,7 +324,7 @@ $(document).ready(function () {
         $( "#genreFilterDialog" ).dialog('close');
     });
 
-    $( "#genreChange" ).click(function() {
+    $( "#genreSelector" ).click(function() {
         ($("#genreFilterDialog").dialog("isOpen") == false) ? $("#genreFilterDialog").dialog("open") : $("#genreFilterDialog").dialog("close") ;
         return false;
     });
@@ -333,12 +337,14 @@ $(document).ready(function () {
 
     $( "#songkickUserDialog" ).dialog({
         autoOpen: false,
+        width:325,
+        height:120,
         // show: "blind",
         // hide: "explode",
         closeOnEscape: true,
         draggable: false,
         resizable: false,
-        position: { my: "left top", at: "left bottom", of:"#songkickHeaderUserDiv", collision:"none none" },//clearGenreFilter
+        position: { my: "left top", at: "left bottom", of:"#t2-a1", collision:"none none" },//clearGenreFilter
         buttons: [ { text: "Search", click: function() { updateSongkickQueryClick(); } }]
     });
 
@@ -346,7 +352,7 @@ $(document).ready(function () {
         $( "#songkickUserDialog" ).dialog('close');
     });
 
-    $( "#songkickUserChange" ).click(function() {
+    $( "#songkickUserSelector" ).click(function() {
         ($("#songkickUserDialog").dialog("isOpen") == false) ? $("#songkickUserDialog").dialog("open") : $("#songkickUserDialog").dialog("close") ;
         return false;
     });
@@ -425,6 +431,7 @@ $(document).ready(function () {
     });   
 
     setDialogPositions();
+    setClickFunctions();
 $("#loading-more-results").hide();
 
 });
@@ -1601,4 +1608,9 @@ function dateFromSpanClick() {
 
 function dateToSpanClick() {
     $("#to").toggle();
+}
+
+function setClickFunctions() {
+    $("#fromSpan").click(dateFromSpanClick);
+    $("#toSpan").click(dateToSpanClick);
 }
