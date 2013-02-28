@@ -379,12 +379,12 @@ $(document).ready(function () {
     }
 
     if ($.cookie('genreFilter')) {
-        $("#genreFilter").html($.cookie('genreFilter'));
+        $("#genreFilter").text($.cookie('genreFilter'));
     }
 
     if ($.cookie('songkickUser')) {
         // console.log("our user: " + $.cookie('songkickUser'));
-        $("#songkickUser").html($.cookie('songkickUser'));
+        $("#songkickUser").text($.cookie('songkickUser'));
     }
 
     buildSongkickAreaDateQuery( );
@@ -469,7 +469,7 @@ var initialVideoId;
 function updateGenreFilter() {
     // alert("cached? " + lfm_artistCache["STATUETTE"].artist.name)
     // alert("cached? " + lfm_artistCache["STATUETTE"])
-    $("#genreFilter").html($("#updateGenreText").val());
+    $("#genreFilter").text($("#updateGenreText").val());
 
     if ($("#updateGenreText").val() != "") {
         $.cookie('genreFilter', $("#updateGenreText").val());
@@ -483,14 +483,14 @@ function updateGenreFilter() {
 
 function clearGenreFilter() {
     $.removeCookie('genreFilter');
-    $("#genreFilter").html("(None)");
+    $("#genreFilter").text("(None)");
     $("#genreFilterDialog" ).dialog( "close" );
     updateClick();
 }
 
 // we may not want to always store this in cookie
 function setLocation(id, name) {
-    $("#locationText").html(name);
+    $("#locationText").text(name);
     $.cookie('sk_locationid', id);
     $.cookie('sk_locationName', name);
 }
@@ -502,7 +502,7 @@ function isNumeric(n) {
 function updateLocationCallback(data) {
     if (data.resultsPage.totalEntries > 0) {
         // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
-        $("#locationText").html(data.resultsPage.results.location[0].metroArea.displayName);
+        $("#locationText").text(data.resultsPage.results.location[0].metroArea.displayName);
         //document.cookie
         $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
         $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
@@ -569,7 +569,7 @@ function getLocationQueryVal() {
 
 function populateLocation() {
     if ($.cookie('sk_locationName')) {
-           $("#locationText").html($.cookie('sk_locationName'));
+           $("#locationText").text($.cookie('sk_locationName'));
     } else {
 
         $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
@@ -1428,13 +1428,16 @@ function populateLastFMInfo(artistNode) {
 
         } else {
             console.log("no lastfm image!");
+            $("#info_image").attr("src", "/images/missing_artist.png");
         }
         // var myLinkTmpl = $('#artist_lastfm_link').tmpl(linkInfo);
         // $("#info_artist").append(myLinkTmpl);
         $('#infoLastfmLink').get(0).href = artistNode.artist.url;
+        $('#infoLastfmLink').removeClass("missingLink");
     } else {
         // if ()
         $('#infoLastfmLink').removeAttr("href");
+        $('#infoLastfmLink').addClass("missingLink");
         // $('#infoLastfmLink').removeClass().addClass()
     }
 }
@@ -1544,10 +1547,10 @@ function skqSelectEvent() {
 function updateSongkickQueryClick() {
     var queryType = $(".songkick-Toggle-Active").children(".queryType").get(0).value;
     console.log("updateSongkickQuery: " + queryType);
-    $("#songkickUser").html($("#updateSongkickText").val());
-    
+    $("#songkickUser").text($("#updateSongkickText").val());
+    $("#genreFilter").text($("#updateGenreText").val());
 
-    $("#genreFilter").html($("#updateGenreText").val());
+    console.log("strget: " + $("#updateGenreText").text());
 
     if ($("#updateSongkickText").val() != "") {
         $.cookie('songkickUser', $("#updateSongkickText").val());
@@ -1561,7 +1564,7 @@ function updateSongkickQueryClick() {
 
 function clearSongkickUser() {
     $.removeCookie('songkickUser');
-    $("#songkickUser").html("(None)");
+    $("#songkickUser").text("(None)");
 }
 
 function updateSongkickTabClick() {
