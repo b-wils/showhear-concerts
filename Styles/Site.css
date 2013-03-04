@@ -1202,3 +1202,7 @@ div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
     opacity: .5;
     filter:alpha(opacity=50);   
 }
+
+#fromSpan {
+    padding-right:8px;
+}

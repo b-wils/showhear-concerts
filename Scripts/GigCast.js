@@ -1633,8 +1633,6 @@ function updateSongkickQueryClick() {
     $("#songkickUser").text($("#updateSongkickText").val());
     $("#genreFilter").text($("#updateGenreText").val());
 
-    console.log("strget: " + $("#updateGenreText").text());
-
     if ($("#updateSongkickText").val() != "") {
         $.cookie('songkickUser', $("#updateSongkickText").val());
         $( "#songkickUserDialog" ).dialog( "close" );
