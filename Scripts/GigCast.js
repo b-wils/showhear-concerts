@@ -1438,8 +1438,9 @@ function populateArtistInfo(artistName) {
 
 function encodeLastFMParam(param) {
     var returnParam = param;
-    returnParam = returnParam.replace("&amp;","and");
-    returnParam = returnParam.replace("&","and");
+    returnParam = returnParam.replace(/amp;/g,"and");
+    returnParam = returnParam.replace(/&/g,"and");
+    returnParam = returnParam.replace(/#/g,"%23");
     return returnParam;
 }
 
