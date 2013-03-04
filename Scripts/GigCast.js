@@ -818,6 +818,7 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
                                 if ($(targetElement).parents('.upcoming-events').length) {
                                 } else {
                                     targetEvent.appendTo(targetContainer);
+                                    $(".artist_item:nth-child(even)").addClass('artist_alternate');
                                     $("#no-events-message").hide();
                                 }
                                                         // }                     
@@ -845,6 +846,7 @@ function addLastFMInfo(artistName, targetElement, targetEvent, targetContainer) 
                             if ($(targetElement).parents('.upcoming-events').length) {
                             } else {
                                 targetEvent.appendTo(targetContainer);
+                                $(".artist_item:nth-child(even)").addClass('artist_alternate');
                             }              
                         }
                     }
@@ -1030,6 +1032,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
 
     $(".artist_item:nth-child(even)").addClass('artist_alternate');
 }
+
 function testClick() {
     // alert("artist is: " + $(".media_item:eq(" + eventIndex + ") .artist_item").get(artistIndex).innerHTML);
     //alert("artist is: " + $(".media_item:eq(1) .artist_item").length);
@@ -1146,7 +1149,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, e
         }
         // $("#loading-results-message").hide();
 
-        console.log("result: " + data.resultsPage.status);
+        // console.log("result: " + data.resultsPage.status);
 
         if (data.resultsPage.status === "error") {
 
@@ -1555,6 +1558,26 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
 
     $("#infoSongkickLink").get(0).href = artistURI;
     $("#infoShareLink").get(0).href = showHotlinkURI;
+
+//     console.log("st: " + $("#share-This-Link").attr("st_url"));
+
+//     $("#share-This-Link").attr("st_url", "www.showhear.com");
+
+//     console.log("st: " + $("#share-This-Link").attr("st_url"));
+
+//     stButtons.locateElements();
+
+// $.ajax({  
+//     url: 'http://w.sharethis.com/button/buttons.js',  
+//     dataType: 'script',  
+//     success: function(){  
+//     stLight.options({  
+//     publisher: 'd49b6181-578c-46bc-970d-0b490763df23',  
+//     onhover: false  
+//     });  
+//     },  
+//     cache: true  
+// });  
 
     // populateArtistInfo(artistName);
 

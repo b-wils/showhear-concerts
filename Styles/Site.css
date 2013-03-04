@@ -614,6 +614,7 @@ ul { overflow: hidden; }
     font-weight:bold;
     margin:0px;
     float: left;
+    line-height: 17px;
 }
 
 .songkickToggleBlock {
