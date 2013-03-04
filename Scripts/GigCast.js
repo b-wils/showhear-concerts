@@ -651,7 +651,7 @@ function selectPlaying(myDiv, autoStart) {
 
     var nowPlayingDiv = $(".artist_item.playing");
 
-    if (nowPlayingDiv) {
+    if (nowPlayingDiv) {    
         nowPlayingDiv.removeClass("playing");
     }
 
@@ -1019,7 +1019,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
         myEventTmpl.prependTo($(".sk_page_container_1"));
         // alert("found our event" + myEventTmpl.find(".artist_item").get(0).innerHTML );
         // alert($(eventNode).children(".artist_item").get(0).innerHTML);
-        selectPlaying(myEventTmpl.find(".artist_item").get(0), false);
+        selectPlaying(myEventTmpl.find(".valid_video").get(0), false);
         // selectPlaying()
     } else {
 
@@ -1227,10 +1227,10 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, e
         // TODO this should be cued and done in a better location and shouild only cue the video
         if (!preLoadEventSKID) {
             if(loadVideoOnUpdate) {
-                if ($(".media_item:eq(0) .artist_item").get(0)) {
+                if ($(".valid_video").get(0)) {
                     // console.log("set initial playing");
                     loadVideoOnUpdate = false;
-                    selectPlaying($(".media_item:eq(0) .artist_item").get(0), false);
+                    selectPlaying($(".valid_video").get(0), false);
                 }
             }
         }
@@ -1368,7 +1368,27 @@ function nextVideo() {
         eventIndex ++;
     }
 
-    selectPlaying($(".media_item:eq(" + eventIndex + ") .event_artist_list .artist_item").get(artistIndex), true);
+    var nowPlayingDiv = $(".artist_item.playing");
+
+    if (nowPlayingDiv) {
+
+
+
+        nextDiv = $(nowPlayingDiv).next(".valid_video").get(0);
+        // console.log(nextDiv.innerHTML);
+
+        console.log($(".valid_video").index(nowPlayingDiv));
+
+        var myIndex = $(".valid_video").index(nowPlayingDiv);
+
+        $(".valid_video").get(myIndex + 1);
+
+        selectPlaying($(".valid_video").get(myIndex + 1), true);
+    } else {
+        selectPlaying($(".valid_video").get(0), true);
+    }
+
+    // selectPlaying($(".media_item:eq(" + eventIndex + ") .event_artist_list .artist_item").get(artistIndex), true);
 
 }
 
