@@ -928,6 +928,11 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
     var dateString = $.datepicker.formatDate("MM dd", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
     var dayWeekString = $.datepicker.formatDate("DD", $.datepicker.parseDate("yy-mm-dd", sk_eventNode.start.date));
 
+    if (sk_eventNode.start.time) {
+        // console.log("time is: " + Date.parse(sk_eventNode.start.time).toString("hh:mm tt"));
+        dayWeekString += " " + Date.parse(sk_eventNode.start.time).toString("h:mm tt");
+    }
+
 
     var artists = [
     {
