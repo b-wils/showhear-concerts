@@ -8,7 +8,6 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-
 var lastFM_APIKey = "7921cb7aae6b8b280672b0fd74207d4b";
 var songkick_APIKey = "bUMFhmMfaIpxiUgJ";
 
@@ -201,7 +200,7 @@ $(document).ready(function () {
         wmode: "opaque", // note: transparent maintains z-index, but disables GPU acceleratio
         theme: "dark", // possible options: "dark" or "light"
         color: "red", // possible options: "red" or "white"
-        onPlayerEnded: function(){nextVideo()},
+        onPlayerEnded: function(){videoEnded()},
         onPlay: function(id){}, // after the play method is called
         onPause: function(){}, // after the pause method is called
         onStop: function(){}, // after the player is stopped
@@ -1292,7 +1291,7 @@ function onPlayerStateChange(event) {
     }
 
     if (event.data == YT.PlayerState.ENDED) {
-        nextVideo();
+        videoEnded();
     }
 }
 
@@ -1326,6 +1325,18 @@ function favorite() {
 
 function nextVideoClick() {
     _gaq.push(['_trackEvent', 'Click', 'Next Video']);
+    nextVideo();
+}
+
+var autoplayCount = 0;
+
+function videoEnded() {
+    autoplayCount++;
+
+    if (autoplayCount >=10) {
+        autoplayCount -= 10;
+        _gaq.push(['_trackEvent', 'Auto', '10 plays']);
+    }
     nextVideo();
 }
 
