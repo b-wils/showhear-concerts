@@ -184,6 +184,8 @@ $(document).ready(function () {
     //   source: availableGenreTags
     // });
 
+    $( "#infoShareLink" ).tooltip();
+
     jQuery.support.cors = true; 
 
     $.tubeplayer.defaults.afterReady
