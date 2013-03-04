@@ -375,7 +375,7 @@ $(document).ready(function () {
         // getSongkickEventPage(1);
 
         getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator, "");
+                    1,songkickEventIterator, "", songkickEventErrorCallback);
     }
 
     if ($.cookie('genreFilter')) {
@@ -459,7 +459,7 @@ function setPreloadEvent() {
 
         // need to get this no matter what
                 getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator, "");
+                    1,songkickEventIterator, "", songkickEventErrorCallback);
     });
 
 }
@@ -595,7 +595,7 @@ useGenreFilter();
     pagesProcessed = 0;
     // $("#loading-results-message").show();
             getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator, queryId);
+                    1,songkickEventIterator, queryId, songkickEventErrorCallback);
 }
 
 function songkickUpdateClick() {
@@ -613,7 +613,7 @@ function songkickUpdateClick() {
         eventIndex = 0;
         queryId = s4();
         pagesProcessed = 0;
-        getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator, queryId);
+        getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator, queryId, songkickUserErrorCallback);
     } else {
         console.log("no songkick user");
     }
@@ -1096,7 +1096,36 @@ function songkickUserIterator(data, pageNumber) {
     }    
 }
 
-function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
+function songkickEventErrorCallback(data, myQueryId) {
+    clearLoadingEvents();
+    console.log("no data");
+    // $("#no-events-message").show();
+    displayErrorMessage("No concerts found in that area and date range.");
+}
+
+function songkickUserErrorCallback(data, myQueryId) {
+    clearLoadingEvents();
+    console.log("no data");
+    var userTrackType = $(".songkick-Toggle-Active").children(".queryType").get(0).value;
+    // console.log("songkick radio= " + userTrackType);
+
+    if (myQueryId != queryId) {
+        console.log("query expired, this: " + myQueryId + " global: " + queryId);
+        return;
+    }
+
+    // TODO will this cause issues if they change tabs/actions midclick?
+    if (userTrackType == "artist") {
+        displayErrorMessage("No tracked artists or locations found for selected user.");
+    } else if (userTrackType == "event") {
+        displayErrorMessage("No events found for selected user.");
+    } else {
+        displayErrorMessage("Unknown error.");
+    }
+    // $("#no-events-message").show();
+}
+
+function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, errorCallback) {
     
     // TODO create divs for each result page so that the order is deterministic/chronological
 
@@ -1111,10 +1140,24 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
         }
         // $("#loading-results-message").hide();
 
+        console.log("result: " + data.resultsPage.status);
+
+        if (data.resultsPage.status === "error") {
+
+            if (data.resultsPage.error.message === "User not found") {
+                console.log("no user");
+                displayErrorMessage("Could not find a user by that name");
+            } else if (data.resultsPage.error.message === "Parameter 'min_date' must be less than or equal to 'max_date'.") {
+                displayErrorMessage("Invalid date range");
+            } else {
+                displayErrorMessage("Unknown Error.");
+            }
+            return;
+        }
+
         if (data.resultsPage.totalEntries == 0) {
-            clearLoadingEvents();
-            console.log("no data");
-            $("#no-events-message").show();
+            errorCallback(data, myQueryId);
+
             return;
         }
 
@@ -1142,7 +1185,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
                 // TODO this does not preserve page ordering, do we need it?
 
                 for (var i = 2; i <= totalPages; i++) {
-                    getSongkickEventPageTemp(query, i, eventIterator, myQueryId);
+                    getSongkickEventPageTemp(query, i, eventIterator, myQueryId, errorCallback);
                 }
             }
 
@@ -1162,7 +1205,8 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId) {
             // TODO different message for when it doesn't pass genre filter?
             if ($(".media_item").length == 0) {
                 console.log("no items in list!");
-                $("#no-events-message").show();
+                
+                displayErrorMessage("Nothing matched your genre search.");
             } 
 
         } else {
@@ -1616,4 +1660,12 @@ function dateToSpanClick() {
 function setClickFunctions() {
     $("#fromSpan").click(dateFromSpanClick);
     $("#toSpan").click(dateToSpanClick);
+}
+
+function displayErrorMessage(message) {
+    $("#no-events-message").show();
+    $("#loading-results-message").hide();
+    $("#loading-more-results").hide();
+    $("#error-message-details").text(message);
+
 }
