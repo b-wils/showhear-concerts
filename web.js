@@ -17,15 +17,15 @@ var express = require('express')
 
 var app = express.createServer(express.logger());
 
-function foreachCB(item, callback) {
-  console.log("foreachCB: " + item);
-  callback();
-}
+// function foreachCB(item, callback) {
+//   console.log("foreachCB: " + item);
+//   callback();
+// }
 
-      async.forEach(["item1", "item2"], foreachCB, function(err){
-        console.log("foreach error");
-    // if any of the saves produced an error, err would equal that error
-      });
+// async.forEach(["item1", "item2"], foreachCB, function(err){
+//   console.log("foreach error");
+// // if any of the saves produced an error, err would equal that error
+// });
 
       
 
@@ -133,7 +133,7 @@ app.get('/', function(request, response) {
 });
 
 app.post('/logerror', function(request, response) {
-    util.log(request.body.msg);
+    util.log("Client Error: " + request.body.msg);
     response.json({ 'status':"OK"})
 });
 
@@ -214,7 +214,6 @@ function foreachEventCB(item, eventCallback) {
       } else {
         // item.testval = "eventTesting!";
         eventCallback();
-        // console.log("we have our data!");
       }
 // if any of the saves produced an error, err would equal that error
   });
@@ -244,7 +243,7 @@ app.get('/events.json', function(request, response) {
   // var http = require('http');
 
   response.setHeader('Cache-Control', 'public, max-age=' + oneHour);
-  console.log('HEADERS: ' + JSON.stringify(response.headers));
+  // console.log('HEADERS: ' + JSON.stringify(response.headers));
 
   var myClientIp = getClientIp(request);
 
@@ -284,16 +283,16 @@ app.get('/events.json', function(request, response) {
   if (queryStringParameterse.location == "clientip") {
     // better way to test for our own host?
     if (myClientIp == "127.0.0.1") {
-      console.log("loc=clientip our self???")
+      // console.log("loc=clientip our self???");
     } else {
-        console.log("change client IP to actual IP");
+        // console.log("change client IP to actual IP");
         queryStringParameterse.location = "ip:" + myClientIp;
     }
   }
 
   var myQueryString = qs.stringify(queryStringParameterse);
 
-  console.log(myQueryString);
+  // console.log(myQueryString);
 
   var options = {
     host: 'api.songkick.com',
@@ -323,13 +322,12 @@ app.get('/events.json', function(request, response) {
       // BUG we errored out here somehow- if our results do not have any data
       // hardcoded to 50 per page
       if (songKickdata.resultsPage.totalEntries - (songKickdata.resultsPage.page -1) * songKickdata.resultsPage.perPage> 0) {
-        console.log(songKickdata.resultsPage.totalEntries);
+        // console.log(songKickdata.resultsPage.totalEntries);
         async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
           function(err){
             if (err) {
               console.log("error iterating for youtube links: " + err);
             } else {
-              console.log("we have our data1!");
               // response.writeHead(200, {
               //   "Content-Type": "application/json",
               //   "Access-Control-Allow-Origin": "*"
@@ -338,7 +336,6 @@ app.get('/events.json', function(request, response) {
               // response.write(JSON.stringify(songKickdata));
               // response.end;
               response.json(songKickdata);
-              console.log("we have our data!");
             }
       // if any of the saves produced an error, err would equal that error
         });
@@ -385,14 +382,14 @@ app.get('/users/:username/calendar.json', function(request, response) {
 
   var myQueryString = qs.stringify(queryStringParameterse);
 
-  console.log(myQueryString);
+  // console.log(myQueryString);
 
   var options = {
     host: 'api.songkick.com',
     path: '/api/3.0/users/' + request.params.username + '/calendar.json?' + myQueryString
   };
 
-  console.log(options.host + options.path);
+  // console.log(options.host + options.path);
 
   http.get(options, function(skres) {
     var data = '';
@@ -421,7 +418,6 @@ app.get('/users/:username/calendar.json', function(request, response) {
             if (err) {
               console.log("error iterating for youtube links: " + err);
             } else {
-              console.log("we have our data1!");
               // response.writeHead(200, {
               //   "Content-Type": "application/json",
               //   "Access-Control-Allow-Origin": "*"
@@ -430,7 +426,6 @@ app.get('/users/:username/calendar.json', function(request, response) {
               // response.write(JSON.stringify(songKickdata));
               // response.end;
               response.json(songKickdata);
-              console.log("we have our data!");
             }
       // if any of the saves produced an error, err would equal that error
         });
