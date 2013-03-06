@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# 
+                  article: http://ogp.me/ns/article#">
 <link rel="icon" 
       type="image/png" 
       href="/images/favicon.ico">
@@ -122,9 +123,10 @@
         </span>
     </script>
 
-    <script type="text/javascript">var switchTo5x=true;</script>
-    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-    <script type="text/javascript">stLight.options({publisher: "d49b6181-578c-46bc-970d-0b490763df23", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+<meta property="og:title" content="AddThis Tour" /> 
+<meta property="og:description" content="Watch the AddThis Tour video." />  
+<meta property="og:image" content="http://i2.ytimg.com/vi/1F7DKyFt5pY/default.jpg" /> 
+
 </head>
 <body>
 <!--     Test Input
@@ -136,21 +138,6 @@
 
 
 <div style="clear: both;"></div>
-<div id="dialog" title="Update Location">
-        <!-- <label for="updLocationTxt">New Location</label> -->
-        <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all myui-input" />
-</div>
-
-<div id="genreFilterDialog" title="Select Genre">
-        <!-- <label for="updateGenreText">Genre Filter</label> -->
-        <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all myui-input" />
-</div>
-
-<div id="songkickUserDialog" title="Enter User">
-        <!-- <label for="updateGenreText">Genre Filter</label> -->
-        <input type="text" name="updateSongkickText" id="updateSongkickText" class="text ui-widget-content ui-corner-all myui-input" />
-</div>
-
 <!-- BEGIN CONTENT -->
 
 
@@ -161,6 +148,13 @@
 
 <div id="stickycontainer">
 <div id="backgroundImage">
+
+<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513521b200108745"></script>
+
+<script type="text/javascript">
+
+</script>
 
 <div class="headerBuffer">
     <div class="myHeader">
@@ -357,8 +351,7 @@
         <div id="playingInfo">
             <div class="right-align-info">
                 <div id="playingIcons">
-                    <a target="_blank" class="sprite-icons-Share---White" id="infoShareLink" title="Direct link to the show that you can save and share with other people">   
-                    </a>
+                    <a target="_blank" class="sprite-icons-Share---White" id="infoShareLinkAddThis">  </a>
                     <a target="_blank" class="sprite-icons-SongKick-Small---Gray" id="infoSongkickLink">   
                     </a>
                     <a target="_blank" class="sprite-icons-LastFM-Small---Gray" id="infoLastfmLink">
@@ -450,7 +443,7 @@
     
     <span class="footerIcon"> <a class="sprite-icons-LastFM-Footer" href="http://www.last.fm/"></a></span>
     </span>
-<a class="sprite-icons-Logo" href="/"></a>
+<span class="addthis_service_icon icon_facebook"> <a class="sprite-icons-Logo" href="/"></a> </span>
     <br/>
     <a href="mailto:info@showhear.com"> Contact Us</a> 
     |
@@ -463,9 +456,24 @@
     <!-- TODO this takes up more vertical space than needed -->
 <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FShowHear&amp;send=false&amp;layout=standard&amp;width=300&amp;show_faces=true&amp;font&amp;colorscheme=light&amp;action=like&amp;height=65" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:300px; height:65px;" allowTransparency="true"></iframe>
 <br/>
-<!-- <span id="share-This-Link" class='st_sharethis_large' displayText='ShareThis' st_url="http://showhear2.com"></span> -->
+
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://showhear.com" data-via="ShowHear">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<div id="dialog" title="Update Location">
+        <!-- <label for="updLocationTxt">New Location</label> -->
+        <input type="text" name="updLocationTxt" id="updLocationTxt" class="text ui-widget-content ui-corner-all myui-input" />
+</div>
+
+<div id="genreFilterDialog" title="Select Genre">
+        <!-- <label for="updateGenreText">Genre Filter</label> -->
+        <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all myui-input" />
+</div>
+
+<div id="songkickUserDialog" title="Enter User">
+        <!-- <label for="updateGenreText">Genre Filter</label> -->
+        <input type="text" name="updateSongkickText" id="updateSongkickText" class="text ui-widget-content ui-corner-all myui-input" />
+</div>
 
 </div>
 </div>  

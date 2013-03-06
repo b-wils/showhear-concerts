@@ -184,8 +184,6 @@ $(document).ready(function () {
     //   source: availableGenreTags
     // });
 
-    $( "#infoShareLink" ).tooltip();
-
     jQuery.support.cors = true; 
 
     $.tubeplayer.defaults.afterReady
@@ -435,6 +433,8 @@ $(document).ready(function () {
     setClickFunctions();
 $("#loading-more-results").hide();
 
+
+    addthis.button('#infoShareLinkAddThis');
 });
 
 function setPreloadEvent() {
@@ -1557,7 +1557,8 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     $("#playing-Info-Date").html(showDate);
 
     $("#infoSongkickLink").get(0).href = artistURI;
-    $("#infoShareLink").get(0).href = showHotlinkURI;
+
+    updateAddThisLink(showHotlinkURI);
 
 //     console.log("st: " + $("#share-This-Link").attr("st_url"));
 
@@ -1728,4 +1729,11 @@ function displayErrorMessage(message) {
     $("#loading-more-results").hide();
     $("#error-message-details").text(message);
 
+}
+
+function updateAddThisLink(url) {
+    addthis.update('share', 'url', document.location.hostname + url); // new url
+    addthis.update('share', 'title', 'I found a concert on showhear'); // new url
+    // addthis.update();
+    addthis.ready();
 }
