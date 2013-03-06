@@ -1558,7 +1558,7 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
 
     $("#infoSongkickLink").get(0).href = artistURI;
 
-    updateAddThisLink(showHotlinkURI);
+    updateAddThisLink(showHotlinkURI, "I found a concert on ShowHear.com - " + artistName + " is playing at " + showVenue);
 
 //     console.log("st: " + $("#share-This-Link").attr("st_url"));
 
@@ -1731,9 +1731,9 @@ function displayErrorMessage(message) {
 
 }
 
-function updateAddThisLink(url) {
-    addthis.update('share', 'url', document.location.hostname + url); // new url
-    addthis.update('share', 'title', 'I found a concert on showhear'); // new url
+function updateAddThisLink(url, title) {
+    addthis.update('share', 'url', document.location.hostname +'/' + url); // new url
+    addthis.update('share', 'title', title); // new url
     // addthis.update();
     addthis.ready();
 }
