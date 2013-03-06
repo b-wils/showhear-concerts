@@ -15,6 +15,16 @@ var express = require('express')
   // , pg = require('pg')
   , async = require('async');
 
+var mongodb = require('mongodb');
+var MongoClient = require('mongodb').MongoClient;
+
+// var mongoConnectString = ;
+
+var mongohost = "linus.mongohq.com";
+var mongoport = "10001";
+
+console.log("mongohq url: " + process.env.MONGOHQ_URL );
+
 var app = express.createServer(express.logger());
 
 // function foreachCB(item, callback) {
@@ -146,45 +156,130 @@ app.get('/test', function(request, response) {
    response.json({ 'testvar':"defaultme", "sqlquery":"none"})
 });
 
+// MongoClient.connect("mongodb://showhear:magnum45@linus.mongohq.com:10002/app9516817", function(err, db) {
+//   if(!err) {
+//     console.log("We are mongo connected");
+//     db.collection('testCollection2', function(err, collection) {
+//       if(!err) {
+//         // console.log(collection);
+
+//         var doc1 = {'hello':'doc1'};
+//         var doc2 = {'hello':'doc2'};
+//         var lotsOfDocs = [{'hello':'doc3'}, {'hello':'doc4'}];
+
+//         // collection.insert(doc1, function(err, result) {});
+
+//         collection.find().toArray(function(err, items) {console.log(items)});
+//       } else {
+//         console.log("could not get collection");
+//       }
+//     });
+//   } else {
+//     console.log("monog connect error");
+//   }
+// });
+
+var myDb;
+
+MongoClient.connect("mongodb://showhear:magnum45@linus.mongohq.com:10002/app9516817", function(err, db) {
+  if(!err) {
+    myDb = db;
+  } else {
+    console.log("initial mongo connect error");
+  }
+}); 
+
 function foreachArtistCB(item, artistCallback) {
+      // console.log("We are mongo connected");
+    item.testing = "hello";
 
-  // query = client.query('SELECT * FROM skid_youtubelink WHERE songkick_id = ' + item.artist.id);
-  //   query.on('row', function(row) {
-  //     // console.log(JSON.stringify(row));
-  //     // TODO this doesn't handle multiple return values
-  //     item.artist.youtubeURL = row.youtube_url;
-  //   });
-  // query.on('end', function(){
-  //   if (item.artist.youtubeURL) {
-  //     artistCallback();
-  //   } else
-    {
+    myDb.collection('artistVideos', function(err, collection) {
+      if(!err) {
 
-    // TODO we will want to store at least some of these locally before sending off
-    // Also need to figure out the perf impact here, it may be fairly dramatic
-
-      youtube.feeds.videos( {
-                              q: item.artist.displayName,
-                              category: "Music",
-                              key: youtubeDeveloperKey
-                            }
-                          , function( err, data ) {
-        if( err instanceof Error ) {
-            console.log( "youtube feed error for "+item.artist.displayName+":" + err );
+        // database querying
+        collection.find({songkickId:item.artist.id}).toArray(function(err, items) {
+          
+          if (items.length > 0) {
+            // we have seen artist before
+            // console.log("artist in db - " );
+            // console.log(items);
+            // console.log(items[0]);
+            // console.log(items[0].videos[0]);
+            if (items[0].hasVideos === "true") {
+              item.artist.youtubeID = items[0].videos[0].youtubeId;
+            } else {
+              console.log("no known videos for artist");
+            }
+            
+            // item.artist.testies = "testiesme";
             artistCallback();
-        } else {
-            // console.log( data );
-            // res.json(data);
-            item.artist.youtubeID = data.items[0].id;
-            item.artist.youtubeURL = data.items[0].player.default;
-            artistCallback();
-        }
-      });
+          } else {
+            // find videos
+            // console.log("searching for artist");
+            youtube.feeds.videos( {
+                                    q: item.artist.displayName,
+                                    category: "Music",
+                                    key: youtubeDeveloperKey,
+                                    'max-results':  2,
+                                  }
+                                , function( err, data ) {
 
-    }
-    
-  // });
-  //artistCallback();
+              if( err instanceof Error ) {
+                  console.log( "youtube feed error for "+item.artist.displayName+":" + err );
+                  if (err.message === "not found") {
+                    console.log("couldnt find artist on youtube, logging in db");
+
+                    var insertData = {
+                      songkickId:item.artist.id,
+                      artistName:item.artist.displayName,
+                      hasVideos:"false",
+                    }
+
+                    collection.insert(insertData, function(err, result) {
+                      if (err) {
+                        console.log("insert failed");
+                      } else {
+                        console.log("insert succeeded");
+                      }
+                    });
+                  } else {
+                    console.log( "unknown youtube feed error for "+item.artist.displayName+":" + err );
+                  }
+                  artistCallback();
+              } else {
+                  // console.log( data );
+                  // res.json(data);
+                  item.artist.youtubeID = data.items[0].id;
+                  item.artist.youtubeURL = data.items[0].player.default;
+                  artistCallback();
+
+                  var insertData = {
+                    songkickId:item.artist.id,
+                    artistName:item.artist.displayName,
+                    hasVideos:"true",
+                    videos: [{
+                              youtubeId:data.items[0].id, 
+                              title:data.items[0].title, 
+                              createTime:new Date().getTime(),
+                              source:"youtubeAutoSearch"
+                            }]
+                  }
+
+                  collection.insert(insertData, function(err, result) {
+                    if (err) {
+                      console.log("insert failed");
+                    } else {
+                      // console.log("insert succeeded");
+                    }
+                  });
+              }
+            });
+          }
+        });
+      } else {
+        console.log("could not get collection");
+      }
+    });
 }
 
 function getClientIp(req) {
@@ -242,7 +337,7 @@ app.get('/events.json', function(request, response) {
 
   // var http = require('http');
 
-  response.setHeader('Cache-Control', 'public, max-age=' + oneHour);
+  // response.setHeader('Cache-Control', 'public, max-age=' + oneHour);
   // console.log('HEADERS: ' + JSON.stringify(response.headers));
 
   var myClientIp = getClientIp(request);
@@ -335,6 +430,7 @@ app.get('/events.json', function(request, response) {
 
               // response.write(JSON.stringify(songKickdata));
               // response.end;
+              songKickdata.start = "helloyou";
               response.json(songKickdata);
             }
       // if any of the saves produced an error, err would equal that error

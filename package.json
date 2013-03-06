@@ -10,7 +10,8 @@
     "express": "2.5.x",
     "jshtml": "*",
     "jade": ">= 0.0.1",
-    "youtube-feeds": "2.0.0"
+    "youtube-feeds": "2.0.0",
+    "mongodb": "1.2.13"
   },
  "engines": {
       "node": "0.6.13",
