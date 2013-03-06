@@ -25,6 +25,8 @@ var mongoport = "10001";
 
 console.log("mongohq url: " + process.env.MONGOHQ_URL );
 
+mongohqurl = process.env.MONGOHQ_URL || 'mongodb://heroku:spdr67BG@linus.mongohq.com:10002/app9516817';
+console.log("mongohq url2: " + mongohqurl );
 var app = express.createServer(express.logger());
 
 // function foreachCB(item, callback) {
@@ -156,7 +158,7 @@ app.get('/test', function(request, response) {
    response.json({ 'testvar':"defaultme", "sqlquery":"none"})
 });
 
-// MongoClient.connect("mongodb://showhear:magnum45@linus.mongohq.com:10002/app9516817", function(err, db) {
+// MongoClient.connect(mongohqurl", function(err, db) {
 //   if(!err) {
 //     console.log("We are mongo connected");
 //     db.collection('testCollection2', function(err, collection) {
@@ -181,7 +183,7 @@ app.get('/test', function(request, response) {
 
 var myDb;
 
-MongoClient.connect("mongodb://showhear:magnum45@linus.mongohq.com:10002/app9516817", function(err, db) {
+MongoClient.connect(mongohqurl, function(err, db) {
   if(!err) {
     myDb = db;
   } else {
