@@ -201,7 +201,7 @@ function foreachArtistCB(item, artistCallback) {
         // database querying
         collection.find({songkickId:item.artist.id}).toArray(function(err, items) {
           
-          if (!items) {
+          if (items==null) {
             console.log("mongo error: could not find items");
           }
 

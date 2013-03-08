@@ -429,6 +429,12 @@ $(document).ready(function () {
       event.stopPropagation();
     });   
 
+    $(".event-container").scroll(function() {
+        // console.log("our window scrolled: " + $(".event-container").scrollTop() + " height: " + $(".event-container")[0].scrollHeight);
+        checkScrollLoad();
+    });
+
+
     setDialogPositions();
     setClickFunctions();
 $("#loading-more-results").hide();
@@ -594,6 +600,7 @@ useGenreFilter();
     //document.getElementById("playlistInfo").innerHTML = "Loading...";
     queryId = s4();
     pagesProcessed = 0;
+    songkickQueryInfo.nextPage = 2;
     // $("#loading-results-message").show();
             getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
                     1,songkickEventIterator, queryId, songkickEventErrorCallback);
@@ -614,6 +621,7 @@ function songkickUpdateClick() {
         eventIndex = 0;
         queryId = s4();
         pagesProcessed = 0;
+        songkickQueryInfo.nextPage = 2;
         getSongkickEventPageTemp(buildSongkickUserQuery($.cookie('songkickUser')), 1, songkickUserIterator, queryId, songkickUserErrorCallback);
     } else {
         console.log("no songkick user");
@@ -1006,8 +1014,14 @@ function addEventDivElement(sk_eventNode, targetNode) {
 
     var myEventTmpl = $('#event_item').tmpl(eventInfo);
 
-    for (var j = 0; j < sk_eventNode.performance.length; j++) {
+    var MAX_ARTISTS = 10;
+
+    for (var j = 0; (j < sk_eventNode.performance.length) && (j<MAX_ARTISTS); j++) {
         addArtistDivElement(myEventTmpl.children(".event_artist_list").get(0), sk_eventNode.performance[j], myEventTmpl, targetNode, sk_eventNode);
+    }
+
+    if (sk_eventNode.performance.length >= MAX_ARTISTS) {
+
     }
 
     // root item
@@ -1134,14 +1148,43 @@ function songkickUserErrorCallback(data, myQueryId) {
     // $("#no-events-message").show();
 }
 
+var songkickQueryInfo = {
+    query: "",
+    nextPage: 2,
+    loadedPage: "",
+    maxPages: "",
+    myQueryId: "",
+    eventIterator: "",
+    errorCallback: ""
+}
+
+function checkScrollLoad() {
+    if ($(".event-container")[0].scrollHeight - $(".event-container").height() - $(".event-container").scrollTop()  < 200) {
+        console.log("scroll to bottm next: " + songkickQueryInfo.nextPage + " loaded " + songkickQueryInfo.loadedPage + " max " + songkickQueryInfo.maxPages);
+        if ((songkickQueryInfo.nextPage - 1 == songkickQueryInfo.loadedPage) 
+            && (songkickQueryInfo.nextPage <= songkickQueryInfo.maxPages)) {
+            console.log("load next page");
+            getSongkickEventPageTemp(songkickQueryInfo.query, songkickQueryInfo.nextPage, 
+                songkickQueryInfo.eventIterator, songkickQueryInfo.myQueryId, songkickQueryInfo.errorCallback);
+            songkickQueryInfo.nextPage++;
+        }
+    }
+}
+
 function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, errorCallback) {
-    
+
     // TODO create divs for each result page so that the order is deterministic/chronological
 
     // location hardcoded to austin 9179
     // $.getJSON("http://api.songkick.com/api/3.0/events.json?apikey=bUMFhmMfaIpxiUgJ&"+getLocationQueryString()+"&page=" + pageNumber + "&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&jsoncallback=?",
     $.getJSON(query + "&page=" + pageNumber,
     function (data) {
+
+        songkickQueryInfo.query = query;
+        songkickQueryInfo.myQueryId = myQueryId;
+        songkickQueryInfo.eventIterator = eventIterator;
+        songkickQueryInfo.errorCallback = errorCallback;
+        songkickQueryInfo.loadedPage = pageNumber;
 
         if (myQueryId != queryId) {
             console.log("query expired, this: " + myQueryId + " global: " + queryId);
@@ -1173,7 +1216,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, e
         pagesProcessed++;
 
         var totalPages = Math.ceil(data.resultsPage.totalEntries / data.resultsPage.perPage);
-
+        songkickQueryInfo.maxPages = totalPages;
         // console.log("entries: "+ data.resultsPage.totalEntries + ", pages: " + totalPages );
 
         if (pageNumber == 1) {
@@ -1194,7 +1237,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, e
                 // TODO this does not preserve page ordering, do we need it?
 
                 for (var i = 2; i <= totalPages; i++) {
-                    getSongkickEventPageTemp(query, i, eventIterator, myQueryId, errorCallback);
+                    // getSongkickEventPageTemp(query, i, eventIterator, myQueryId, errorCallback);
                 }
             }
 
@@ -1204,6 +1247,9 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, e
 
         //var playlistNav = document.getElementById("playlistNav");
         eventIterator(data, pageNumber);
+
+        // TOOD this may have intersting behavior with genre filtering
+        checkScrollLoad();
 
         // TODO this should be done after all of our lastfm queries return
         if (pagesProcessed == totalPages) {
@@ -1224,6 +1270,7 @@ function getSongkickEventPageTemp(query, pageNumber, eventIterator, myQueryId, e
                 $("#loading-more-results").show();
             } else {
                 $("#loading-results-message").show();
+                $("#loading-more-results").hide();
             }
         }
 
@@ -1681,6 +1728,7 @@ function setLoadingEvents() {
     $("#no-events-message").hide();
     // $(".upcoming-events").html("Loading...");
     $("#loading-results-message").show();
+    $("#loading-more-results").hide();
 }
 
 function clearLoadingEvents() {
