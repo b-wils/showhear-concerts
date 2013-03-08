@@ -1383,12 +1383,14 @@ function nextVideoClick() {
 var autoplayCount = 0;
 
 function videoEnded() {
-    autoplayCount++;
+    _gaq.push(['_trackEvent', 'Auto', '1 play']);
 
-    if (autoplayCount >=10) {
-        autoplayCount -= 10;
-        _gaq.push(['_trackEvent', 'Auto', '10 plays']);
-    }
+    // autoplayCount++;
+
+    // if (autoplayCount >=10) {
+    //     autoplayCount -= 10;
+    //     _gaq.push(['_trackEvent', 'Auto', '10 plays']);
+    // }
     nextVideo();
 }
 
