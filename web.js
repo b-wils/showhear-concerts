@@ -203,6 +203,8 @@ function foreachArtistCB(item, artistCallback) {
           
           if (items==null) {
             console.log("mongo error: could not find items");
+            artistCallback();
+            return;
           }
 
           if (items.length > 0) {
