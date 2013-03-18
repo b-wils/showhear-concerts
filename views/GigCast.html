@@ -4,7 +4,7 @@
                   website: http://ogp.me/ns/website#">
 
 <meta name="description" content="ShowHear is a concert browsing service that enables you to quickly browse videos of artists playing in your area.">
-<meta name="keywords" content="Music,Concerts,Shows,Live Music,Live">
+<meta name="keywords" content="Music,Concerts,Shows,Live Music,">
 <meta name="author" content="Brandon Wilson">
 <meta charset="UTF-8">
 
@@ -143,7 +143,24 @@
 </form> -->
 
 
+<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/8VMAGwhyNTPjP5uPUQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
 
+<!-- A tab to launch the Classic Widget -->
+<script>
+UserVoice = window.UserVoice || [];
+UserVoice.push(['showTab', 'classic_widget', {
+  mode: 'full',
+  primary_color: '#6cc6bb',
+  link_color: '#007dbf',
+  default_mode: 'feedback',
+  forum_id: 198698,
+  tab_label: 'Feedback',
+  tab_color: '#323232',
+  tab_position: 'middle-right',
+  tab_inverted: false
+}]);
+</script>
 
 <div style="clear: both;"></div>
 <!-- BEGIN CONTENT -->
