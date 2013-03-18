@@ -1159,7 +1159,7 @@ var songkickQueryInfo = {
 }
 
 function checkScrollLoad() {
-    if ($(".event-container")[0].scrollHeight - $(".event-container").height() - $(".event-container").scrollTop()  < 200) {
+    if ($(".event-container")[0].scrollHeight - $(".event-container").height() - $(".event-container").scrollTop()  < 800) {
         console.log("scroll to bottm next: " + songkickQueryInfo.nextPage + " loaded " + songkickQueryInfo.loadedPage + " max " + songkickQueryInfo.maxPages);
         if ((songkickQueryInfo.nextPage - 1 == songkickQueryInfo.loadedPage) 
             && (songkickQueryInfo.nextPage <= songkickQueryInfo.maxPages)) {
