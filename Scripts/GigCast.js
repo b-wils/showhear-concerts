@@ -233,6 +233,7 @@ $(document).ready(function () {
         onSelect: function(dateText) {
             $("#fromText").html(dateText);
             $("#from").hide();
+            _gaq.push(['_trackEvent', 'Click', 'FromDate']);
             updateClick();
         }
     }).hide();
@@ -254,6 +255,7 @@ $(document).ready(function () {
         onSelect: function(dateText) {
             $("#toText").html(dateText);
             $("#to").hide();
+            _gaq.push(['_trackEvent', 'Click', 'ToDate']);
             updateClick();
         }
     }).hide();
@@ -476,6 +478,9 @@ var initialVideoId;
 function updateGenreFilter() {
     // alert("cached? " + lfm_artistCache["STATUETTE"].artist.name)
     // alert("cached? " + lfm_artistCache["STATUETTE"])
+
+    _gaq.push(['_trackEvent', 'Click', 'GenreChange']);
+
     $("#genreFilter").text($("#updateGenreText").val());
 
     if ($("#updateGenreText").val() != "") {
@@ -520,6 +525,7 @@ function updateLocationCallback(data) {
 }
 
 function updateLocation() {
+    _gaq.push(['_trackEvent', 'Click', 'LocationChange']);
 
     // alert($("#updLocationTxt").val());
     var updateString = $("#updLocationTxt").val();
