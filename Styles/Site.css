@@ -1207,3 +1207,9 @@ div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
 #fromSpan {
     padding-right:8px;
 }
+
+#youtube-player-container {
+    width:640px;
+    height:390px;
+    background-color:black;
+}
