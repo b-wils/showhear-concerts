@@ -133,7 +133,7 @@ window.onerror = function (msg, url, line)
 {
     // console.log("in the error thing");
     var message = "Error in "+url+" on line "+line+": "+msg;
-    $.post("logerror", { "msg" : message }); 
+    $.post("/logerror", { "msg" : message }); 
 }
 
 function resizeFrom() {
@@ -169,47 +169,10 @@ function setDialogPositions() {
     // });
 }
 
-$(document).ready(function () {
+var pathArea;
 
-// $( ".positionable" ).position({
-//         of: $( "#parent" ),
-//         my: $( "#my_horizontal" ).val() + " " + $( "#my_vertical" ).val(),
-//         at: $( "#at_horizontal" ).val() + " " + $( "#at_vertical" ).val(),
-//         collision: $( "#collision_horizontal" ).val() + " " + $( "#collision_vertical" ).val()
-//       });
-
-  // nonexistfunction();
-
-    // $( "#updateGenreText" ).autocomplete({
-    //   source: availableGenreTags
-    // });
-
-    jQuery.support.cors = true; 
-
-    $.tubeplayer.defaults.afterReady
-        = onPlayerReady2;
-
-    jQuery("#youtube-player-container").tubeplayer({
-        width: 640, // the width of the player
-        height: 390, // the height of the player
-        allowFullScreen: "true", // true by default, allow user to go full screen
-        initialVideo: "", // the video that is loaded into the player
-        preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
-        showinfo: true, // if you want the player to include details about the video
-        modestbranding: true, // specify to include/exclude the YouTube watermark
-        wmode: "opaque", // note: transparent maintains z-index, but disables GPU acceleratio
-        theme: "dark", // possible options: "dark" or "light"
-        color: "red", // possible options: "red" or "white"
-        onPlayerEnded: function(){videoEnded()},
-        onPlay: function(id){}, // after the play method is called
-        onPause: function(){}, // after the pause method is called
-        onStop: function(){}, // after the player is stopped
-        onSeek: function(time){}, // after the video has been seeked to a defined point
-        onMute: function(){}, // after the player is muted
-        onUnMute: function(){} // after the player is unmuted
-    });
-
-    $( "#inlineDatepicker" ).datepicker({
+function initDialogs() {
+$( "#inlineDatepicker" ).datepicker({
         showOtherMonths: true,
         selectOtherMonths: false,
         altField: "#inlineDate",
@@ -363,7 +326,57 @@ $(document).ready(function () {
             updateSongkickQueryClick();
         }
     });
+}
 
+function testReNav() {
+    document.title = "A NEW TITLE!";
+    window.history.pushState("object or string", "Title", "/new-url");
+}
+
+$(document).ready(function () {
+    // testReNav();
+// $( ".positionable" ).position({
+//         of: $( "#parent" ),
+//         my: $( "#my_horizontal" ).val() + " " + $( "#my_vertical" ).val(),
+//         at: $( "#at_horizontal" ).val() + " " + $( "#at_vertical" ).val(),
+//         collision: $( "#collision_horizontal" ).val() + " " + $( "#collision_vertical" ).val()
+//       });
+
+  // nonexistfunction();
+
+    // $( "#updateGenreText" ).autocomplete({
+    //   source: availableGenreTags
+    // });
+
+    console.log("pathing: " + $("#server-Area").get(0).value);
+    // pathArea = $("#pathVenueName2").get(0).value;
+
+    jQuery.support.cors = true; 
+
+    $.tubeplayer.defaults.afterReady
+        = onPlayerReady2;
+
+    jQuery("#youtube-player-container").tubeplayer({
+        width: 640, // the width of the player
+        height: 390, // the height of the player
+        allowFullScreen: "true", // true by default, allow user to go full screen
+        initialVideo: "", // the video that is loaded into the player
+        preferredQuality: "default",// preferred quality: default, small, medium, large, hd720
+        showinfo: true, // if you want the player to include details about the video
+        modestbranding: true, // specify to include/exclude the YouTube watermark
+        wmode: "opaque", // note: transparent maintains z-index, but disables GPU acceleratio
+        theme: "dark", // possible options: "dark" or "light"
+        color: "red", // possible options: "red" or "white"
+        onPlayerEnded: function(){videoEnded()},
+        onPlay: function(id){}, // after the play method is called
+        onPause: function(){}, // after the pause method is called
+        onStop: function(){}, // after the player is stopped
+        onSeek: function(time){}, // after the video has been seeked to a defined point
+        onMute: function(){}, // after the player is muted
+        onUnMute: function(){} // after the player is unmuted
+    });
+
+    initDialogs();
 
     populateLocation();
 
@@ -524,11 +537,11 @@ function updateLocationCallback(data) {
     }
 }
 
-function updateLocation() {
+function updateLocationByString(updateString) {
     _gaq.push(['_trackEvent', 'Click', 'LocationChange']);
 
     // alert($("#updLocationTxt").val());
-    var updateString = $("#updLocationTxt").val();
+    // var updateString = $("#updLocationTxt").val();
 
     if (updateString) {
         var searchQuery;
@@ -550,7 +563,7 @@ function updateLocation() {
                 });
             // return;
         } else {
-            searchQuery = "query="+$("#updLocationTxt").val();
+            searchQuery = "query="+updateString;
             $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?"+ searchQuery+"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
             function (data) {
                 updateLocationCallback(data);
@@ -561,6 +574,12 @@ function updateLocation() {
     $( "#dialog" ).dialog( "close" );
 
     // alert(getLocationQueryString());
+}
+
+function updateLocation() {
+    console.log("update no params");
+    updateLocationByString($("#updLocationTxt").val());
+    console.log("update no params return");
 }
 
 function getLocationQueryString() {
@@ -581,6 +600,13 @@ function getLocationQueryVal() {
 }
 
 function populateLocation() {
+
+    if ($("#server-Area").get(0).value) {
+        updateLocationByString($("#server-Area").get(0).value);
+        // updateLocationByString("seattle");
+        return;
+    }
+
     if ($.cookie('sk_locationName')) {
            $("#locationText").text($.cookie('sk_locationName'));
     } else {

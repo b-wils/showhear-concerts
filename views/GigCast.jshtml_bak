@@ -1,0 +1,10 @@
+
+<html>
+<head>
+    @writeHead();
+</head>
+
+<body>
+@writeBody();
+</body>
+</html>

@@ -1,3 +1,5 @@
+@with(locals)
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# 
@@ -19,21 +21,21 @@
       href="/images/favicon.ico">
 
 
-    <link href="jquery-ui-1.10.0.custom/css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" type="text/css"/>
+    <link href="/jquery-ui-1.10.0.custom/css/custom-theme/jquery-ui-1.10.0.custom.css" rel="stylesheet" type="text/css"/>
+    <!-- <title>ShowHear - Find Concerts You'll Love</title> -->
     <title>ShowHear - Find Concerts You'll Love</title>
     
+    <script type="text/javascript" src="/js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.js"></script>
     
-    <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
-    <script type="text/javascript" src="jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.js"></script>
-    
-    <script type="text/javascript" src="Scripts/jquery.ba-outside-events.js"></script>
-    <script type="text/javascript" src="Scripts/GigCast.js"></script>
-    <script type="text/javascript" src="jquerycookie/jquery.cookie.js"></script>
-    <script type="text/javascript" src="js/date.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery.ba-outside-events.js"></script>
+    <script type="text/javascript" src="/Scripts/GigCast.js"></script>
+    <script type="text/javascript" src="/jquerycookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/js/date.js"></script>
 
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
-<script type='text/javascript' src='js/jQuery.tubeplayer.min.js'></script>
+<script type='text/javascript' src='/js/jQuery.tubeplayer.min.js'></script>
 
     <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
     <link href="/Styles/icons_mod.css" rel="stylesheet" type="text/css" />
@@ -141,14 +143,10 @@
 <form>
 <input name="fred" size="5" onkeyup="ExpandInput(this);" />
 </form> -->
-
-
+<input type="hidden" id="server-Area" value="@locals.area"> </input>
+<!-- <span class="whiteText" id="pathVenueName"> @locals.area  </span> -->
 <!-- UserVoice JavaScript SDK (only needed once on a page) -->
 <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/8VMAGwhyNTPjP5uPUQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-
-<script>
-    // console.log("Test Scripting: " + @locals.name );
-</Script>
 <!-- A tab to launch the Classic Widget -->
 <script>
 UserVoice = window.UserVoice || [];
@@ -446,13 +444,13 @@ var addthis_config =
                     <div id="no-events-text">
                     Loading...
                     <br/>
-                    <img src="images/white-speaker-ajax-load-matte.gif" alt="" class="white-loading-speaker"> </img>
+                    <img src="/images/white-speaker-ajax-load-matte.gif" alt="" class="white-loading-speaker"> </img>
                     </div>
                 </div>
 
                 <div id="loading-more-results" class="centerText">
                     <span class="centerTextElement" class="red-loading-speaker">
-                        <img src="images/red-speaker-ajax-load-matte.gif" alt=""> </img>
+                        <img src="/images/red-speaker-ajax-load-matte.gif" alt=""> </img>
                     </span>
                     <span class="centerTextElement"> Results still loading... </span>
                 </div>

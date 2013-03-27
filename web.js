@@ -133,15 +133,36 @@ app.get('/ytfeeds', function(req, res) {
 
 // TODO ENDING GOOGLE TESTING
 
-app.get('/', function(request, response) {
+app.get('/', function(req, res) {
    //response.send('Hello World!');
    //response.send('Hello World again!');
-   response.render('GigCast.html', {
-        myVar: 'My Data'
+   res.render('GigCast', {
+     locals: {
+      }
     });
 
    // var statsmixClient = new statsmix.Client();
    // statsmixClient.addMetric('Foo metric', fooCounterMetric, { track : true });
+});
+
+
+app.get('/area/:areaid', function (req, res) {
+
+   res.render('GigCast', {
+     locals: {
+        area: req.params.areaid
+      }
+    });
+});
+
+app.get('/area', function (req, res) {
+  // console.log('Received area id ' + req.params.areaid + '');
+   res.render('GigCast');
+});
+
+app.get('/data/:type', function (req, res) {
+  console.log('Received ' + req.params.type + ' data');
+  res.json({"data": req.params.type});
 });
 
 app.post('/logerror', function(request, response) {
@@ -327,10 +348,6 @@ function foreachEventCB(item, eventCallback) {
 // app.get('/data/:type', function (req, res) {
 //   console.log('Received ' + type + ' data');
 // });
-
-app.get('/data/:type', function (req, res) {
-  console.log('Received ' + req.params.type + ' data');
-});
 
 app.get('/data', function (req, res) {
   console.log('Received no path ' +  ' data');
