@@ -1,3 +1,4 @@
+
   var _gaq = _gaq || [];
   _gaq.push(['_setAccount', 'UA-36985604-1']);
   _gaq.push(['_trackPageview']);
@@ -25,6 +26,10 @@ var headerDateFormatString = "D, M dd"
 
 var queryId = "";
 var pagesProcessed = 0;
+
+var venueId = "";
+var venueList = [];
+
 
 window.onload = function () {
 
@@ -326,6 +331,39 @@ $( "#inlineDatepicker" ).datepicker({
             updateSongkickQueryClick();
         }
     });
+
+
+    $( "#venueFilterDialog" ).dialog({
+        autoOpen: false,
+        width:335,
+        height:120,
+        // maxHeight:170,
+        // show: "blind",
+        // hide: "explode",
+        closeOnEscape: true,
+        draggable: false,
+        resizable: false,
+        position: { my: "right top", at: "right bottom", of:"#tabs-1", collision:"none none" },//clearGenreFilter
+        buttons: [ { text: "Clear", click: function() { clearVenueFilter(); } }, 
+        // { text: "Filter", click: function() { updateVenueFilter(); } }
+        ]
+    });
+
+    $( "#venueFilterDialog" ).bind('clickoutside',function(){
+        $( "#venueFilterDialog" ).dialog('close');
+    });
+
+    $( "#venueSelector" ).click(function() {
+        ($("#venueFilterDialog").dialog("isOpen") == false) ? $("#venueFilterDialog").dialog("open") : $("#venueFilterDialog").dialog("close") ;
+        return false;
+    });
+
+    $("#updateVenueText").keyup(function(event){
+        if(event.keyCode == 13){
+            // updateVenueFilter();
+        }
+    });
+
 }
 
 function testReNav() {
@@ -348,7 +386,8 @@ $(document).ready(function () {
     //   source: availableGenreTags
     // });
 
-    console.log("pathing: " + $("#server-Area").get(0).value);
+    // $("#loading-more-results").hide();
+
     // pathArea = $("#pathVenueName2").get(0).value;
 
     jQuery.support.cors = true; 
@@ -376,20 +415,50 @@ $(document).ready(function () {
         onUnMute: function(){} // after the player is unmuted
     });
 
+$( "#updateVenueText" ).autocomplete({
+  source: [ ],
+
+    select: function( event, ui ) {
+
+        $("#venueFilter").text($("#updateVenueText").val());
+        event.preventDefault();
+        updateVenueFilter(ui.item.value);
+    },
+
+    focus: function( event, ui ) {
+        $("#updateVenueText").val(ui.item.label);
+        event.preventDefault();
+    }
+
+});
+
     initDialogs();
 
     populateLocation();
 
+
+
+
     preLoadEventSKID = getQueryVariable("skEventId");
     
+    if (!preLoadEventSKID) {
+        preLoadEventSKID = $("#server-eventid").get(0).value;
+    }
     if (preLoadEventSKID) {
         setPreloadEvent();
     } else {
         // TODO this will execute before we get our location info
         // getSongkickEventPage(1);
 
-        getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator, "", songkickEventErrorCallback);
+        if (venueId) {
+            console.log("venue query");
+            getSongkickEventPageTemp("/venues/"+venueId+"/calendar.json?&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                    1,songkickEventIterator, queryId, songkickEventErrorCallback);
+        } else {
+            populateVenueList();
+            getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                    1,songkickEventIterator, queryId, songkickEventErrorCallback);
+        }
     }
 
     if ($.cookie('genreFilter')) {
@@ -452,7 +521,7 @@ $(document).ready(function () {
 
     setDialogPositions();
     setClickFunctions();
-$("#loading-more-results").hide();
+    $("#loading-more-results").hide();
 
 
     addthis.button('#infoShareLinkAddThis');
@@ -513,12 +582,118 @@ function clearGenreFilter() {
     updateClick();
 }
 
+function updateVenueFilter(id) {
+    console.log("updatevenuefilter()");
+    _gaq.push(['_trackEvent', 'Click', 'VenueChange']);
+
+
+    if ($("#updateVenueText").val() != "") {
+        // $.cookie('genreFilter', $("#updateGenreText").val());
+        $( "#venueFilterDialog" ).dialog( "close" );
+        $("#venueFilter").text($("#updateVenueText").val());
+
+        venueId = id;
+
+        document.title = "Showhear - Concerts at " + $("#updateVenueText").val();
+
+        var name = $("#updateVenueText").val();
+
+        name = name.replace(/\//g,"");
+        name = name.replace(/ /g,"-");
+        name = name.replace(/--/g,"-");
+
+
+        var urlString = "/venue/" + id +"-"+ name;
+        // console.log("name: " + name + " url: " + urlString);
+
+        window.history.pushState("teststate", "Showhear - Concerts in " + name, urlString);
+
+        updateClick();
+    } else {
+        clearGenreFilter();
+    }
+}
+
+function clearVenueFilter(update) {
+    update = typeof update !== 'undefined' ? update : true;
+
+    venueId = "";
+    $("#venueFilter").text("(None)");
+    $("#updateVenueText").text("");
+    $("#venueFilterDialog" ).dialog( "close" );
+    if (update) {
+        updateClick();
+    }
+
+    setLocation($.cookie('sk_locationid'), $.cookie('sk_locationName'));
+
+}
+
+
+function populateVenueList() {
+    console.log("popping venue list");
+    venueList = [];
+    $.getJSON("http://api.songkick.com/api/3.0/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+        function (data) {
+
+            var totalPages = Math.ceil(data.resultsPage.totalEntries / data.resultsPage.perPage);
+
+            if (totalPages > 1) {
+                for (var i = 2; i <= totalPages; i++) {
+                    $.getJSON("http://api.songkick.com/api/3.0/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&page=" + i +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+                        function (data) {
+                            console.log("venue list " + i);
+                            for (var i = 0; i < data.resultsPage.results.event.length; i++) {
+                                if (!checkVenueListById(data.resultsPage.results.event[i].venue.id)){
+                                    venueList.push({label:data.resultsPage.results.event[i].venue.displayName, value: data.resultsPage.results.event[i].venue.id});
+                                }
+                            }
+                            $( "#updateVenueText" ).autocomplete( "option", "source", venueList );
+                    });
+                }
+            }
+
+            for (var i = 0; i < data.resultsPage.results.event.length; i++) {
+                if (!checkVenueListById(data.resultsPage.results.event[i].venue.id)){
+                    venueList.push({label:data.resultsPage.results.event[i].venue.displayName, value: data.resultsPage.results.event[i].venue.id});
+                }
+            }
+            $( "#updateVenueText" ).autocomplete( "option", "source", venueList );
+    });
+}
+
 // we may not want to always store this in cookie
-function setLocation(id, name) {
+function setLocationWithUrl(id, name, url) {
     $("#locationText").text(name);
     $.cookie('sk_locationid', id);
     $.cookie('sk_locationName', name);
+    document.title = "Showhear - Concerts in " + name;
+
+    name = name.replace(/\//g,"");
+    name = name.replace(/ /g,"-");
+    name = name.replace(/--/g,"-");
+
+
+    var urlString = "/area/" + id +"-"+ name;
+    // console.log("name: " + name + " url: " + urlString);
+
+    window.history.pushState("teststate", "Showhear - Concerts in " + name, url);
 }
+
+function setLocation(id, name) {
+
+    var urlName = name;
+
+    urlName = urlName.replace(/\//g,"");
+    urlName = urlName.replace(/ /g,"-");
+    urlName = urlName.replace(/--/g,"-");
+
+
+    var urlString = "/area/" + id +"-"+ urlName;
+
+    setLocationWithUrl(id, name, urlString)
+}
+
 
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -526,11 +701,9 @@ function isNumeric(n) {
 
 function updateLocationCallback(data) {
     if (data.resultsPage.totalEntries > 0) {
-        // TODO if there are multiple results, we can try to cross reference with clientid to get the closest one
-        $("#locationText").text(data.resultsPage.results.location[0].metroArea.displayName);
-        //document.cookie
-        $.cookie('sk_locationid', data.resultsPage.results.location[0].metroArea.id);
-        $.cookie('sk_locationName', data.resultsPage.results.location[0].metroArea.displayName);
+
+        setLocation(data.resultsPage.results.location[0].metroArea.id, data.resultsPage.results.location[0].metroArea.displayName);
+
         updateClick();
     } else {
         alert("Could not find location: " + $("#updLocationTxt").val());
@@ -577,9 +750,8 @@ function updateLocationByString(updateString) {
 }
 
 function updateLocation() {
-    console.log("update no params");
+    clearVenueFilter(false);
     updateLocationByString($("#updLocationTxt").val());
-    console.log("update no params return");
 }
 
 function getLocationQueryString() {
@@ -601,27 +773,56 @@ function getLocationQueryVal() {
 
 function populateLocation() {
 
+    if ($("#server-venueid").get(0).value) {
+        console.log("preset venue");
+        venueId = $("#server-venueid").get(0).value;
+
+        // TODO will this error out if there are no events?
+        $.getJSON('http://api.songkick.com/api/3.0/venues/'+venueId+'/calendar.json?apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?',
+            function (data) {
+                
+                $("#venueFilter").text(data.resultsPage.results.event[0].venue.displayName);
+                $("#locationText").text(data.resultsPage.results.event[0].venue.metroArea.displayName);
+                $.cookie('sk_locationid', data.resultsPage.results.event[0].venue.metroArea.id);
+                $.cookie('sk_locationName', data.resultsPage.results.event[0].venue.metroArea.displayName);
+
+                populateVenueList();
+               
+        });
+        return;
+    }
+
+    if ($("#server-AreaId").get(0).value) {
+        var name = $("#server-Area").get(0).value;
+        var dashPos = name.indexOf("-");
+        name = name.substring(dashPos + 1);
+
+        // console.log("the name " + name);
+        // var locString = $("#server-AreaId").get(0).value
+        setLocationWithUrl($("#server-AreaId").get(0).value, name, $("#server-Area").get(0).value);
+        return;
+    }
+
+
     if ($("#server-Area").get(0).value) {
         updateLocationByString($("#server-Area").get(0).value);
         // updateLocationByString("seattle");
         return;
     }
 
-    if ($.cookie('sk_locationName')) {
-           $("#locationText").text($.cookie('sk_locationName'));
-    } else {
 
-        $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
-        function (data) {
-            $("#locationText").html();
-            setLocation(data.resultsPage.results.location[0].metroArea.id, data.resultsPage.results.location[0].metroArea.displayName);
-        });
-    }
+    // console.log("url lookup loc");
+    $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
+    function (data) {
+        $("#locationText").html();
+        setLocation(data.resultsPage.results.location[0].metroArea.id, data.resultsPage.results.location[0].metroArea.displayName);
+    });
 }
 
 function updateClick() {
 // alert("date: " + $.datepicker.formatDate('yy', $( "#to" ).datepicker( "getDate" )));
-useGenreFilter();
+    useGenreFilter();
+    // venueId = "";
     //$("#playlistNav").empty();
     setLoadingEvents();
     preLoadEventSKID = null;
@@ -634,8 +835,16 @@ useGenreFilter();
     pagesProcessed = 0;
     songkickQueryInfo.nextPage = 2;
     // $("#loading-results-message").show();
-            getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
-                    1,songkickEventIterator, queryId, songkickEventErrorCallback);
+
+    if (venueId) {
+        console.log("venue query");
+        getSongkickEventPageTemp("/venues/"+venueId+"/calendar.json?&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                1,songkickEventIterator, queryId, songkickEventErrorCallback);
+    } else {
+        populateVenueList();
+        getSongkickEventPageTemp("/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "",
+                1,songkickEventIterator, queryId, songkickEventErrorCallback);
+    }
 }
 
 function songkickUpdateClick() {
@@ -1138,14 +1347,53 @@ function buildSongkickUserQuery(user) {
     return url + "?" + $.param(parameters);
 }
 
-function songkickEventIterator(data, pageNumber) {
-    
-    for (var i = 0; i < data.resultsPage.results.event.length; i++) {
-        addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
+function getVenueId() {
+
+}
+
+function checkVenueListById(id) {
+    for (var i = 0; i< venueList.length; i++) {
+        if (venueList[i].value == id) {
+            return true;
+        }
     }
+    return false;
+}
+
+function songkickEventIterator(data, pageNumber) {
+
+    for (var i = 0; i < data.resultsPage.results.event.length; i++) {
+
+        // if (!(venueList[data.resultsPage.results.event[i].venue.metroArea.id])) {
+        //     venueList[data.resultsPage.results.event[i].venue.metroArea.id] = {};
+        // }
+
+        // if (!(venueList[data.resultsPage.results.event[i].venue.metroArea.id][data.resultsPage.results.event[i].venue.id])) {
+
+        // }
+
+        // TODO venues are only pulled in as the result set is called up leaving some venues missing
+        // ideal would be to check all results and then get venues from those
+        // if (!checkVenueListById(data.resultsPage.results.event[i].venue.id)){
+        //     venueList.push({label:data.resultsPage.results.event[i].venue.displayName, value: data.resultsPage.results.event[i].venue.id});
+        // }
+
+        if (venueId != "") {
+            // TODO is probably more efficient to get the venue calendar and fitler by date
+            if (venueId == data.resultsPage.results.event[i].venue.id) {
+                addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
+            }
+        } else {
+            addEventDivElement(data.resultsPage.results.event[i], $(".sk_page_container_" + pageNumber).get(0));
+        }
+    }
+
+    // $( "#updateVenueText" ).autocomplete( "option", "source", venueList );
+
 }
 
 function songkickUserIterator(data, pageNumber) {
+
     for (var i = 0; i < data.resultsPage.results.calendarEntry.length; i++) {
         addEventDivElement(data.resultsPage.results.calendarEntry[i].event, $(".sk_page_container_" + pageNumber).get(0));
     }    
@@ -1192,7 +1440,7 @@ var songkickQueryInfo = {
 
 function checkScrollLoad() {
     if ($(".event-container")[0].scrollHeight - $(".event-container").height() - $(".event-container").scrollTop()  < 800) {
-        console.log("scroll to bottm next: " + songkickQueryInfo.nextPage + " loaded " + songkickQueryInfo.loadedPage + " max " + songkickQueryInfo.maxPages);
+        // console.log("scroll to bottm next: " + songkickQueryInfo.nextPage + " loaded " + songkickQueryInfo.loadedPage + " max " + songkickQueryInfo.maxPages);
         if ((songkickQueryInfo.nextPage - 1 == songkickQueryInfo.loadedPage) 
             && (songkickQueryInfo.nextPage <= songkickQueryInfo.maxPages)) {
             console.log("load next page");

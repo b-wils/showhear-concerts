@@ -146,11 +146,43 @@ app.get('/', function(req, res) {
 });
 
 
-app.get('/area/:areaid', function (req, res) {
+app.get('/area/:areaString', function (req, res) {
+
+  // TODO do we want to support searching for text string passed here?
+
+  var areaid = idFromUrlString(req.params.areaString);
 
    res.render('GigCast', {
      locals: {
-        area: req.params.areaid
+        areaid: idFromUrlString(req.params.areaString),
+        area: req.params.areaString
+      }
+    });
+});
+
+app.get('/event/:eventid', function (req, res) {
+
+   res.render('GigCast', {
+     locals: {
+        eventid: req.params.eventid
+      }
+    });
+});
+
+app.get('/venue/:venueid', function (req, res) {
+
+   res.render('GigCast', {
+     locals: {
+        venueid: idFromUrlString(req.params.venueid)
+      }
+    });
+});
+
+app.get('/artist/:artistid', function (req, res) {
+
+   res.render('GigCast', {
+     locals: {
+        artistid: req.params.artistid
       }
     });
 });
@@ -162,7 +194,9 @@ app.get('/area', function (req, res) {
 
 app.get('/data/:type', function (req, res) {
   console.log('Received ' + req.params.type + ' data');
-  res.json({"data": req.params.type});
+  res.json({"data2": req.params.type, "parsed": idFromUrlString(req.params.type)});
+  
+  // console.log(idFromUrlString(req.params.type));
 });
 
 app.post('/logerror', function(request, response) {
@@ -311,6 +345,16 @@ function foreachArtistCB(item, artistCallback) {
     });
 }
 
+function idFromUrlString(string) {
+    var matches = string.match(/([0-9]+)/);
+
+    if (matches) {
+      return matches[1];
+    } else {
+      // return "";
+    }
+}
+
 function getClientIp(req) {
   var ipAddress;
   // Amazon EC2 / Heroku workaround to get real client IP
@@ -352,6 +396,104 @@ function foreachEventCB(item, eventCallback) {
 app.get('/data', function (req, res) {
   console.log('Received no path ' +  ' data');
   res.json({"data": "none"});
+});
+
+
+// JSON responses
+app.get('/venues/:venueid/calendar.json', function(request, response) {
+  //response.send('Hello World!');
+  //response.send('Hello World again!');
+  // response.render('GigCast.html', {
+
+  // var http = require('http');
+
+  // response.setHeader('Cache-Control', 'public, max-age=' + oneHour);
+  // console.log('HEADERS: ' + JSON.stringify(response.headers));
+
+  var myClientIp = getClientIp(request);
+
+  var queryStringParameterse = {
+    apikey: "bUMFhmMfaIpxiUgJ"
+  }
+
+  if(request.query["min_date"]) {
+    queryStringParameterse["min_date"] = request.query["min_date"];
+  }
+
+  if(request.query["max_date"]) {
+    queryStringParameterse["max_date"] = request.query["max_date"];
+  }
+
+  if(request.query["page"]) {
+    // console.log("page required");
+    // response.json({status:"error", message:"page required"});
+    queryStringParameterse["page"] = request.query["page"];
+  }
+
+  var myQueryString = qs.stringify(queryStringParameterse);
+
+  // console.log(myQueryString);
+
+  var venueId = request.params.venueid;
+
+  var options = {
+    host: 'api.songkick.com',
+    path: '/api/3.0/venues/'+venueId+'/calendar.json?' + myQueryString
+  };
+
+  http.get(options, function(skres) {
+    var data = '';
+
+    // console.log('STATUS: ' + skres.statusCode);
+    // console.log('HEADERS: ' + JSON.stringify(skres.headers));
+    skres.on('data', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // response.write(chunk);
+      data += chunk;
+    });
+
+    skres.on('end', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // data += chunk;
+      if (chunk) {
+        data += chunk;
+      }
+
+      var songKickdata = JSON.parse(data);
+
+      // BUG we errored out here somehow- if our results do not have any data
+      // hardcoded to 50 per page
+      if (songKickdata.resultsPage.totalEntries - (songKickdata.resultsPage.page -1) * songKickdata.resultsPage.perPage> 0) {
+        // console.log(songKickdata.resultsPage.totalEntries);
+        async.forEach(songKickdata.resultsPage.results.event, foreachEventCB, 
+          function(err){
+            if (err) {
+              console.log("error iterating for youtube links: " + err);
+            } else {
+              // response.writeHead(200, {
+              //   "Content-Type": "application/json",
+              //   "Access-Control-Allow-Origin": "*"
+              // });
+
+              // response.write(JSON.stringify(songKickdata));
+              // response.end;
+              songKickdata.start = "helloyou";
+              response.json(songKickdata);
+            }
+      // if any of the saves produced an error, err would equal that error
+        });
+      }else {
+        response.json(songKickdata);
+      }
+    });
+
+    // response.json({ 'testvar':"success"})
+  }).on('error', function(e) {
+    console.log('ERROR: ' + e.message);
+    response.json({ 'testvar':"error"})
+  });
+
+  // response.json({ 'testvar':"default"})
 });
 
 // JSON responses

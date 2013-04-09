@@ -862,6 +862,10 @@ a .ui-tabs-anchor {
     width: 273px;
 }
 
+.venueFilterHeader {
+    width: 180px;
+}
+
 .songkickHeaderEmptyDiv {
     width:180px;
 }

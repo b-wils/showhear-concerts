@@ -143,7 +143,6 @@
 <form>
 <input name="fred" size="5" onkeyup="ExpandInput(this);" />
 </form> -->
-<input type="hidden" id="server-Area" value="@locals.area"> </input>
 <!-- <span class="whiteText" id="pathVenueName"> @locals.area  </span> -->
 <!-- UserVoice JavaScript SDK (only needed once on a page) -->
 <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/8VMAGwhyNTPjP5uPUQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
@@ -163,9 +162,12 @@ UserVoice.push(['showTab', 'classic_widget', {
 }]);
 </script>
 
-<div style="clear: both;"></div>
 <!-- BEGIN CONTENT -->
-
+<input type="hidden" id="server-Area" value="@locals.area"> </input>
+<input type="hidden" id="server-AreaId" value="@locals.areaid"> </input>
+<input type="hidden" id="server-venueid" value="@locals.venueid"> </input>
+<input type="hidden" id="server-eventid" value="@locals.eventid"> </input>
+<input type="hidden" id="server-artistid" value="@locals.artistid"> </input>
 
 <!-- *<span id="inlineDate"> testDate</span> *<button type="button" onclick="dateTestClick()">Click Me!</button>
 <div id="inlineDatepicker" class="myui-calendar positionable"> </div> -->
@@ -289,16 +291,42 @@ var addthis_config =
                             3
                         </span>
                         <span class="centerTextElement">
-                        <span class="grayText"> Filter by genre (optional):</span>
-                        <br/>
+                        <span class="grayText"> Optional </span>
+                        
                             <span class="selector-span" id="genreSelector">
                             <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
                             <div class="sprite-icons-Up-Button"> </div>
+                            </span>
+                            <br/>
                         </span>
+                        <span class="grayText">  Filters</span>
+                        
+                            <span class="selector-span" id="venueSelector">
+                            <span id="venueChange" class="redText">Venue: <span id="venueFilter" class="whiteText">(None)</span>
+                            <div class="sprite-icons-Up-Button"> </div>
+                            </span>
                             </span>
                         </span>
                     </div>   
 
+                    <!-- <div class="divider-Arrow-Div" id="t1-a3">
+                        <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
+                    </div>
+
+                    <div class="searchBlock centerText venueFilterHeader" id="venueHeader">
+                        <span class="header-Number centerTextElement">
+                            4
+                        </span>
+                        <span class="centerTextElement">
+                        <span class="grayText"> Filter by genre (optional):</span>
+                        <br/>
+                            <span class="selector-span" id="venueSelector">
+                            <span id="venueChange" class="redText">Venue: <span id="venueFilter" class="whiteText">(None)</span>
+                            <div class="sprite-icons-Up-Button"> </div>
+                        </span>
+                            </span>
+                        </span>
+                    </div>    -->
                     <div style="clear: both;"></div>
                   </div>
                   <div id="tabs-2" style="display:none;">
@@ -502,6 +530,12 @@ var addthis_config =
         <!-- <label for="updateGenreText">Genre Filter</label> -->
         <input type="text" name="updateGenreText" id="updateGenreText" class="text ui-widget-content ui-corner-all myui-input" />
 </div>
+
+<div id="venueFilterDialog" title="Select Venue">
+        <!-- <label for="updateGenreText">Genre Filter</label> -->
+        <input type="text" name="updateVenueText" id="updateVenueText" class="text ui-widget-content ui-corner-all myui-input" />
+</div>
+
 
 <div id="songkickUserDialog" title="Enter User">
         <!-- <label for="updateGenreText">Genre Filter</label> -->
