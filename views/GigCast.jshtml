@@ -234,51 +234,58 @@ var addthis_config =
 
                   <div id="tabs-1">
                     <div id="locationChange" class="searchBlock centerText">
-                        
-                        <span class="header-Number centerTextElement">
-                            1
+                        <div class="sprite-icons-Map-Gray centerTextElement searchIcon"> </div>
+                        <span class="centerTextElement grayText">
+                                
+                            City
                         </span>
-                        <span class="centerTextElement">
-                            <span class="grayText"> Enter your current city:</span>
-                            <br/>
-                            <span class="selector-span" id="locationSelector">
-                                <span class="redText"> City: </span>
+
+                        <div class="sprite-icons-Divider leftFloat searchDivider"> </div> 
+                        <div class="centerTextElement selector-span" id="locationSelector">
+                            
+                            
                                 <span class="whiteText" id="locationText"> (Loading...) </span>
-                                <div class="sprite-icons-Up-Button"> </div>
-                            </span>
-                        </span>
+                                <div class="sprite-icons-Arrow-White"> </div>
+                            
+                        </div>
                     </div>
+                        
 
                     <div class="divider-Arrow-Div">
                         <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
                     </div>
 
                     <div class="searchBlock centerText dateSearch" id="dateSearch">
-                        <span class="header-Number centerTextElement">
-                            2
-                        </span>
-                        <span class="centerTextElement" >
-                                                    <span class="grayText"> Select a date range:</span>
-                        <br/>
-                            <span id="fromSpan" class="selector-span">
-                            <span class="redText">
-                                From:
-                            </span>
-                            <span id="fromText" class="whiteText"> testText</span>
-                            <!-- <input class="calendar-input" type="text" id="from" name="from" readonly/> -->
+                        <div class="sprite-icons-Calendar-Gray centerTextElement searchIcon"> </div>
+                        <span class="centerTextElement grayText">
                             
-                                <div class="sprite-icons-Up-Button"> </div>
-                            
-                            </span>
-
-                            <span id="toSpan" class="selector-span">
-                            <span for="to" class="redText">
-                                To:
-                            </span>
-                            <span id="toText" class="whiteText"> testText</span>
-                                <div class="sprite-icons-Up-Button"> </div>
-                            </span>
+                            Date Range
                         </span>
+                        <div class="sprite-icons-Divider leftFloat searchDivider"> </div> 
+                        <span class="centerTextElement grayText" >
+                            <div id="fromSpan" class="selector-span date-selector">
+                                <div class="redText leftAlign">
+                                    From:
+                                </div>
+                                <div class="rightAlign">
+                                    <span id="fromText" class="whiteText"> testText</span>
+                                
+                                
+                                    <div class="sprite-icons-Arrow-White"> </div>
+                                </div>
+                            </div>
+                            
+                            <div id="toSpan" class="selector-span date-selector">
+                                <div class="redText leftAlign">
+                                    To:
+                                </div>
+                                <div class="rightAlign">
+                                    <span id="toText" class="whiteText"> testText</span>
+                                
+                                
+                                    <div class="sprite-icons-Arrow-White"> </div>
+                                </div>
+                            </div>
                     </div>
                     <div class="divider-Arrow-Div" id="t1-a2">
                         <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
@@ -287,46 +294,41 @@ var addthis_config =
                     <input type="text" id="to" name="to" style="width: 80px;"/> -->
 
                     <div class="searchBlock centerText filterHeader" id="filterHeader">
-                        <span class="header-Number centerTextElement">
-                            3
-                        </span>
-                        <span class="centerTextElement">
-                        <span class="grayText"> Optional </span>
-                        
-                            <span class="selector-span" id="genreSelector">
-                            <span id="genreChange" class="redText">Genre: <span id="genreFilter" class="whiteText">(None)</span>
-                            <div class="sprite-icons-Up-Button"> </div>
-                            </span>
+                        <div class="sprite-icons-Filter-Gray searchIcon"> </div>
+                        <span class="centerTextElement grayText">
+                            
+                            Additional Filters
                             <br/>
+                            (Optional)
                         </span>
-                        <span class="grayText">  Filters</span>
-                        
-                            <span class="selector-span" id="venueSelector">
-                            <span id="venueChange" class="redText">Venue: <span id="venueFilter" class="whiteText">(None)</span>
-                            <div class="sprite-icons-Up-Button"> </div>
-                            </span>
-                            </span>
+                        <div class="sprite-icons-Divider leftFloat searchDivider"> </div> 
+                        <span class="centerTextElement grayText" >
+                            <div id="genreSelector" class="selector-span genre-selector">
+                                <div class="redText leftAlign">
+                                    Genre:
+                                </div>
+                                <div class="rightAlign">
+                                    <span id="genreFilter" class="whiteText"> (None)</span>
+                                
+                                
+                                    <div class="sprite-icons-Arrow-White"> </div>
+                                </div>
+                            </div>
+                            
+                            <div id="venueSelector" class="selector-span venue-selector">
+                                <div class="redText leftAlign">
+                                    Venue:
+                                </div>
+                                <div class="rightAlign">
+                                    <span id="venueFilter" class="whiteText"> (None)</span>
+                                
+                                
+                                    <div class="sprite-icons-Arrow-White"> </div>
+                                </div>
+                            </div>
                         </span>
                     </div>   
 
-                    <!-- <div class="divider-Arrow-Div" id="t1-a3">
-                        <div class="sprite-icons-Nav-Divider-Arrow-Right"> </div>
-                    </div>
-
-                    <div class="searchBlock centerText venueFilterHeader" id="venueHeader">
-                        <span class="header-Number centerTextElement">
-                            4
-                        </span>
-                        <span class="centerTextElement">
-                        <span class="grayText"> Filter by genre (optional):</span>
-                        <br/>
-                            <span class="selector-span" id="venueSelector">
-                            <span id="venueChange" class="redText">Venue: <span id="venueFilter" class="whiteText">(None)</span>
-                            <div class="sprite-icons-Up-Button"> </div>
-                        </span>
-                            </span>
-                        </span>
-                    </div>    -->
                     <div style="clear: both;"></div>
                   </div>
                   <div id="tabs-2" style="display:none;">
@@ -360,7 +362,7 @@ var addthis_config =
                         <span class="redText">User:</label>
                         <!-- <input type="text" name="songkickUserTxt" id="songkickUserTxt" style="width: 80px;"/> -->
                         <span class="whiteText" id="songkickUser"> (enter user) </span>
-                        <div class="sprite-icons-Up-Button"> </div>
+                        <div class="sprite-icons-Arrow-White"> </div>
                     </span>
                         <!-- <input type="button" onclick="songkickUpdateClick()" value="Go"/> -->
                     

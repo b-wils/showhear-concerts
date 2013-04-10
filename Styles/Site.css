@@ -191,6 +191,10 @@ first child of the left and right table columns */
     float:right;
 }
 
+.leftFloat {
+    float:left;
+}
+
 /*.footer
 {
     color: #4e5766;
@@ -718,7 +722,7 @@ a .ui-tabs-anchor {
 }
 
 #locationChange {
-    width: 230px;
+    /*width: 260px;*/
     /*text-align: center;*/
 }
 
@@ -753,6 +757,12 @@ a .ui-tabs-anchor {
     display: table;
     margin-top: 10px;
     /*display: block;*/
+}
+
+.searchIcon {
+    float:left;
+    margin: 9px 10px 0px 0px;
+
 }
 
 .right-align-info {
@@ -859,7 +869,7 @@ a .ui-tabs-anchor {
 }
 
 .filterHeader {
-    width: 273px;
+    /*width: 273px;*/
 }
 
 .venueFilterHeader {
@@ -883,7 +893,7 @@ a .ui-tabs-anchor {
 }
 
 .dateSearch {
-    width: 300px;
+    /*width: 400px;*/
 }
 
 .songkickDescription {
@@ -1180,6 +1190,12 @@ body > #stickycontainer { height: auto; min-height: 100%; }
     text-decoration: underline;
 }
 
+.selector-span {
+    /*display:inline-block;*/
+    /*width:150px;*/
+    /*border:solid 1px white;*/
+}
+
 .selector-span:hover {
     cursor: pointer;
 }
@@ -1216,4 +1232,37 @@ div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
     width:640px;
     height:390px;
     background-color:black;
+}
+
+.searchDivider {
+    margin: 0px 7px;
+}
+
+.leftAlign {
+    text-align: left;
+    display:inline-block;
+}
+
+.rightAlign {
+    text-align: right;
+    float:right;
+    display:inline-block;
+}
+
+.date-selector {
+    width:120px;
+    text-align:left;
+}
+
+.venue-selector {
+    width:160px;
+    text-align:left;
+}
+.genre-selector {
+    width:160px;
+    text-align:left;
+}
+
+#locationSelector {
+    width:130px;
 }

@@ -1,4 +1,4 @@
-/* glue: 0.2.9.1 hash: 0b52bcb2dd */
+/* glue: 0.2.9.1 hash: a4d4b9b356 */
 .sprite-icons-Logo,
 .sprite-icons-SongKick-Footer,
 .sprite-icons-LastFM-Footer,
@@ -9,6 +9,13 @@
 .sprite-icons-Nav-Divider-Arrow-Right,
 .sprite-icons-Scroll-Bar,
 .sprite-icons-Next-Track-Arrow,
+.sprite-icons-Divider,
+.sprite-icons-Map-White,
+.sprite-icons-Map-Gray,
+.sprite-icons-Filter-White,
+.sprite-icons-Filter-Gray,
+.sprite-icons-Calendar-White,
+.sprite-icons-Calendar-Gray,
 .sprite-icons-Inactive-Nav-Button,
 .sprite-icons-Active-Nav-Button,
 .sprite-icons-SongKick-Large---Pink,
@@ -32,6 +39,8 @@
 .sprite-icons-Calendar---Gray,
 .sprite-icons-Nav-Button-Right-Arrow-White,
 .sprite-icons-Speaker-Small,
+.sprite-icons-Arrow-White,
+.sprite-icons-Arrow-Gray,
 .sprite-icons-MapPin,
 .sprite-icons-Background-Module-Transparent,
 .sprite-icons-Calendar-Corner-Tab-Gray{background-image:url('../images/icons.png');background-repeat:no-repeat;display:inline-block;}
@@ -45,29 +54,38 @@
 .sprite-icons-Nav-Divider-Arrow-Right{background-position:-1px -80px;width:12px;height:48px;}
 .sprite-icons-Scroll-Bar{background-position:-13px -80px;width:14px;height:46px;}
 .sprite-icons-Next-Track-Arrow{background-position:-27px -80px;width:21px;height:34px;}
+.sprite-icons-Divider{background-position:-48px -80px;width:2px;height:34px;}
+.sprite-icons-Map-White{background-position:-50px -80px;width:31px;height:28px;}
+.sprite-icons-Map-Gray{background-position:-81px -80px;width:31px;height:28px;}
+.sprite-icons-Filter-White{background-position:0px -128px;width:29px;height:31px;}
+.sprite-icons-Filter-Gray{background-position:-29px -128px;width:29px;height:31px;}
+.sprite-icons-Calendar-White{background-position:-58px -128px;width:30px;height:31px;}
+.sprite-icons-Calendar-Gray{background-position:-88px -128px;width:30px;height:31px;}
 .sprite-icons-Inactive-Nav-Button{background-position:-104px -38px;width:1px;height:24px;}
 .sprite-icons-Active-Nav-Button{background-position:-105px -38px;width:2px;height:24px;}
 .sprite-icons-SongKick-Large---Pink{background-position:-107px -38px;width:18px;height:23px;}
-.sprite-icons-SongKick-Large---Gray{background-position:-48px -80px;width:18px;height:23px;}
-.sprite-icons-Speaker-Square{background-position:-66px -80px;width:20px;height:20px;}
-.sprite-icons-Play-Button{background-position:-86px -80px;width:20px;height:20px;}
-.sprite-icons-Share---White{background-position:-106px -80px;width:17px;height:15px;}
-.sprite-icons-Share---Gray{background-position:-123px -80px;width:17px;height:15px;}
-.sprite-icons-Share---Blue{background-position:-140px -80px;width:17px;height:15px;}
+.sprite-icons-SongKick-Large---Gray{background-position:-112px -80px;width:18px;height:23px;}
+.sprite-icons-Speaker-Square{background-position:-130px -80px;width:20px;height:20px;}
+.sprite-icons-Play-Button{background-position:-150px -80px;width:20px;height:20px;}
+.sprite-icons-Share---White{background-position:-170px -80px;width:17px;height:15px;}
+.sprite-icons-Share---Gray{background-position:-118px -128px;width:17px;height:15px;}
+.sprite-icons-Share---Blue{background-position:-135px -128px;width:17px;height:15px;}
 .sprite-icons-SongKick-Small---Pink{background-position:-125px -38px;width:14px;height:15px;}
-.sprite-icons-SongKick-Small---Gray{background-position:-157px -80px;width:14px;height:15px;}
-.sprite-icons-SongKick-Small---Black{background-position:-171px -80px;width:14px;height:15px;}
-.sprite-icons-LastFM-Small---Red{background-position:-185px -80px;width:14px;height:14px;}
-.sprite-icons-LastFM-Small---Gray{background-position:0px -128px;width:14px;height:14px;}
-.sprite-icons-LastFM-Small---Black{background-position:-14px -128px;width:14px;height:14px;}
-.sprite-icons-Up-Button{background-position:-28px -128px;width:13px;height:13px;}
-.sprite-icons-Nav-Button-Calendar-Gray{background-position:-41px -128px;width:13px;height:13px;}
-.sprite-icons-Down-Button{background-position:-54px -128px;width:13px;height:13px;}
-.sprite-icons-Calendar---White{background-position:-67px -128px;width:13px;height:13px;}
-.sprite-icons-Calendar---Red{background-position:-80px -128px;width:13px;height:13px;}
-.sprite-icons-Calendar---Gray{background-position:-93px -128px;width:13px;height:13px;}
+.sprite-icons-SongKick-Small---Gray{background-position:-187px -80px;width:14px;height:15px;}
+.sprite-icons-SongKick-Small---Black{background-position:-152px -128px;width:14px;height:15px;}
+.sprite-icons-LastFM-Small---Red{background-position:-166px -128px;width:14px;height:14px;}
+.sprite-icons-LastFM-Small---Gray{background-position:-180px -128px;width:14px;height:14px;}
+.sprite-icons-LastFM-Small---Black{background-position:-118px -143px;width:14px;height:14px;}
+.sprite-icons-Up-Button{background-position:-132px -143px;width:13px;height:13px;}
+.sprite-icons-Nav-Button-Calendar-Gray{background-position:-145px -143px;width:13px;height:13px;}
+.sprite-icons-Down-Button{background-position:-158px -143px;width:13px;height:13px;}
+.sprite-icons-Calendar---White{background-position:-171px -143px;width:13px;height:13px;}
+.sprite-icons-Calendar---Red{background-position:-184px -143px;width:13px;height:13px;}
+.sprite-icons-Calendar---Gray{background-position:0px -159px;width:13px;height:13px;}
 .sprite-icons-Nav-Button-Right-Arrow-White{background-position:-130px -62px;width:7px;height:11px;}
 .sprite-icons-Speaker-Small{background-position:-125px -53px;width:10px;height:8px;}
-.sprite-icons-MapPin{background-position:-48px -103px;width:7px;height:9px;}
-.sprite-icons-Background-Module-Transparent{background-position:-106px -95px;width:9px;height:5px;}
-.sprite-icons-Calendar-Corner-Tab-Gray{background-position:-55px -103px;width:7px;height:7px;}
+.sprite-icons-Arrow-White{background-position:-27px -114px;width:10px;height:7px;}
+.sprite-icons-Arrow-Gray{background-position:-37px -114px;width:10px;height:7px;}
+.sprite-icons-MapPin{background-position:-194px -128px;width:7px;height:9px;}
+.sprite-icons-Background-Module-Transparent{background-position:-170px -95px;width:9px;height:5px;}
+.sprite-icons-Calendar-Corner-Tab-Gray{background-position:-47px -114px;width:7px;height:7px;}
