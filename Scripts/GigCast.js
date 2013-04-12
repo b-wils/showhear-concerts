@@ -539,6 +539,7 @@ function setPreloadEvent() {
             console.log("bad event");
         } else {
             setLocationNoUrl(data.resultsPage.results.event.venue.metroArea.id, data.resultsPage.results.event.venue.metroArea.displayName);
+            populateVenueList();
             // TODO won't really work if event is in the past
             // TODO should we have a bigger date range?
             $( "#from" ).datepicker( "setDate",  $.datepicker.parseDate("yy-mm-dd",  data.resultsPage.results.event.start.date));
