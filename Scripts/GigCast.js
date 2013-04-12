@@ -35,30 +35,6 @@ window.onload = function () {
 
 };
 
-// var availableGenreTags = [
-//       "ActionScript",
-//       "AppleScript",
-//       "Asp",
-//       "BASIC",
-//       "C",
-//       "C++",
-//       "Clojure",
-//       "COBOL",
-//       "ColdFusion",
-//       "Erlang",
-//       "Fortran",
-//       "Groovy",
-//       "Haskell",
-//       "Java",
-//       "JavaScript",
-//       "Lisp",
-//       "Perl",
-//       "PHP",
-//       "Python",
-//       "Ruby",
-//       "Scala",
-//       "Scheme"
-//     ];
 
 function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)
@@ -175,6 +151,23 @@ function setDialogPositions() {
 }
 
 var pathArea;
+
+function populateGenreAutoComplete() {
+    JSONQuery("http://ws.audioscrobbler.com/2.0/?method=tag.getTopTags&api_key=7921cb7aae6b8b280672b0fd74207d4b&format=json",
+        function (data) {
+            var genreList = [];
+            for (var i = 0; i < data.toptags.tag.length; i++) {
+                genreList.push(data.toptags.tag[i].name);
+            }
+
+            $( "#updateGenreText" ).autocomplete({
+              source: genreList
+            });
+        }
+
+
+    );
+}
 
 function initDialogs() {
 $( "#inlineDatepicker" ).datepicker({
@@ -389,6 +382,8 @@ $(document).ready(function () {
     // $("#loading-more-results").hide();
 
     // pathArea = $("#pathVenueName2").get(0).value;
+
+    populateGenreAutoComplete();
 
     jQuery.support.cors = true; 
 
