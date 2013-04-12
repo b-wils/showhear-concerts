@@ -649,7 +649,6 @@ function clearVenueFilter(update) {
 
 
 function populateVenueList() {
-    console.log("popping venue list");
     venueList = [];
     $.getJSON("http://api.songkick.com/api/3.0/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
         function (data) {
@@ -660,7 +659,6 @@ function populateVenueList() {
                 for (var i = 2; i <= totalPages; i++) {
                     $.getJSON("http://api.songkick.com/api/3.0/events.json?"+getLocationQueryString() +"&min_date=" + getMinDate() + "&max_date=" + getMaxDate() + "&page=" + i +"&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
                         function (data) {
-                            console.log("venue list " + i);
                             for (var i = 0; i < data.resultsPage.results.event.length; i++) {
                                 if (!checkVenueListById(data.resultsPage.results.event[i].venue.id)){
                                     venueList.push({label:data.resultsPage.results.event[i].venue.displayName, value: data.resultsPage.results.event[i].venue.id});
@@ -682,6 +680,7 @@ function populateVenueList() {
 
 // we may not want to always store this in cookie
 function setLocationWithUrl(id, name, url) {
+
     $("#locationText").text(name);
     $.cookie('sk_locationid', id);
     $.cookie('sk_locationName', name);
@@ -833,7 +832,7 @@ function populateLocation() {
     $.getJSON("http://api.songkick.com/api/3.0/search/locations.json?location=clientip&apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?",
     function (data) {
         $("#locationText").html();
-        setLocation(data.resultsPage.results.location[0].metroArea.id, data.resultsPage.results.location[0].metroArea.displayName);
+        setLocationWithUrl(data.resultsPage.results.location[0].metroArea.id, data.resultsPage.results.location[0].metroArea.displayName, "");
     });
 }
 
