@@ -446,6 +446,7 @@ $( "#updateVenueText" ).autocomplete({
     if (!preLoadEventSKID) {
         preLoadEventSKID = $("#server-eventid").get(0).value;
     }
+
     if (preLoadEventSKID) {
         setPreloadEvent();
     } else {
@@ -537,7 +538,7 @@ function setPreloadEvent() {
         if (data.resultsPage.status != "ok") {
             console.log("bad event");
         } else {
-            setLocation(data.resultsPage.results.event.venue.metroArea.id, data.resultsPage.results.event.venue.metroArea.displayName);
+            setLocationNoUrl(data.resultsPage.results.event.venue.metroArea.id, data.resultsPage.results.event.venue.metroArea.displayName);
             // TODO won't really work if event is in the past
             // TODO should we have a bigger date range?
             $( "#from" ).datepicker( "setDate",  $.datepicker.parseDate("yy-mm-dd",  data.resultsPage.results.event.start.date));
@@ -695,6 +696,12 @@ function setLocationWithUrl(id, name, url) {
     // console.log("name: " + name + " url: " + urlString);
 
     window.history.pushState("teststate", "Showhear - Concerts in " + name, url);
+}
+
+function setLocationNoUrl(id, name) {
+    $("#locationText").text(name);
+    $.cookie('sk_locationid', id);
+    $.cookie('sk_locationName', name);
 }
 
 function setLocation(id, name) {
@@ -1212,7 +1219,7 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
         showVenue: sk_eventNode.venue.displayName,
         showDayOfWeek: dayWeekString,
         showDate: dateString,
-        showHotlinkURI: "?skEventId=" + sk_eventNode.id,
+        showHotlinkURI: "event/" + sk_eventNode.id,
         songkickEventURI: sk_eventNode.uri
     }
     ];
@@ -1266,7 +1273,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     var eventInfo = [
     {   date: dateString,
         venue: sk_eventNode.venue.displayName,
-        eventPermalink:"?skEventId=" + sk_eventNode.id,
+        eventPermalink:"event/" + sk_eventNode.id,
         skEventURI: sk_eventNode.uri }
     ];
 
