@@ -164,7 +164,7 @@ app.get('/event/:eventid', function (req, res) {
 
    res.render('GigCast', {
      locals: {
-        eventid: req.params.eventid
+        eventid: idFromUrlString(req.params.eventid)
       }
     });
 });

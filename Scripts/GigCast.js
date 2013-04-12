@@ -1196,6 +1196,8 @@ var addLastFMInfoCallback = function(searchString, targetELement, targetEvent, t
     };
 };
 
+// function buildEventHotlink()
+
 var numGenreAdd = 0;
 // dummy comment is this working?
 function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetContainer, sk_eventNode) {
@@ -1209,6 +1211,12 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
         dayWeekString += " " + Date.parse(sk_eventNode.start.time).toString("h:mm tt");
     }
 
+    var hotlinkText = sk_eventNode.displayName;
+    hotlinkText = hotlinkText.replace(/\//g,"");
+    hotlinkText = hotlinkText.replace(/ /g,"-");
+    hotlinkText = hotlinkText.replace(/--/g,"-");
+
+    var hotlink = "event/" + sk_eventNode.id + "-" + hotlinkText;
 
     var artists = [
     {
@@ -1219,7 +1227,7 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
         showVenue: sk_eventNode.venue.displayName,
         showDayOfWeek: dayWeekString,
         showDate: dateString,
-        showHotlinkURI: "event/" + sk_eventNode.id,
+        showHotlinkURI: hotlink,
         songkickEventURI: sk_eventNode.uri
     }
     ];
@@ -1273,7 +1281,7 @@ function addEventDivElement(sk_eventNode, targetNode) {
     var eventInfo = [
     {   date: dateString,
         venue: sk_eventNode.venue.displayName,
-        eventPermalink:"event/" + sk_eventNode.id,
+        eventPermalink:"event2/" + sk_eventNode.id,
         skEventURI: sk_eventNode.uri }
     ];
 
