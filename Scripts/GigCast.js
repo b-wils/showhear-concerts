@@ -415,12 +415,14 @@ $(document).ready(function () {
         onUnMute: function(){} // after the player is unmuted
     });
 
+    $("#venueFilter").tooltip();
+
 $( "#updateVenueText" ).autocomplete({
   source: [ ],
 
     select: function( event, ui ) {
 
-        $("#venueFilter").text($("#updateVenueText").val());
+        setVenueText($("#updateVenueText").val());
         event.preventDefault();
         updateVenueFilter(ui.item.value);
     },
@@ -582,6 +584,21 @@ function clearGenreFilter() {
     updateClick();
 }
 
+function setVenueText(venue) {
+    $("#venueFilter").text(venue);
+    $("#venueFilter").attr("title", venue);
+
+
+    while ($("#venueFilter").width() > 120) {
+        var newText = $("#venueFilter").text();
+        var index = newText.lastIndexOf(" ");
+        newText = newText.substring(0, index) + "...";
+
+        $("#venueFilter").text(newText);
+        console.log(newText);
+    }
+}
+
 function updateVenueFilter(id) {
     console.log("updatevenuefilter()");
     _gaq.push(['_trackEvent', 'Click', 'VenueChange']);
@@ -590,7 +607,8 @@ function updateVenueFilter(id) {
     if ($("#updateVenueText").val() != "") {
         // $.cookie('genreFilter', $("#updateGenreText").val());
         $( "#venueFilterDialog" ).dialog( "close" );
-        $("#venueFilter").text($("#updateVenueText").val());
+        setVenueText($("#updateVenueText").val())
+        // $("#venueFilter").text();
 
         venueId = id;
 
@@ -780,8 +798,8 @@ function populateLocation() {
         // TODO will this error out if there are no events?
         $.getJSON('http://api.songkick.com/api/3.0/venues/'+venueId+'/calendar.json?apikey=bUMFhmMfaIpxiUgJ&jsoncallback=?',
             function (data) {
-                
-                $("#venueFilter").text(data.resultsPage.results.event[0].venue.displayName);
+                setVenueText(data.resultsPage.results.event[0].venue.displayName)
+                // $("#venueFilter").text(data.resultsPage.results.event[0].venue.displayName);
                 $("#locationText").text(data.resultsPage.results.event[0].venue.metroArea.displayName);
                 $.cookie('sk_locationid', data.resultsPage.results.event[0].venue.metroArea.id);
                 $.cookie('sk_locationName', data.resultsPage.results.event[0].venue.metroArea.displayName);
