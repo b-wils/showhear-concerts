@@ -424,6 +424,9 @@ var addthis_config =
                 <div class="whiteText rightInfoText" id="playing-Info-Date">
                     
                 </div>
+                <div id="reportVideoButton">
+                    ! Report Video
+                </div>
             </div>
             <div class="moreinfoImageDiv">
                 <img src="/images/missing_artist.png" alt="an artist" id="info_image" class="moreinfoImage"/>
@@ -442,7 +445,6 @@ var addthis_config =
             </span>
         </div>
             <div class="next-Artist-Icon" onclick="nextVideoClick()">
-                
                 Next Artist
                 <br/>
                 <div class="sprite-icons-Next-Track-Arrow centerIcon"> </div>
@@ -522,6 +524,22 @@ var addthis_config =
 
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://showhear.com" data-via="ShowHear">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<div id="video-issue-dialog" title="Report Video">
+
+    <label for="issue-artist-name">Artist Name</label>
+    <br/>
+    <input readonly type="text" name="issue-artist-name" id="issue-artist-name" class="text ui-widget-content ui-corner-all myui-input" />
+<!--     <br/>
+    <label for="issue-artist-video-id">Video Id</label>
+    <br/> -->
+    <input readonly type="hidden" name="issue-artist-video-id" id="issue-artist-video-id" class="text ui-widget-content ui-corner-all myui-input" />
+    <br/>
+    <label for="issue-artist-message">Additional Message (optional)</label>
+    <!-- <input type="text" name="issue-artist-message" id="issue-artist-message" class="text ui-widget-content ui-corner-all myui-input" /> -->
+    <textarea rows="4" cols="57" id="issue-artist-message" name="issue-artist-message"></textarea>
+
+</div>
 
 <div id="dialog" title="Update Location">
         <!-- <label for="updLocationTxt">New Location</label> -->

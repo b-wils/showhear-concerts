@@ -204,6 +204,45 @@ app.post('/logerror', function(request, response) {
     response.json({ 'status':"OK"})
 });
 
+app.post('/artistissue', function(request, response) {
+
+  if(!request.query["artist"]) {
+    console.log("artist required");
+    response.json({status:"error", message:"artist required"});
+    return;
+  }
+
+  if(!request.query["videoid"]) {
+    console.log("videoid required");
+    response.json({status:"error", message:"videoid required"});
+    return;
+  }
+
+  myDb.collection('artistIssues', function(err, collection) {
+    if(!err) {
+      // console.log(collection);
+
+      var issue = {
+        'artist':request.query["artist"],
+        'videoid':request.query["videoid"],
+        'create-date':new Date().toISOString(),
+        'status':'new'
+      };
+
+      if (request.query["msg"]) {
+        issue.msg = request.query["msg"];
+      }
+
+      collection.insert(issue, function(err, result) {});
+
+    } else {
+      console.log("could not get collection");
+    }
+  });
+
+  response.json({status:"success", message:"input valid"});
+});
+
 app.get('/test', function(request, response) {
    //response.send('Hello World!');
    //response.send('Hello World again!');

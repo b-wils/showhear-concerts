@@ -170,6 +170,72 @@ function populateGenreAutoComplete() {
 }
 
 function initDialogs() {
+
+
+    // $( "#video-issue-dialog" ).dialog({
+    //     autoOpen: false,
+    //     // show: "blind",
+    //     // hide: "explode",
+    //     width:244,
+    //     height:120,
+    //     closeOnEscape: true,
+    //     draggable: false,
+    //     resizable: false,
+    //     position: { my: "left top", at: "left bottom", of:"#locationChange", collision:"none none" },
+    //     buttons: [ { text: "Search", click: function() { updateLocation(); } } ]
+    // }).show();
+$( "#video-issue-dialog" ).dialog({
+      autoOpen: false,
+      height: 235,
+      width: 400,
+      modal: true,
+    closeOnEscape: true,
+    draggable: false,
+    resizable: false,
+      // position: { my: "right top", at: "right bottom", of:"#tabs-1", collision:"none none" },//clearGenreFilter
+      buttons: {
+        "Send Report": function() {
+            submitVideoIssue();
+          // var bValid = true;
+          // allFields.removeClass( "ui-state-error" );
+ 
+          // bValid = bValid && checkLength( name, "username", 3, 16 );
+          // bValid = bValid && checkLength( email, "email", 6, 80 );
+          // bValid = bValid && checkLength( password, "password", 5, 16 );
+ 
+          // bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Username may consist of a-z, 0-9, underscores, begin with a letter." );
+          // // From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
+          // bValid = bValid && checkRegexp( email, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );
+          // bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+ 
+          // if ( bValid ) {
+          //   $( "#users tbody" ).append( "<tr>" +
+          //     "<td>" + name.val() + "</td>" +
+          //     "<td>" + email.val() + "</td>" +
+          //     "<td>" + password.val() + "</td>" +
+          //   "</tr>" );
+          //   $( this ).dialog( "close" );
+          // }
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+      // ,
+      // close: function() {
+      //   allFields.val( "" ).removeClass( "ui-state-error" );
+      // }
+    });
+
+    $("#reportVideoButton").click(function() {
+        $( "#video-issue-dialog" ).dialog("open");
+    })
+
+    // $( "#locationSelector" ).click(function() {
+    //     ($("#dialog").dialog("isOpen") == false) ? $("#dialog").dialog("open") : $("#dialog").dialog("close") ;
+    //     return false;
+    // });
+
 $( "#inlineDatepicker" ).datepicker({
         showOtherMonths: true,
         selectOtherMonths: false,
@@ -955,6 +1021,9 @@ function selectPlaying(myDiv, autoStart) {
     var showHotlinkURI = $(myDiv).children(".showHotlinkURI").get(0).value;
 
     // console.log("ytlink= " + myYoutubeID +"!");
+
+    $("#issue-artist-name").val(artistName);
+    $("#issue-artist-video-id").val(myYoutubeID);
 
     //alert(artistName);
 
@@ -2094,4 +2163,14 @@ function updateAddThisLink(url, title) {
     addthis.update('share', 'title', title); // new url
     // addthis.update();
     addthis.ready();
+}
+
+function submitVideoIssue() {
+    var url = "/artistissue?artist=" + $("#issue-artist-name").val() + "&videoid=" + $("#issue-artist-video-id").val();
+    if ($("#issue-artist-message").val()) {
+        url += "&msg=" + $("#issue-artist-message").val();
+    }
+    $.post( url, {}); 
+
+    $("#video-issue-dialog").dialog("close");
 }

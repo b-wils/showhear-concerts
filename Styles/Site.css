@@ -845,7 +845,7 @@ a .ui-tabs-anchor {
 }
 
 #playingIcons {
-    margin: 6px 0px;
+    margin: 6px 0px 3px 0px;
 }
 
 .moreInfoIcon {
@@ -1211,6 +1211,11 @@ body > #stickycontainer { height: auto; min-height: 100%; }
 
 div.ui-dialog input.text { width:93%;  padding:.4em;}
 
+#video-issue-dialog input.text {
+    width: 355px;
+    background-color: #A5A5A5;
+}
+
 div.ui-dialog-content.ui-widget-content {
     padding-bottom: 0;
 }
@@ -1266,4 +1271,13 @@ div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
 
 #locationSelector {
     width:130px;
+}
+
+#reportVideoButton {
+    margin-top:3px;
+    font-size:.9em;
+}
+
+textarea {
+    resize: none;
 }
