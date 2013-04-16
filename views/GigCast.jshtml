@@ -425,7 +425,7 @@ var addthis_config =
                     
                 </div>
                 <div id="reportVideoButton">
-                    ! Report Video
+                    <div class="sprite-icons-flag-gray"> </div> Report Video
                 </div>
             </div>
             <div class="moreinfoImageDiv">
@@ -560,6 +560,10 @@ var addthis_config =
 <div id="songkickUserDialog" title="Enter User">
         <!-- <label for="updateGenreText">Genre Filter</label> -->
         <input type="text" name="updateSongkickText" id="updateSongkickText" class="text ui-widget-content ui-corner-all myui-input" />
+</div>
+
+<div id="alertDialog" title="Message">
+    <div id="dialog-alert-message"> A Test Message </div>
 </div>
 
 </div>

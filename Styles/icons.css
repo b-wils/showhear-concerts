@@ -1,4 +1,4 @@
-/* glue: 0.2.9.1 hash: a4d4b9b356 */
+/* glue: 0.2.9.1 hash: cd690cf248 */
 .sprite-icons-Logo,
 .sprite-icons-SongKick-Footer,
 .sprite-icons-LastFM-Footer,
@@ -38,11 +38,15 @@
 .sprite-icons-Calendar---Red,
 .sprite-icons-Calendar---Gray,
 .sprite-icons-Nav-Button-Right-Arrow-White,
+.sprite-icons-flag-black-circle-gray,
+.sprite-icons-flag-black-circle-gray-white,
 .sprite-icons-Speaker-Small,
 .sprite-icons-Arrow-White,
 .sprite-icons-Arrow-Gray,
 .sprite-icons-MapPin,
 .sprite-icons-Background-Module-Transparent,
+.sprite-icons-flag-white,
+.sprite-icons-flag-gray,
 .sprite-icons-Calendar-Corner-Tab-Gray{background-image:url('../images/icons.png');background-repeat:no-repeat;display:inline-block;}
 .sprite-icons-Logo{background-position:0px 0px;width:139px;height:38px;}
 .sprite-icons-SongKick-Footer{background-position:0px -38px;width:104px;height:24px;}
@@ -83,9 +87,13 @@
 .sprite-icons-Calendar---Red{background-position:-184px -143px;width:13px;height:13px;}
 .sprite-icons-Calendar---Gray{background-position:0px -159px;width:13px;height:13px;}
 .sprite-icons-Nav-Button-Right-Arrow-White{background-position:-130px -62px;width:7px;height:11px;}
+.sprite-icons-flag-black-circle-gray{background-position:-27px -114px;width:10px;height:9px;}
+.sprite-icons-flag-black-circle-gray-white{background-position:-37px -114px;width:10px;height:9px;}
 .sprite-icons-Speaker-Small{background-position:-125px -53px;width:10px;height:8px;}
-.sprite-icons-Arrow-White{background-position:-27px -114px;width:10px;height:7px;}
-.sprite-icons-Arrow-Gray{background-position:-37px -114px;width:10px;height:7px;}
+.sprite-icons-Arrow-White{background-position:-47px -114px;width:10px;height:7px;}
+.sprite-icons-Arrow-Gray{background-position:-57px -114px;width:10px;height:7px;}
 .sprite-icons-MapPin{background-position:-194px -128px;width:7px;height:9px;}
 .sprite-icons-Background-Module-Transparent{background-position:-170px -95px;width:9px;height:5px;}
-.sprite-icons-Calendar-Corner-Tab-Gray{background-position:-47px -114px;width:7px;height:7px;}
+.sprite-icons-flag-white{background-position:-13px -159px;width:7px;height:8px;}
+.sprite-icons-flag-gray{background-position:-20px -159px;width:7px;height:8px;}
+.sprite-icons-Calendar-Corner-Tab-Gray{background-position:-67px -114px;width:7px;height:7px;}

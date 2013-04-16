@@ -231,6 +231,27 @@ $( "#video-issue-dialog" ).dialog({
         $( "#video-issue-dialog" ).dialog("open");
     })
 
+$( "#alertDialog" ).dialog({
+      autoOpen: false,
+      height: 150,
+      width: 350,
+      modal: true,
+    closeOnEscape: true,
+    draggable: false,
+    resizable: false,
+      // position: { my: "right top", at: "right bottom", of:"#tabs-1", collision:"none none" },//clearGenreFilter
+      buttons: {
+
+        Close: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+      // ,
+      // close: function() {
+      //   allFields.val( "" ).removeClass( "ui-state-error" );
+      // }
+    });
+
     // $( "#locationSelector" ).click(function() {
     //     ($("#dialog").dialog("isOpen") == false) ? $("#dialog").dialog("open") : $("#dialog").dialog("close") ;
     //     return false;
@@ -792,7 +813,7 @@ function updateLocationCallback(data) {
 
         updateClick();
     } else {
-        alert("Could not find location: " + $("#updLocationTxt").val());
+        dialogAlert("Could not find location: " + $("#updLocationTxt").val());
     }
 }
 
@@ -2173,4 +2194,10 @@ function submitVideoIssue() {
     $.post( url, {}); 
 
     $("#video-issue-dialog").dialog("close");
+    dialogAlert("Thank you for your feedback!");
+}
+
+function dialogAlert(message) {
+    $("#dialog-alert-message").html(message);
+    $("#alertDialog").dialog("open");
 }

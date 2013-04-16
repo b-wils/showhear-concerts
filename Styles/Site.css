@@ -1276,8 +1276,14 @@ div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix {
 #reportVideoButton {
     margin-top:3px;
     font-size:.9em;
+    cursor: pointer;
 }
 
 textarea {
     resize: none;
+}
+
+#dialog-alert-message {
+    text-align:center;
+    width:100%;
 }
