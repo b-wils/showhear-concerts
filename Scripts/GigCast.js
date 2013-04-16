@@ -269,6 +269,8 @@ $( "#inlineDatepicker" ).datepicker({
 
     }).hide();
 
+    // console.log("here?");
+    
     $( "#from" ).datepicker({
         numberOfMonths: 1,
         showOtherMonths: true,
@@ -282,7 +284,18 @@ $( "#inlineDatepicker" ).datepicker({
             $("#fromText").html(dateText);
             $("#from").hide();
             _gaq.push(['_trackEvent', 'Click', 'FromDate']);
+
+            // console.log("working?")
+
+            var newFromDate = $( "#from" ).datepicker( "getDate" );
+            var newToDate =  $( "#to" ).datepicker( "getDate" );
+
+            if (newFromDate > newToDate) {
+                $( "#to" ).datepicker( "setDate", dateText );
+                $("#toText").html(dateText);
+            }
             updateClick();
+
         }
     }).hide();
 
@@ -304,6 +317,15 @@ $( "#inlineDatepicker" ).datepicker({
             $("#toText").html(dateText);
             $("#to").hide();
             _gaq.push(['_trackEvent', 'Click', 'ToDate']);
+
+            var newFromDate = $( "#from" ).datepicker( "getDate" );
+            var newToDate =  $( "#to" ).datepicker( "getDate" );
+
+            if (newFromDate > newToDate) {
+                $( "#from" ).datepicker( "setDate", dateText );
+                $("#fromText").html(dateText);
+            }
+
             updateClick();
         }
     }).hide();
