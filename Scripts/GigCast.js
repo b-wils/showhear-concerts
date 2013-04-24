@@ -474,6 +474,15 @@ function testReNav() {
 }
 
 $(document).ready(function () {
+
+// AustDayLunch = {start: new Date(2008, 1-1, 26, 11, 30, 00), 
+//     end: new Date(2008, 1-1, 26, 12, 45, 00), 
+//     title: 'Australia Day lunch', 
+//     description: 'A traditional barbeque for our big day', 
+//     location: 'On your local beach'}; 
+// $('#defaultICal').icalendar(AustDayLunch); 
+
+    
     // testReNav();
 // $( ".positionable" ).position({
 //         of: $( "#parent" ),
@@ -518,6 +527,11 @@ $(document).ready(function () {
         onMute: function(){}, // after the player is muted
         onUnMute: function(){} // after the player is unmuted
     });
+
+    // $.tubeplayer.defaults.afterReady
+    // = function($player){$("#youtube-player-container iframe").css('border-width','0px');}
+
+    
 
     $("#venueFilter").tooltip();
 
@@ -1059,9 +1073,12 @@ function selectPlaying(myDiv, autoStart) {
     var showDayWeek = $(myDiv).children(".playing-Day-Week").get(0).value;
 
     var myYoutubeID = $(myDiv).children(".artistYoutubeID").get(0).value;
+    var eventId = $(myDiv).children(".eventId").get(0).value;
 
     var songkickEventURI = $(myDiv).children(".songkickEventURI").get(0).value;
     var showHotlinkURI = $(myDiv).children(".showHotlinkURI").get(0).value;
+
+    var calendarLink = "/event/" + eventId +"/calendar.ics"
 
     // console.log("ytlink= " + myYoutubeID +"!");
 
@@ -1085,33 +1102,7 @@ function selectPlaying(myDiv, autoStart) {
         initialVideoId = myYoutubeID;
     }
 
-    // JSONQuery("http://gdata.youtube.com/feeds/api/videos?q=" + artistName + "&category=Music&alt=json",
-    // function (data) {
-    //     // alert("ytquery");
-    //     if (data.feed.entry) {
-
-    //         for (var i = 0; i < data.feed.entry[0].media$group.media$content.length; i++) {
-    //             if (data.feed.entry[0].media$group.media$content[i].yt$format == 5) {
-    //                 var videoUrl = data.feed.entry[0].media$group.media$content[i].url;
-    //                 // document.getElementById("blah").innerHTML = videoUrl;
-    //                 if (playerLoaded) {
-    //                     if (autoStart) {
-    //                         player.loadVideoById(myYoutubeID, 0, 'small');
-    //                     } else {
-    //                         player.cueVideoById(myYoutubeID, 0, 'small');
-    //                     }
-    //                 } else {
-    //                     initialVideoId = myYoutubeID;
-    //                 }
-    //                 break;
-    //             }
-    //         }
-    //     } else {
-    //         // document.getElementById("blah").innerHTML = "Could not find youtube for: " + playlist.options[playlist.selectedIndex].value;
-    //     }
-    // });
-
-    updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI, songkickEventURI);
+    updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI, songkickEventURI, calendarLink);
 
     // populateArtistInfo(artistName);
     // populateLastFMInfo(artistName);
@@ -1336,7 +1327,8 @@ function addArtistDivElement(targetNode, sk_artistNode, targetEvent, targetConta
         showDayOfWeek: dayWeekString,
         showDate: dateString,
         showHotlinkURI: hotlink,
-        songkickEventURI: sk_eventNode.uri
+        songkickEventURI: sk_eventNode.uri,
+        eventId: sk_eventNode.id
     }
     ];
 
@@ -1998,7 +1990,7 @@ function populateLastFMInfo(artistNode) {
 }
 
 
-function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI, songkickEventURI ) {
+function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate, showDayWeek, showHotlinkURI, songkickEventURI, calendarURI ) {
     // alert(artistName);
     $("#info_artist").html(artistName);
     var targetElement = $("#info_lastfm").get(0);
@@ -2026,6 +2018,8 @@ function updatePlayingInfo(artistName, artistURI, artistID, showVenue, showDate,
     $("#playing-Info-Date").html(showDate);
 
     $("#infoSongkickLink").get(0).href = artistURI;
+
+    // $("#infoCalendarLink").get(0).href = calendarURI;
 
     updateAddThisLink(showHotlinkURI, "I found a concert on ShowHear.com - " + artistName + " is playing at " + showVenue);
 

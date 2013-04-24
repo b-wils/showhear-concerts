@@ -61,6 +61,7 @@
             <input type="hidden" class="playing-Day-Week" value="${showDayOfWeek}"></input>
             <input type="hidden" class="showHotlinkURI" value="${showHotlinkURI}"></input>
             <input type="hidden" class="songkickEventURI" value="${songkickEventURI}"></input>
+            <input type="hidden" class="eventId" value="${eventId}"></input>
         </div>
     </script>
 
@@ -78,6 +79,7 @@
             <input type="hidden" class="playing-Date" value="${showDate}"></input>
             <input type="hidden" class="playing-Day-Week" value="${showDayOfWeek}"></input>
             <input type="hidden" class="showHotlinkURI" value="${showHotlinkURI}"></input>
+            <input type="hidden" class="eventId" value="${eventId}"></input>
         </div>
     </script>
 
@@ -139,6 +141,7 @@
 
 </head>
 <body>
+
 <!--     Test Input
 <form>
 <input name="fred" size="5" onkeyup="ExpandInput(this);" />
@@ -417,6 +420,8 @@ var addthis_config =
                     </a>
                     <a target="_blank" class="sprite-icons-LastFM-Small---Gray" id="infoLastfmLink">
                     </a>
+<!--                     <a target="_blank" class="sprite-icons-Calendar---White" id="infoCalendarLink">
+                    </a> -->
                 </div>
                 
                 <span class="redText rightInfoText" id="playing-Info-Day"></span>

@@ -13,7 +13,8 @@ var express = require('express')
   , qs = require('querystring')
   , util = require("util")
   // , pg = require('pg')
-  , async = require('async');
+  , async = require('async')
+  , icalendar = require('icalendar');
 
 var mongodb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
@@ -130,6 +131,8 @@ app.get('/ytfeeds', function(req, res) {
     }
   });
 });
+
+app.get('cal')
 
 // TODO ENDING GOOGLE TESTING
 
@@ -437,6 +440,80 @@ app.get('/data', function (req, res) {
   res.json({"data": "none"});
 });
 
+
+app.get('/event/:eventid/calendar.ics', function (req, res) {
+
+  var options = {
+    host: 'api.songkick.com',
+    path: '/api/3.0/events/' + req.params.eventid + '.json?apikey=bUMFhmMfaIpxiUgJ'
+  };
+
+
+  http.get(options, function(skres) {
+    var data = '';
+
+    console.log('STATUS: ' + skres.statusCode);
+    console.log('HEADERS: ' + JSON.stringify(skres.headers));
+    skres.on('data', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // response.write(chunk);
+      data += chunk;
+    });
+
+    skres.on('end', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // data += chunk;
+      if (chunk) {
+        data += chunk;
+      }
+
+      // console.log(data);
+      var songKickdata = JSON.parse(data);
+
+      if (!(songKickdata.resultsPage.results)) {
+        res.json({status:"error"});
+        return;
+      }
+
+      var locationString = songKickdata.resultsPage.results.event.venue.displayName;
+
+      if (songKickdata.resultsPage.results.event.venue.street) {
+        locationString += " - " + songKickdata.resultsPage.results.event.venue.street;
+      }
+
+      var event = new icalendar.VEvent('cded25be-3d7a-45e2-b8fe-8d10c1f8e5a9');
+      event.setSummary(songKickdata.resultsPage.results.event.displayName);
+      // event.setSummary("a nwe event");
+      event.setLocation(locationString);
+
+      var endDate;
+
+      if (songKickdata.resultsPage.results.event.end) {
+        endDate = new Date(songKickdata.resultsPage.results.event.end.datetime);
+      } else {
+        endDate = new Date(songKickdata.resultsPage.results.event.start.datetime);
+      }
+
+      event.setDate(new Date(songKickdata.resultsPage.results.event.start.date +"T" + songKickdata.resultsPage.results.event.start.time + "Z"), endDate);
+
+      console.log("start date: " + songKickdata.resultsPage.results.event.start.datetime);
+
+      res.setHeader('Content-disposition', 'attachment; filename=' + "calendar.ics");
+      res.setHeader('Content-type', "text/calendar");
+
+      res.write(event.toString());
+      res.end();
+     // res.json({"data": "calendar"});s
+    });
+  });
+
+ 
+
+  // res.writeHead(200, );
+
+  // var fileStream = fs.createReadStream(filename);
+  // fileStream.pipe(res);
+});
 
 // JSON responses
 app.get('/venues/:venueid/calendar.json', function(request, response) {
