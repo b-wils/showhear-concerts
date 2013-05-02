@@ -447,8 +447,9 @@ function idFromUrlString(string) {
 }
 
 function getFullUrlFromReq(req) {
-  return fullURL = req.protocol + "://" + req.host + req.url;
+  return fullURL = req.protocol + "://" + req.headers.host + req.url;
 }
+
 function getClientIp(req) {
   var ipAddress;
   // Amazon EC2 / Heroku workaround to get real client IP
