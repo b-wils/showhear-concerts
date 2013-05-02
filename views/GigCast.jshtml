@@ -12,7 +12,7 @@
 
      <meta property="og:type"                 content="website"> 
      <meta property="og:url"                  content="@locals.ogurl"> 
-     <meta property="fb:appid"                  content="515129478546292"> 
+     <meta property="fb:app_id"                  content="515129478546292"> 
      <meta property="fb:admins" content="USER1" />
     <meta property="og:title" content="@locals.ogtitle" /> 
     <meta property="og:description" content="@locals.ogdescription" />  
