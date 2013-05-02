@@ -447,7 +447,7 @@ function idFromUrlString(string) {
 }
 
 function getFullUrlFromReq(req) {
-  return fullURL = req.protocol + "://" + req.get('host') + req.url;
+  return fullURL = req.protocol + "://" + req.host + req.url;
 }
 function getClientIp(req) {
   var ipAddress;
