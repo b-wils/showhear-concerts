@@ -141,6 +141,7 @@ app.get('/', function(req, res) {
    //response.send('Hello World again!');
    res.render('GigCast', {
      locals: {
+        ogurl: getFullUrlFromReq(req),
         ogtitle: "ShowHear",
         ogdescription: "ShowHear - Find Concerts You'll Love"
       }
@@ -161,6 +162,7 @@ app.get('/area/:areaString', function (req, res) {
      locals: {
         areaid: idFromUrlString(req.params.areaString),
         area: req.params.areaString,
+        ogurl: getFullUrlFromReq(req),
         ogtitle: "ShowHear",
         ogdescription: "ShowHear - Find Concerts You'll Love"
       }
@@ -208,6 +210,7 @@ var options = {
       res.render('GigCast', {
        locals: {
           eventid: eventid,
+          ogurl: getFullUrlFromReq(req),
           ogtitle: "I found a concert on ShowHear!",
           ogdescription: songKickdata.resultsPage.results.event.displayName
         }
@@ -222,6 +225,7 @@ app.get('/venue/:venueid', function (req, res) {
    res.render('GigCast', {
      locals: {
         venueid: idFromUrlString(req.params.venueid),
+        ogurl: getFullUrlFromReq(req),
         ogtitle: "ShowHear",
         ogdescription: "ShowHear - Find Concerts You'll Love"
       }
@@ -233,6 +237,7 @@ app.get('/artist/:artistid', function (req, res) {
    res.render('GigCast', {
      locals: {
         artistid: req.params.artistid,
+        ogurl: getFullUrlFromReq(req),
         ogtitle: "ShowHear",
         ogdescription: "ShowHear - Find Concerts You'll Love"
       }
@@ -441,6 +446,9 @@ function idFromUrlString(string) {
     }
 }
 
+function getFullUrlFromReq(req) {
+  return fullURL = req.protocol + "://" + req.get('host') + req.url;
+}
 function getClientIp(req) {
   var ipAddress;
   // Amazon EC2 / Heroku workaround to get real client IP

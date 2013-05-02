@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 
      <meta property="og:type"                 content="website"> 
-     <meta property="og:url"                  content="http://www.showhear.com"> 
+     <meta property="og:url"                  content="@locals.ogurl"> 
     <meta property="og:title" content="@locals.ogtitle" /> 
     <meta property="og:description" content="@locals.ogdescription" />  
     <meta property="og:image" content="http://sphotos-b.xx.fbcdn.net/hphotos-ash3/550264_152838528203466_1764236973_n.png" /> 
