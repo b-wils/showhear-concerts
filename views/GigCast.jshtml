@@ -12,6 +12,8 @@
 
      <meta property="og:type"                 content="website"> 
      <meta property="og:url"                  content="@locals.ogurl"> 
+     <meta property="fb_appid"                  content="515129478546292"> 
+     <meta property="fb:admins" content="USER1" />
     <meta property="og:title" content="@locals.ogtitle" /> 
     <meta property="og:description" content="@locals.ogdescription" />  
     <meta property="og:image" content="http://sphotos-b.xx.fbcdn.net/hphotos-ash3/550264_152838528203466_1764236973_n.png" /> 
