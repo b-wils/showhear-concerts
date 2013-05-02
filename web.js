@@ -141,6 +141,8 @@ app.get('/', function(req, res) {
    //response.send('Hello World again!');
    res.render('GigCast', {
      locals: {
+        ogtitle: "ShowHear",
+        ogdescription: "ShowHear - Find Concerts You'll Love"
       }
     });
 
@@ -158,25 +160,70 @@ app.get('/area/:areaString', function (req, res) {
    res.render('GigCast', {
      locals: {
         areaid: idFromUrlString(req.params.areaString),
-        area: req.params.areaString
+        area: req.params.areaString,
+        ogtitle: "ShowHear",
+        ogdescription: "ShowHear - Find Concerts You'll Love"
       }
     });
 });
 
 app.get('/event/:eventid', function (req, res) {
 
-   res.render('GigCast', {
-     locals: {
-        eventid: idFromUrlString(req.params.eventid)
-      }
+  var eventid = idFromUrlString(req.params.eventid);
+
+var options = {
+    host: 'api.songkick.com',
+    path: '/api/3.0/events/' + eventid + '.json?apikey=bUMFhmMfaIpxiUgJ'
+  };
+
+
+  http.get(options, function(skres) {
+    var data = '';
+
+    // console.log('STATUS: ' + skres.statusCode);
+    // console.log('HEADERS: ' + JSON.stringify(skres.headers));
+    skres.on('data', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // response.write(chunk);
+      data += chunk;
     });
+
+    skres.on('end', function (chunk) {
+      // console.log('BODY: ' + chunk);
+      // data += chunk;
+      if (chunk) {
+        data += chunk;
+      }
+
+      // console.log(data);
+      var songKickdata = JSON.parse(data);
+
+      if (!(songKickdata.resultsPage.results)) {
+        res.json({status:"error"});
+        return;
+      }
+
+      // var locationString = songKickdata.resultsPage.results.event.venue.displayName;
+
+      res.render('GigCast', {
+       locals: {
+          eventid: eventid,
+          ogtitle: "I found a concert on ShowHear!",
+          ogdescription: songKickdata.resultsPage.results.event.displayName
+        }
+      });
+
+    });
+  });
 });
 
 app.get('/venue/:venueid', function (req, res) {
 
    res.render('GigCast', {
      locals: {
-        venueid: idFromUrlString(req.params.venueid)
+        venueid: idFromUrlString(req.params.venueid),
+        ogtitle: "ShowHear",
+        ogdescription: "ShowHear - Find Concerts You'll Love"
       }
     });
 });
@@ -185,14 +232,11 @@ app.get('/artist/:artistid', function (req, res) {
 
    res.render('GigCast', {
      locals: {
-        artistid: req.params.artistid
+        artistid: req.params.artistid,
+        ogtitle: "ShowHear",
+        ogdescription: "ShowHear - Find Concerts You'll Love"
       }
     });
-});
-
-app.get('/area', function (req, res) {
-  // console.log('Received area id ' + req.params.areaid + '');
-   res.render('GigCast');
 });
 
 app.get('/data/:type', function (req, res) {
@@ -452,8 +496,8 @@ app.get('/event/:eventid/calendar.ics', function (req, res) {
   http.get(options, function(skres) {
     var data = '';
 
-    console.log('STATUS: ' + skres.statusCode);
-    console.log('HEADERS: ' + JSON.stringify(skres.headers));
+    // console.log('STATUS: ' + skres.statusCode);
+    // console.log('HEADERS: ' + JSON.stringify(skres.headers));
     skres.on('data', function (chunk) {
       // console.log('BODY: ' + chunk);
       // response.write(chunk);

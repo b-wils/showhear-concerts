@@ -12,8 +12,8 @@
 
      <meta property="og:type"                 content="website"> 
      <meta property="og:url"                  content="www.showhear.com"> 
-    <meta property="og:title" content="ShowHear" /> 
-    <meta property="og:description" oWcntent="ShowHear - Find Concerts You'll Love" />  
+    <meta property="og:title" content="@locals.ogtitle" /> 
+    <meta property="og:description" content="@locals.ogdescription" />  
     <meta property="og:image" content="http://sphotos-b.xx.fbcdn.net/hphotos-ash3/550264_152838528203466_1764236973_n.png" /> 
 
 <link rel="icon" 
@@ -171,6 +171,7 @@ UserVoice.push(['showTab', 'classic_widget', {
 <input type="hidden" id="server-venueid" value="@locals.venueid"> </input>
 <input type="hidden" id="server-eventid" value="@locals.eventid"> </input>
 <input type="hidden" id="server-artistid" value="@locals.artistid"> </input>
+<input type="hidden" id="server-ogtitle" value="@locals.ogtitle"> </input>
 
 <!-- *<span id="inlineDate"> testDate</span> *<button type="button" onclick="dateTestClick()">Click Me!</button>
 <div id="inlineDatepicker" class="myui-calendar positionable"> </div> -->
