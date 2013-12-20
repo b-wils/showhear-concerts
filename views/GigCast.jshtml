@@ -35,7 +35,7 @@
 
 <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
 
-<script type='text/javascript' src='/js/jQuery.tubeplayer.min.js'></script>
+<script type='text/javascript' src='/js/jQuery.tubeplayer.min.js?v=1'></script>
 
     <link href="/Styles/icons.css" rel="stylesheet" type="text/css" />
     <link href="/Styles/icons_mod.css" rel="stylesheet" type="text/css" />
