@@ -3,18 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node web.js"
   },
   "dependencies": {
-    "pg": "0.6.15",
+    "dotenv": "^5.0.1",
     "express": "2.5.x",
-    "jshtml": "*",
     "jade": ">= 0.0.1",
-    "youtube-feeds": "2.0.0",
-    "mongodb": "1.2.13"
+    "jshtml": "*",
+    "mongodb": "1.2.13",
+    "pg": "0.6.15",
+    "youtube-feeds": "2.0.0"
   },
- "engines": {
-      "node": "0.6.13",
-      "npm": "1.1.41"
+  "engines": {
+    "node": "0.6.13",
+    "npm": "1.1.41"
   }
 }

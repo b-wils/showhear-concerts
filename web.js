@@ -1,6 +1,8 @@
 /**
  * Module dependencies.
  */
+require('dotenv').config()
+
 var youtubeDeveloperKey = "AI39si4Vw4awrAAg8ezG3zeJVrW7nELo6T4S8CRe6Vd47CsA9uY_rrUmifm98_CDJM4fCCGnNafqg_Mx0IukXIvZIvMJMkzPmQ";
 
 var express = require('express')
@@ -19,14 +21,9 @@ var express = require('express')
 var mongodb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 
-// var mongoConnectString = ;
+console.log("mongo url: " + process.env.MONGODB_URI );
 
-var mongohost = "linus.mongohq.com";
-var mongoport = "10001";
-
-console.log("mongohq url: " + process.env.MONGOHQ_URL );
-
-mongohqurl = process.env.MONGOHQ_URL || 'mongodb://heroku:spdr67BG@linus.mongohq.com:10002/app9516817';
+var mongohqurl = process.env.MONGODB_URI;
 console.log("mongohq url2: " + mongohqurl );
 var app = express.createServer(express.logger());
 
