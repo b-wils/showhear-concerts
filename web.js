@@ -3,8 +3,6 @@
  */
 require('dotenv').config()
 
-var youtubeDeveloperKey = "AI39si4Vw4awrAAg8ezG3zeJVrW7nELo6T4S8CRe6Vd47CsA9uY_rrUmifm98_CDJM4fCCGnNafqg_Mx0IukXIvZIvMJMkzPmQ";
-
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -16,41 +14,24 @@ var express = require('express')
   , util = require("util")
   // , pg = require('pg')
   , async = require('async')
+  , {google} = require('googleapis')
   , icalendar = require('icalendar');
 
 var mongodb = require('mongodb');
 var MongoClient = require('mongodb').MongoClient;
 
-console.log("mongo url: " + process.env.MONGODB_URI );
-
 var mongohqurl = process.env.MONGODB_URI;
-console.log("mongohq url2: " + mongohqurl );
 var app = express.createServer(express.logger());
-
-// function foreachCB(item, callback) {
-//   console.log("foreachCB: " + item);
-//   callback();
-// }
-
-// async.forEach(["item1", "item2"], foreachCB, function(err){
-//   console.log("foreach error");
-// // if any of the saves produced an error, err would equal that error
-// });
-
-      
-
-var dbURL = process.env.DATABASE_URL || 'postgres://localhost:5432/showhear';
-
-// var connectionString = process.env.DATABASE_URL || 'postgres://postgres:magnum45@localhost:5432/showhear'
-//   , client
-//   , query;
-
-// client = new pg.Client(connectionString);
-// client.connect();
 
 var oneYear = 31557600000;
 var oneDay = 86400;
 var oneHour = 3600;
+
+// initialize the Youtube API library
+const youtube = google.youtube({
+  version: 'v3',
+  auth: process.env.YOUTUBE_API_KEY
+});
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -92,41 +73,6 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
-});
-
-// app.get('/', routes.index);
-// app.get('/users', user.list);
-
-// TODO TESTING GOOGLE API
-
-// TODO testing nodejs-youtube
-
-// load the module
-var youtube = require('youtube-feeds');
-
-// search parkour videos
-// youtube.feeds.videos( {q: 'parkour'}, console.log );
-
-app.get('/ytfeeds', function(req, res) {
-    // gdataClient.getFeed('https://www.google.com/m8/feeds/contacts/default/full', {'max-results':3},
-    // function(err, feed) {
-    //     res.writeHead(200);
-    //     for(var i in feed.feed.entry) {
-    //         res.write(JSON.stringify(feed.feed.entry[i].title));
-    //         res.write(JSON.stringify(feed.feed.entry[i].gd$email));
-    //         res.write('\n\n');
-    //     }
-    //     res.end();
-    // });
-
-  youtube.feeds.videos( {q: 'parkour'}, function( err, data ) {
-    if( err instanceof Error ) {
-        console.log( "youtube feed error: " + err );
-    } else {
-        // console.log( data );
-        res.json(data);
-    }
-  });
 });
 
 app.get('cal')
@@ -335,7 +281,7 @@ MongoClient.connect(mongohqurl, function(err, db) {
 }); 
 
 function foreachArtistCB(item, artistCallback) {
-      // console.log("We are mongo connected");
+
     item.testing = "hello";
 
     myDb.collection('artistVideos', function(err, collection) {
@@ -351,31 +297,29 @@ function foreachArtistCB(item, artistCallback) {
           }
 
           if (items.length > 0) {
-            // we have seen artist before
-            // console.log("artist in db - " );
-            // console.log(items);
-            // console.log(items[0]);
-            // console.log(items[0].videos[0]);
             if (items[0].hasVideos === "true") {
               item.artist.youtubeID = items[0].videos[0].youtubeId;
             } else {
               console.log("no known videos for artist");
             }
             
-            // item.artist.testies = "testiesme";
             artistCallback();
           } else {
             // find videos
-            // console.log("searching for artist");
-            youtube.feeds.videos( {
-                                    q: item.artist.displayName,
-                                    category: "Music",
-                                    key: youtubeDeveloperKey,
-                                    'max-results':  2,
-                                  }
-                                , function( err, data ) {
 
-              if( err instanceof Error ) {
+            var params = {
+              part: 'id,snippet',
+              q: item.artist.displayName,
+              type: 'video',
+              maxResults: '5',
+              videoCategoryId:"10",
+              videoDuration: "medium",
+              'videoEmbeddable': true
+
+            }
+
+            youtube.search.list(params, (err, res) => {
+              if( err ) {
                   console.log( "youtube feed error for "+item.artist.displayName+":" + err );
                   if (err.message === "not found") {
                     console.log("couldnt find artist on youtube, logging in db");
@@ -398,10 +342,9 @@ function foreachArtistCB(item, artistCallback) {
                   }
                   artistCallback();
               } else {
-                  // console.log( data );
-                  // res.json(data);
-                  item.artist.youtubeID = data.items[0].id;
-                  item.artist.youtubeURL = data.items[0].player.default;
+
+                  item.artist.youtubeID = res.data.items[0].id.videoId;
+                  // // item.artist.youtubeURL = data.items[0].player.default;
                   artistCallback();
 
                   var insertData = {
@@ -409,8 +352,8 @@ function foreachArtistCB(item, artistCallback) {
                     artistName:item.artist.displayName,
                     hasVideos:"true",
                     videos: [{
-                              youtubeId:data.items[0].id, 
-                              title:data.items[0].title, 
+                              youtubeId:res.data.items[0].id.videoId, 
+                              title:res.data.items[0].snippet.title, 
                               createTime:new Date().getTime(),
                               source:"youtubeAutoSearch"
                             }]
@@ -664,14 +607,6 @@ app.get('/venues/:venueid/calendar.json', function(request, response) {
 
 // JSON responses
 app.get('/events.json', function(request, response) {
-  //response.send('Hello World!');
-  //response.send('Hello World again!');
-  // response.render('GigCast.html', {
-
-  // var http = require('http');
-
-  // response.setHeader('Cache-Control', 'public, max-age=' + oneHour);
-  // console.log('HEADERS: ' + JSON.stringify(response.headers));
 
   var myClientIp = getClientIp(request);
 

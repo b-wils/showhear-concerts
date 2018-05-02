@@ -8,14 +8,11 @@
   "dependencies": {
     "dotenv": "^5.0.1",
     "express": "2.5.x",
+    "googleapis": "^29.0.0",
     "jade": ">= 0.0.1",
     "jshtml": "*",
     "mongodb": "1.2.13",
     "pg": "0.6.15",
     "youtube-feeds": "2.0.0"
-  },
-  "engines": {
-    "node": "0.6.13",
-    "npm": "1.1.41"
   }
 }
