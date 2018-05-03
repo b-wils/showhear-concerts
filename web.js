@@ -272,11 +272,14 @@ app.get('/test', function(request, response) {
 
 var myDb;
 
+console.log("connect to mongo - " + mongohqurl)
+
 MongoClient.connect(mongohqurl, function(err, db) {
   if(!err) {
     myDb = db;
   } else {
     console.log("initial mongo connect error");
+    console.log(err)
   }
 }); 
 
